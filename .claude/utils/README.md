@@ -5,7 +5,7 @@ Thin helpers reused across hooks and skills. Scan this list before writing new h
 | Module | What it provides |
 |---|---|
 | `log.py` | Project-wide standardized file logger |
-| `llm_triggers.py` | Suite of helpers for invoking LLMs in various modes |
+| `llm_triggers.py` | `call_isolated` (Claude subprocess), `call_gemini` (Gemini text), `call_gemini_video` (Gemini + YouTube URL), `list_gemini_models` (model list), `probe_gemini_model` (availability check) |
 | `session_crawler.py` | Read, parse, and pattern-match session transcripts; detect session mode |
 
 ## Import

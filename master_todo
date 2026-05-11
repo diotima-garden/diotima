@@ -5,6 +5,10 @@ Inheritance manually listing files to inherit -> enables multi inheritance and m
 
 consider crawler MCP - might be a powerful tool for meta interaction with claude. Brainstorm of reliable ways to have modes and whether this is a good idea at the end of the day.
 
+from tests on the crawler - order of context matters. However - if architect is touched - it is architect now...
+
+subsystems need to have logging 
+
 
 # Boox
 Brainstorm boox selecting ereader text to anki

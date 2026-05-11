@@ -32,6 +32,9 @@ __pycache__/
 # session_crawler subsystem — venv (reproducible via README setup step)
 .claude/session_crawler/.venv/
 
+# gemini subsystem — venv (reproducible via .claude/gemini/README.md)
+.claude/gemini/.venv/
+
 # Depolymorphized context snapshots (generated, not source)
 depolymorphized.md
 compiled.md

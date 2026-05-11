@@ -63,7 +63,8 @@
       "Write(/tmp/card-generation-context.md)",
       "Read(/tmp/card-generation-context.md)",
       "Bash(claude -p --bare *)",
-      "Write(.claude/health-agent/health-findings.jsonl)"
+      "Write(.claude/health-agent/health-findings.jsonl)",
+      "Bash(python3 .claude/skills/youtube-extract/extract.py:*)"
     ]
   },
   "hooks": {
