@@ -42,3 +42,6 @@ __pycache__/
 # Skill scratch space (generated temp files)
 .claude/tmp/
 
+# YouTube extraction artifacts (generated output, not source)
+youtube-phrases.txt
+
