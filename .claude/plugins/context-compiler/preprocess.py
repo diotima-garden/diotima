@@ -22,16 +22,7 @@ Guarantees:
 """
 import sys
 import pathlib
-
-
-def resolve_include_path(
-    path_str: str,
-    from_file: pathlib.Path,
-    project_root: pathlib.Path,
-) -> pathlib.Path:
-    if path_str.startswith("."):
-        return (from_file.parent / path_str).resolve()
-    return (project_root / path_str).resolve()
+from include_graph import resolve_include_path
 
 
 def preprocess(

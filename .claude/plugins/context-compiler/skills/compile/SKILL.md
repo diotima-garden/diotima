@@ -5,7 +5,7 @@ disable-model-invocation: false
 context: fork
 ---
 
-Merge a preprocessed file into a single coherent, human-readable document — no layers, no include markers.
+Merge a preprocessed file into a single coherent, human-readable document — no layers.
 
 Usage: `/context-compiler:compile <path-to-file.preprocessed.md>`
 

@@ -6,9 +6,11 @@ General-purpose preprocessor for resolving `#include` directives in markdown fil
 
 | File | Role |
 |---|---|
+| `include_graph.py` | Shared `#include` graph traversal (`resolve_include_path`, `collect_inputs`) |
 | `preprocess.py` | CLI preprocessor — resolves `#include` chains |
-| `skills/compile/` | LLM merge step — collapses depolymorphized layers into one readable doc |
-| `skills/compile-deck-context/` | Orchestrator — freshness check → preprocess → compile |
+| `compiled-is-fresh.py` | Freshness check — exits 0 if compiled output is up-to-date |
+| `skills/compile/` | LLM merge step — collapses preprocessed layers into one readable doc |
+| `skills/compile-context/` | Orchestrator — freshness check → preprocess → compile |
 
 ## `#include` directive
 
@@ -39,9 +41,9 @@ python3 .claude/plugins/context-compiler/preprocess.py <entry-file>
 
 | Command | What it does |
 |---|---|
-| `/context-compiler:compile <depolymorphized.md>` | LLM merge into `compiled.md` (fork context) |
-| `/context-compiler:compile-deck-context <deck>` | Full pipeline: preprocess → compile |
+| `/context-compiler:compile <preprocessed.md>` | LLM merge into `compiled.md` (fork context) |
+| `/context-compiler:compile-context <deck>` | Full pipeline: freshness check → preprocess → compile |
 
 ## Notes
 
-`scripts/compiled-is-fresh.py` still uses folder-hierarchy traversal for the freshness check. Works for all current use cases where includes stay within ancestor directories. Update it if cross-directory includes are ever introduced.
+`include_graph.py` handles path resolution and input collection for both the preprocessor and the freshness check. If cross-directory includes are ever introduced, update `resolve_include_path` there — both tools pick up the change automatically.

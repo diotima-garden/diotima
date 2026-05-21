@@ -9,27 +9,7 @@ Usage: python3 .claude/plugins/context-compiler/compiled-is-fresh.py <source-fil
 """
 import sys
 from pathlib import Path
-
-
-def resolve_include_path(path_str: str, from_file: Path, project_root: Path) -> Path:
-    if path_str.startswith("."):
-        return (from_file.parent / path_str).resolve()
-    return (project_root / path_str).resolve()
-
-
-def collect_inputs(entry: Path, project_root: Path, seen: set[Path]) -> list[Path]:
-    resolved = entry.resolve()
-    if resolved in seen or not resolved.exists():
-        return []
-    seen.add(resolved)
-    results = [resolved]
-    for line in resolved.read_text().splitlines():
-        bare = line.rstrip("\r\n")
-        if bare.startswith("#include "):
-            path_str = bare[len("#include "):].strip()
-            child = resolve_include_path(path_str, resolved, project_root)
-            results.extend(collect_inputs(child, project_root, seen))
-    return results
+from include_graph import collect_inputs
 
 
 if __name__ == "__main__":
