@@ -2,7 +2,7 @@ See [CLAUDE.md](CLAUDE.md).
 
 > Вік живи, вік учись!
 
-> Not just automating Anki; automating the [*rules about how automation gets written*](.claude/meta/memory/big-bank/trajectory-snapshot.md#L32).
+> Not just automating Anki; automating the [*rules about how automation gets written*](modes/meta/memory/big-bank/trajectory-snapshot.md#L32).
 
 <img width="1098" height="353" alt="image" src="https://github.com/user-attachments/assets/8c1054c0-a974-42bf-9472-a408b3abb5b9" />
 

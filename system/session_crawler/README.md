@@ -37,15 +37,15 @@ tests/
 
 **Run:**
 ```bash
-.claude/session_crawler/.venv/bin/python3 -m pytest .claude/session_crawler/tests/ -v
+session_crawler/.venv/bin/python3 -m pytest session_crawler/tests/ -v
 ```
 
 ## Setup
 
 **Create the venv and install dependencies (one-time):**
 ```
-python3 -m venv .claude/session_crawler/.venv
-.claude/session_crawler/.venv/bin/pip install pytest
+python3 -m venv session_crawler/.venv
+session_crawler/.venv/bin/pip install pytest
 ```
 
 The venv is gitignored — run these commands after cloning or on a fresh machine.

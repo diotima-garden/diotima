@@ -5,7 +5,7 @@ Context Compiler — preprocessor.
 Resolves #include directives recursively, deduplicating by canonical path.
 
 Usage:
-    python3 .claude/plugins/context-compiler/preprocess.py <entry-file> [output-file]
+    python3 preprocess.py <entry-file> [output-file]
 
     If output-file is omitted, prints to stdout.
 

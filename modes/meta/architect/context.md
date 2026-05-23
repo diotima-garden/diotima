@@ -89,8 +89,8 @@ new primitives, new governance patterns, reconsidering structure.
 
 ## Project State
 
-Read `.claude/meta/architect/product-vision.md` on entry.
-Read `.claude/meta/memory/context.md` on entry.
+Read `product-vision.md` on entry.
+Read `../memory/context.md` on entry.
 
 ---
 

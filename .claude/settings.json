@@ -41,7 +41,7 @@
       "mcp__anki__get_reviews_of_cards",
       "mcp__anki__get_latest_review_id",
       "mcp__anki__sync",
-      "Bash(python3 .claude/plugins/context-compiler/compiled-is-fresh.py:*)",
+      "Bash(python3 plugins/context-compiler/compiled-is-fresh.py:*)",
       "Bash(python3 .claude/mem-bank/big-bank.py:*)",
       "Bash(python3 .claude/mem-bank/small-job-worker.py*)",
       "Bash(pwd)",
@@ -63,7 +63,7 @@
       "Bash(claude -p --bare *)",
       "Write(.claude/health-agent/health-findings.jsonl)",
       "Bash(python3 .claude/skills/youtube-extract/extract.py:*)",
-      "Bash(python3 .claude/plugins/context-compiler/preprocess.py:*)"
+      "Bash(python3 plugins/context-compiler/preprocess.py:*)"
     ]
   },
   "hooks": {

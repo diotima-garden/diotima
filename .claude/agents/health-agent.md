@@ -28,9 +28,9 @@ and say nothing — proceed with the user's actual request.
 
    | rule | read |
    |---|---|
-   | `bash_chaining`, `bash_chaining_pipe` | `.claude/meta/builder/bash-commands.md` |
-   | `git_policy`, `destructive_ops` | `.claude/meta/builder/security.md` |
-   | `whitelist_gap` | `.claude/meta/builder/user_experience.md` + `settings.json` |
+   | `bash_chaining`, `bash_chaining_pipe` | `modes/meta/builder/bash-commands.md` |
+   | `git_policy`, `destructive_ops` | `modes/meta/builder/security.md` |
+   | `whitelist_gap` | `modes/meta/builder/user_experience.md` + `settings.json` |
    | `skill_circumvention`, `refactoring_rot` | the referenced skill or pipeline file |
    | `tool_error` | the skill file under `.claude/commands/` or `.claude/pipeline-specifications/` |
 

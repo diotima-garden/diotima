@@ -3,9 +3,6 @@
 
 todo
 
-# Anki backups (binary .apkg files, large — restore from AnkiWeb if needed)
-decks/**/backups/*.apkg
-
 # Python
 __pycache__/
 *.pyc
@@ -27,13 +24,9 @@ __pycache__/
 
 
 # Anki MCP subsystem — venv (reproducible via README setup step)
-.venv/
-
 # session_crawler subsystem — venv (reproducible via README setup step)
-.claude/session_crawler/.venv/
-
 # gemini subsystem — venv (reproducible via .claude/gemini/README.md)
-.claude/gemini/.venv/
+.venv/
 
 # Generated context snapshots (preprocessed/compiled output, not source)
 *.preprocessed.md
@@ -45,3 +38,5 @@ __pycache__/
 # YouTube extraction artifacts (generated output, not source)
 youtube-phrases.txt
 
+# Anki backups (binary .apkg files, large — restore from AnkiWeb if needed)
+decks/**/backups/*.apkg

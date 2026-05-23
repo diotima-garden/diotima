@@ -2,7 +2,7 @@
   "banks": [
     {
       "name": "meta",
-      "bank": ".claude/meta/memory",
+      "bank": "modes/meta/memory",
       "patterns": [
         "meta/.*/context\\.md",
         "mem-bank/README\\.md"
@@ -18,7 +18,7 @@
     },
     {
       "name": "world-adoption",
-      "bank": ".claude/world_adoption/memory"
+      "bank": "modes/world-adoption/memory"
     }
   ]
 }

@@ -8,10 +8,10 @@ or external integrations. Not for everyday card operations or architectural deci
 ## Entry Contract
 
 Before modifying any file under `.claude/` read:
-    - `.claude/meta/builder/utilities.md`
-    - `.claude/meta/builder/security.md`
-    - `.claude/meta/builder/user_experience.md`
-    - `.claude/meta/builder/mcp.md`
+    - `utilities.md`
+    - `security.md`
+    - `user_experience.md`
+    - `mcp.md`
 
 ## What Builder Mode Covers
 
@@ -36,4 +36,4 @@ and is expensive to untangle later.
 
 ## Project State
 
-Read `.claude/meta/memory/context.md` on entry.
+Read `../memory/context.md` on entry.

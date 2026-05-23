@@ -15,6 +15,8 @@ sys.path.insert(0, claude_dir)
 from detectors import bash_chaining, git_policy, destructive_ops
 from detectors import whitelist_gap, skill_circumvention, refactoring_rot
 from utils.log import make_logger  # noqa: E402
+from utils.project_dir_infrastructure import get_system_dir  # noqa: E402
+sys.path.insert(0, str(get_system_dir()))
 from session_crawler import SessionTranscript  # noqa: E402
 
 log = make_logger("detect-health-issues", log_path)

@@ -11,12 +11,27 @@ A **generalized learning conductor** — an interface a person inhabits to learn
 seamlessly, without interruptions. The flashcard generation use case remains real, but
 it is one capability among several; the system's shape is becoming domain-agnostic.
 
-The product is a Claude instance running in **user mode**, operating over a tree of
+The product is an AI agent running in **user mode**, operating over a tree of
 **areas** (currently named `decks/`, rename to `areas/` pending) where each leaf
 directory is a self-contained learning domain — Spanish, English, instruments, and more
 to come. An area is no longer just "an Anki deck"; it is a learning workspace that may
 include intake (sourcing material), encoding (cards, notes), execution (study sessions),
 and observability (progress, retention).
+
+## Model-Agnostic, Open-Source Direction
+
+The system is moving toward **model-agnosticism and open-source friendliness**. This
+shapes the project layout directly:
+
+- **`.claude/` holds only what is Claude-specific** — things that cannot be abstracted
+  to a generic AI agent: Claude's slash-command skills, hooks, `settings.json`, and
+  agent definitions. Everything else migrates out.
+- **System infrastructure, modes, and plugins live at the project root** — visible,
+  portable, not buried in a vendor-specific directory. A future port to another model
+  provider touches only `.claude/`; the rest of the system is unchanged.
+- **Open-source readability is a first-class constraint** — a contributor unfamiliar
+  with Claude Code should be able to navigate the repo without understanding its AI
+  tooling. The directory structure must communicate intent, not implementation detail.
 
 ## The Four-Pillar Trajectory
 

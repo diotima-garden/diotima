@@ -9,6 +9,8 @@ flag_path = os.path.join(subsystem_dir, "pending-ai-review.flag")
 
 sys.path.insert(0, claude_dir)
 from utils.log import make_logger  # noqa: E402
+from utils.project_dir_infrastructure import get_system_dir  # noqa: E402
+sys.path.insert(0, str(get_system_dir()))
 from session_crawler import SessionTranscript  # noqa: E402
 
 log = make_logger("surface-session-health", Path(subsystem_dir) / "hooks.log")

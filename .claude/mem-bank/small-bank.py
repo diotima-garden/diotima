@@ -15,6 +15,8 @@ WORKER_PATH = HOOK_DIR / "small-job-worker.py"
 
 sys.path.insert(0, str(HOOK_DIR))
 sys.path.insert(0, str(CLAUDE_DIR))
+from utils.project_dir_infrastructure import get_system_dir  # noqa: E402
+sys.path.insert(0, str(get_system_dir()))
 from session_crawler import SessionTranscript, extract_text  # noqa: E402
 from registry import load_banks, bank_effective_patterns, bank_small_bank_path, bank_capture_prompt  # noqa: E402
 from utils.log import make_logger  # noqa: E402

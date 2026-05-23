@@ -5,7 +5,7 @@ Check whether the compiled output for a source file is up-to-date.
 Exit 0 if <stem>.compiled.md exists and is newer than all transitive #include inputs.
 Exit 1 otherwise.
 
-Usage: python3 .claude/plugins/context-compiler/compiled-is-fresh.py <source-file.md>
+Usage: python3 compiled-is-fresh.py <source-file.md>
 """
 import sys
 from pathlib import Path
