@@ -39,9 +39,10 @@ Invoke sub-skill with input only
 
 **Right:**
 ```
-Invoke sub-skill with:
-  - Line 1: path to context file (sub-skill !cat's it)
-  - Remaining lines: dynamic sections + input inline
+Read the context file. Invoke sub-skill with all content inlined as arguments:
+  - Context file content
+  - Blank line
+  - Dynamic sections + input
 ```
 
-**Why:** Fixed-name shared files break under concurrent sessions. Passing context as arguments is stateless and parallel-safe.
+**Why:** Fixed-name shared files break under concurrent sessions. Passing context as arguments is stateless and parallel-safe. Do not pass file paths for the sub-skill to `!cat` — the permission system blocks `$(...)` command substitution inside `!` directives.

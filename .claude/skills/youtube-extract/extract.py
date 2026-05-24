@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-Extract learnable Spanish phrases from a YouTube video.
+Extract learnable content from a YouTube video.
 
 Usage:
-    python3 .claude/skills/youtube-extract/extract.py <url> <context_file> [bias_hint]
+    python3 extract.py <url> <context_file> [bias_hint]
 
-Writes phrases to <context_file_dir>/youtube-phrases.txt and prints to stdout.
+Requires <context_file_dir>/focus_area.md — extraction criteria for the deck area.
+Writes extracted content to <context_file_dir>/youtube-phrases.txt and prints to stdout.
 """
 import sys
 import pathlib
@@ -16,34 +17,15 @@ from utils.llm_triggers import call_gemini_video
 MODEL = "gemini-flash-latest"
 
 
-def build_prompt(context: str, bias_hint: str | None) -> str:
-    hint = f"\n\nAdditional focus: {bias_hint}" if bias_hint else ""
-    return f"""
-You are analyzing a Spanish video to extract phrases worth learning for an Anki deck.
+def build_prompt(focus_area: str, bias_hint: str | None) -> str:
+    hint_section = f"\n\n## Additional Focus\n\n{bias_hint}" if bias_hint else ""
+    return f"""Watch this video and extract content worth adding as Anki cards for the area described below.
 
-## Deck Context
+Output ONLY the raw content, one per line. No numbering, no prefixes, no commentary, no blank lines.
 
-{context}
+## Extraction Focus
 
-## Your Task
-
-Watch this video and extract Spanish phrases and sentences worth adding as Anki cards.
-Output ONLY the raw Spanish phrases, one per line. No numbering, no prefixes, no commentary, no blank lines.
-
-## Extraction Criteria
-
-Select phrases that:
-- Are natural, spoken Argentine Spanish (Rioplatense register)
-- Contain reusable vocabulary, structure, or expressions (collocations, voseo forms, Argentine idioms, connectors)
-- Match the level calibration in the deck context above
-- Would make the learner think "I want to be able to say that"
-
-Skip phrases that:
-- Are too basic for the deck's current level
-- Are proper-noun-heavy with no reusable structure
-- Are isolated filler unlikely to generalize ("bueno", "dale", "okay")
-- Repeat a structure already extracted from this video
-{hint}
+{focus_area}{hint_section}
 """
 
 
@@ -56,10 +38,16 @@ def main():
     context_file = pathlib.Path(sys.argv[2])
     bias_hint = " ".join(sys.argv[3:]) if len(sys.argv) > 3 else None
 
-    deck_context = context_file.read_text()
+    focus_area_path = context_file.parent / "focus_area.md"
+    if not focus_area_path.exists():
+        print(f"Error: focus_area.md not found at {focus_area_path}", file=sys.stderr)
+        print("Create focus_area.md in the deck directory to define extraction criteria.", file=sys.stderr)
+        sys.exit(1)
+    focus_area = focus_area_path.read_text()
+
     output_path = context_file.parent / "youtube-phrases.txt"
 
-    prompt = build_prompt(deck_context, bias_hint)
+    prompt = build_prompt(focus_area, bias_hint)
     result = call_gemini_video(url, prompt, MODEL)
 
     output_path.write_text(result + "\n")

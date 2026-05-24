@@ -12,7 +12,9 @@ Card generation runs in an isolated subprocess with only compiled context — no
 
 Parse `$ARGUMENTS`: the first word is the deck name, everything after is the card input.
 
-If the directory `decks/<deck>/` does not exist or no deck name given: report "Deck '<deck>' not found. Available decks: [list]" and stop.
+Locate the deck directory by searching `decks/` for a subdirectory named `<deck>` at any depth. If not found or no deck name given: report "Deck '<deck>' not found. Available decks: [list all leaf deck dirs]" and stop.
+
+The compiled context file is `<deck-dir>/<deck>.compiled.md`.
 
 
 ## Step 2 — Get Input
@@ -40,8 +42,8 @@ a new model — provide a name and field list and the orchestrator will handle c
 - **<other model>**: <field1>, <field2>, ...
 ```
 
-Invoke the `/generate-cards` skill with arguments structured as:
-- Line 1: `decks/<deck>/compiled.md` (context file path, loaded via `!cat` by the skill)
+Read `<deck-dir>/<deck>.compiled.md`. Invoke the `/generate-cards` skill with all content inlined as arguments:
+- The compiled context file content
 - Blank line
 - The Available Note Types section (markdown, built above)
 - Blank line

@@ -1,10 +1,10 @@
 ---
 name: youtube-extract
-description: Extract learnable Spanish phrases from a YouTube video using Gemini
+description: Extract learnable content from a YouTube video using Gemini
 disable-model-invocation: true
 ---
 
-Extract learnable phrases from a YouTube video and write them for review.
+Extract learnable content from a YouTube video and write it for review.
 
 ## Usage
 

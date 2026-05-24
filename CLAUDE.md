@@ -12,7 +12,7 @@ The longer-term direction is a generalized **learning conductor** — an interfa
 
 | Where | What |
 |---|---|
-| `decks/languages/spanish/spanish.md` | Spanish deck — dialect, card types, domain tags |
+| `decks/languages/spanish/context.md` | Spanish deck — directory overview and file index |
 | `decks/languages/english/english.md` | English deck — card types, domain tags |
 | `decks/instruments/instruments.md` | Instruments deck — visual identification, image handling, IPA |
 | `modes/meta/builder/context.md` | Builder mode — read before creating or modifying files outside of user areas |

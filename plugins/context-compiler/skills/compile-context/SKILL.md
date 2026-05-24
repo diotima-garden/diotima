@@ -9,8 +9,6 @@ Preprocess a file's `#include` chain and merge it into a single flat document.
 
 Usage: `/context-compiler:compile-context <file.md>`
 
-e.g. `/context-compiler:compile-context decks/languages/spanish/spanish.md`
-
 ## Step 1 — Validate Input
 
 If `<file.md>` does not exist, report "File not found: <file.md>" and stop.
@@ -18,7 +16,7 @@ If `<file.md>` does not exist, report "File not found: <file.md>" and stop.
 ## Step 2 — Freshness Check
 
 Run:
-```
+```bash
 python3 .claude/plugins/context-compiler/compiled-is-fresh.py <file.md>
 ```
 
@@ -36,7 +34,7 @@ python3 .claude/plugins/context-compiler/preprocess.py <file.md> <dir>/<stem>.pr
 
 Where `<dir>` is the directory containing `<file.md>` and `<stem>` is the filename without `.md`.
 
-e.g. `decks/languages/spanish/spanish.md` → `decks/languages/spanish/spanish.preprocessed.md`
+e.g. `dir1/dir2/abc/file.md` → `dir1/dir2/abc/file.preprocessed.md`
 
 ## Step 4 — Merge to Human-Readable
 

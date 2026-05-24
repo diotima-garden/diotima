@@ -1,10 +1,5 @@
 # Builder Mode
 
-*Read this when creating, modifying, or deleting skills, pipelines, hooks, utilities,
-or external integrations. Not for everyday card operations or architectural decisions.*
-
----
-
 ## Entry Contract
 
 Before modifying any file under `.claude/` read:

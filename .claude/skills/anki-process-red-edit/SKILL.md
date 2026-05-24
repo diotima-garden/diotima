@@ -6,17 +6,17 @@ disable-model-invocation: false
 
 Find all RED-flagged cards in a deck, apply the `[instruction]` written in any field to that very field, then flip the flag to GREEN.
 
-**Usage:** `/anki-process-red-edit <deck>` — e.g. `/anki-process-red-edit spanish`
+**Usage:** `/anki-process-red-edit <compiled context file path> <ankiDeckName>`
 
 ## Step 0 — Load Deck Context
 
-Read `decks/<deck>/compiled.md`. Keep the deck-specific editing guidelines in context.
+Read `<compiled context file path>`. Keep the deck-specific editing guidelines in context.
 
 ## Step 1 — Find Flagged Cards
 
-Call `mcp__anki__get_flagged_notes` with `deck=<deck>` and `flag="red"`.
+Call `mcp__anki__get_flagged_notes` with `deck=<ankiDeckName>` and `flag="red"`.
 
-If empty: report "No RED-flagged cards found in <deck>." and stop.
+If empty: report "No RED-flagged cards found in <ankiDeckName>." and stop.
 
 ## Step 2 — Extract Instructions
 
@@ -26,7 +26,7 @@ Skip cards with no instruction — include in final report as "no instruction fo
 
 ## Step 3 — Edit Cards
 
-Invoke `/edit-card` once with all cards as one batch. The **first line** of arguments must be the path to the compiled context file (`decks/<deck>/compiled.md`), followed by a blank line, then the card batch. Per-card block format:
+Invoke `/edit-card` once with all cards as one batch. Pass all content inlined as arguments: the content of `<compiled context file path>`, followed by a blank line, then the card batch. Per-card block format:
 
 ```
 [note_id: <note_id>] <model_name> card

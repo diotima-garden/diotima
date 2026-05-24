@@ -6,28 +6,20 @@ disable-model-invocation: false
 
 Back up a single Anki deck to a dated .apkg file.
 
-Usage: `/anki-backup-deck <deck>` — e.g. `/anki-backup-deck spanish` or `/anki-backup-deck spanish/dialects/rioplatense`
+**Usage** `/anki-backup-deck <ankiDeckName> <backupDir>`
 
-`<deck>` is a path of any depth under `decks/` — the skill reads the context.md at that location.
+Both args are required. The pipeline resolves them; for standalone use, supply them directly.
 
-## Step 0 — Derive variables:
-
-`PROJECT_ROOT`:
-```bash
-pwd
-```
-
-`BACKUP_DIR` = `<PROJECT_ROOT>/<deck>/backups`
-
+## Step 1 — Derive filename
 
 Determine `TODAY`:
 ```bash
 date +%Y-%m-%d
 ```
 
-Check if `<BACKUP_DIR>/<TODAY>.apkg` already exists:
+Check if `<backupDir>/<TODAY>.apkg` already exists:
 ```bash
-ls <BACKUP_DIR>/<TODAY>.apkg 2>/dev/null
+ls <backupDir>/<TODAY>.apkg 2>/dev/null
 ```
 
 - If it **does** exist: append a short poetic suffix drawn from Homer's Iliad (2–3 memorable words, lowercase, hyphen-separated — e.g. `2026-04-15-rosy-fingered-dawn.apkg`). Pick something fitting; no two backups should feel the same.
@@ -35,6 +27,6 @@ ls <BACKUP_DIR>/<TODAY>.apkg 2>/dev/null
 ## Step 2 — Export
 
 Call `mcp__anki__export_deck` with:
-- `deck`: `<deckName>`
-- `path`: `<BACKUP_DIR>/<FILENAME>` (absolute path)
+- `deck`: `<ankiDeckName>`
+- `path`: `<PROJECT_ROOT>/<backupDir>/<FILENAME>` (absolute path)
 - `include_sched`: `true`
