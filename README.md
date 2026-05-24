@@ -10,3 +10,7 @@ See [CLAUDE.md](CLAUDE.md).
 
 <img width="1069" height="221" alt="image" src="https://github.com/user-attachments/assets/379a10c7-c385-4fb1-a386-2878791dc90a" />
 
+# Conotext aware extraction from YT, specific to the area we are focusing on. Works via Gemini API
+<img width="1893" height="803" alt="image" src="https://github.com/user-attachments/assets/d5b4c3bf-2a11-4372-a009-214192da60fc" />
+
+
