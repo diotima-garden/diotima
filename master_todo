@@ -26,6 +26,28 @@ When dealing with red flags - unsuspend & unburry
 One field with original sentence - custom note. Can be used later to improve generation.
 Also, red edit accumulation can be used as well
 
-Llm -> opencode -> gemini - youtube video extract
-Or are there claude native youtube mcp?
-https://youtu.be/2vcL8Q7H8ow?is=97Hgi1yAodP0haNM
+ 1. don't write extraction into /tmp. rather write into the same folder, where the context file is provided. (now we use compiled.md, but later I will do a different file)
+
+2. don't do the pipeline for now.
+
+3. you are using [bias hint] as an optional arg to a new script; how will it work? simple concatenation with the contents of the file provided?
+
+4. what is the justification of having a subsystem here? In other words, why just adding another small function to our utils/llm : call_gemini(prompt) won't suffice
+
+
+instead of having scripts/youtube_extract.py and commands/youtube-extract - use the .claude/skills approach so that related things are in one dir.
+
+
+#compilation
+don't use file if has #include inside
+include cleanup at preprocessing time
+
+
+manual small-bank usage when in a new area and not having a subscription yet
+
+sessoin crawler modes are hardcoded. Shall be picked by the system. Modes thus have to be more deeply integrated / better defined abstraction.
+
+
+cyclic dependency utils <-> gemini plugin
+
+consider skill to create wonderful navigation layer directive
