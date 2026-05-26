@@ -149,3 +149,5 @@ _This section will track decisions made, cards retired, and findings discovered 
 | 2026-05-26 | Leak 1 | Created `Production` note type `[Front, Back, Hint]`; fixed `update_note_model` tag-preservation bug; sandbox tested | See `leak1_inefficient_cloze.md` |
 | 2026-05-26 | Leak 1 | Migrated 249 `Basic` production notes → `Production`; 66 notes received Hint (irregular forms, voseo, pronoun attachment) | `migrate_to_production.py` |
 | 2026-05-26 | Leak 1 | Deleted 19 redundant cloze notes (paired production card forces the same form); 83 cloze cards remain | `audit_cloze_pairs.py` |
+| 2026-05-26 | Leak 2 | Deleted 4 notes (2 constructed/no-anchor production, 1 redundant cloze, 1 cloze converted); restructured 2 production backs; added 1 replacement Production note (darte) | 6 of 7 leeches resolved; note 1774207462172 was already gone |
+| 2026-05-26 | Leak 4 | Closed — manos batch was extracted from a YouTube video (Spanish explanations present), giving each idiom a real-world anchor; reactive extraction from consumed content is the right intake pattern | No further action |

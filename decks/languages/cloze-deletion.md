@@ -1,4 +1,4 @@
-### User Input Syntax
+### User Input Syntax - very strict
 
 - `{word}` — explicit cloze deletion. Always generate a cloze card for this word. If no cue is provided, generate one. 
 - `{word::cue}` — explicit cloze with user-provided cue. Use the cue verbatim.
