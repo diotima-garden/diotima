@@ -146,4 +146,6 @@ _This section will track decisions made, cards retired, and findings discovered 
 
 | Date | Direction | Action | Notes |
 |---|---|---|---|
-| — | — | — | — |
+| 2026-05-26 | Leak 1 | Created `Production` note type `[Front, Back, Hint]`; fixed `update_note_model` tag-preservation bug; sandbox tested | See `leak1_inefficient_cloze.md` |
+| 2026-05-26 | Leak 1 | Migrated 249 `Basic` production notes → `Production`; 66 notes received Hint (irregular forms, voseo, pronoun attachment) | `migrate_to_production.py` |
+| 2026-05-26 | Leak 1 | Deleted 19 redundant cloze notes (paired production card forces the same form); 83 cloze cards remain | `audit_cloze_pairs.py` |

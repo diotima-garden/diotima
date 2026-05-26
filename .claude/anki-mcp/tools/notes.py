@@ -65,6 +65,29 @@ def update_note(note_id: int, fields: dict = None, tags: list[str] = None) -> No
 
 
 @mcp.tool()
+def update_note_model(note_id: int, model_name: str, fields: dict, tags: list[str] = None) -> None:
+    """
+    Change the note type (model) of an existing note in-place.
+
+    Preserves card IDs and scheduling data — cards are remapped by template position.
+    All field values must be supplied explicitly: the implementation resets fields before
+    writing, so any field omitted from `fields` will be blanked.
+
+    tags: if omitted, existing tags are fetched and preserved automatically.
+    Pass an explicit list to replace them.
+
+    Use update_note_model on one representative note first to verify field mapping before
+    bulk migration.
+    """
+    if tags is None:
+        info = _call("notesInfo", notes=[note_id])
+        tags = info[0]["tags"] if info else []
+    note: dict = {"id": note_id, "modelName": model_name, "fields": fields, "tags": tags}
+    _log(f"update_note_model: note_id={note_id}, model={model_name}, tags={tags}")
+    _call("updateNoteModel", note=note)
+
+
+@mcp.tool()
 def delete_notes(note_ids: list[int]) -> None:
     """
     Permanently delete notes and all their associated cards from Anki.

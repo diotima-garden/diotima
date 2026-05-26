@@ -33,6 +33,53 @@ def rename_model_field(model_name: str, old_field_name: str, new_field_name: str
 
 
 @mcp.tool()
+def add_model_field(model_name: str, field_name: str, index: int | None = None) -> None:
+    """Add a new field to an existing note type. index sets insertion position; omit to append."""
+    params = {"modelName": model_name, "fieldName": field_name}
+    if index is not None:
+        params["index"] = index
+    return _call("modelFieldAdd", **params)
+
+
+@mcp.tool()
+def remove_model_field(model_name: str, field_name: str) -> None:
+    """Remove a field from an existing note type. All note data in that field is lost."""
+    return _call("modelFieldRemove", modelName=model_name, fieldName=field_name)
+
+
+@mcp.tool()
+def change_note_type(
+    note_ids: list[int],
+    old_model: str,
+    new_model: str,
+    field_mapping: dict[str, str] | None = None,
+    template_mapping: dict[str, str] | None = None,
+) -> None:
+    """Change the note type of notes. field_mapping and template_mapping are {old_name: new_name};
+    omit both to auto-map by matching field/template names."""
+    old_fields = _call("modelFieldNames", modelName=old_model)
+    new_fields = _call("modelFieldNames", modelName=new_model)
+    old_tmpls = list(_call("modelTemplates", modelName=old_model).keys())
+    new_tmpls = list(_call("modelTemplates", modelName=new_model).keys())
+
+    def name_to_idx_map(old_names, new_names, name_map):
+        result = {}
+        for i, old in enumerate(old_names):
+            target = name_map.get(old, old) if name_map else old
+            result[str(i)] = new_names.index(target) if target in new_names else None
+        return result
+
+    return _call(
+        "changeNoteType",
+        notes=note_ids,
+        oldModel=old_model,
+        newModel=new_model,
+        fieldMapping=name_to_idx_map(old_fields, new_fields, field_mapping),
+        templateMapping=name_to_idx_map(old_tmpls, new_tmpls, template_mapping),
+    )
+
+
+@mcp.tool()
 def update_model_templates(model_name: str, templates: dict) -> None:
     """Update card template HTML for an existing note type.
 

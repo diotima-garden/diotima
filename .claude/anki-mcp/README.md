@@ -58,6 +58,7 @@ Import `mcp` and `_call` from `core`. Restart Claude Code after any server chang
 | `can_add_notes(notes)` | Duplicate check before adding. |
 | `update_note_fields(note_id, fields)` | Update specific fields in-place. |
 | `update_note(note_id, fields?, tags?)` | Atomically update fields and/or tags. |
+| `update_note_model(note_id, model_name, fields, tags?)` | Change a note's type in-place. Preserves card IDs and scheduling. All fields must be supplied — omitted fields are blanked. |
 | `delete_notes(note_ids)` | Permanently delete notes and all their cards. |
 | `remove_empty_notes()` | Remove notes with no cards. |
 
@@ -123,6 +124,10 @@ Read-only data served alongside tools. Access via `ListMcpResourcesTool` (catalo
 | `model_field_names(model_name)` | Field names in definition order. |
 | `model_templates(model_name)` | Card template HTML. |
 | `model_styling(model_name)` | Note type CSS. |
+| `rename_model_field(model_name, old, new)` | Rename a field in an existing note type. |
+| `add_model_field(model_name, field_name, index?)` | Add a field to an existing note type. `index` sets insertion position; omit to append. |
+| `remove_model_field(model_name, field_name)` | Remove a field from an existing note type. Field data is permanently lost. |
+| `change_note_type(note_ids, old_model, new_model, field_mapping?, template_mapping?)` | Change the note type of a list of notes. `field_mapping`/`template_mapping` are `{old_name: new_name}`; omit to auto-map by matching names. |
 | `update_model_templates(model_name, templates)` | Update card template HTML for an existing note type. `templates` format: `{"Card 1": {"Front": "...", "Back": "..."}}`. |
 | `update_model_styling(model_name, css)` | Replace the CSS stylesheet for an existing note type. |
 | `create_model(model_name, fields, is_cloze?)` | Create a new note type with default templates. `is_cloze=True` sets cloze template and flag. |
