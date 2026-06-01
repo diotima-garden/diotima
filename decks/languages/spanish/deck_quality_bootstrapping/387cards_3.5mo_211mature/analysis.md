@@ -90,9 +90,11 @@ The May animal idiom batch has **Spanish definition → Spanish idiom** format:
 
 This is neither EN→ES production nor ES→EN recognition — it's Spanish paraphrase → Spanish idiom mapping. It violates the deck's own rule and tests a weaker skill. You will never encounter a Spanish paraphrase in conversation and need to produce the idiom; you'll encounter a *situation* in English and want to reach for the expression.
 
-**Fix:** Flip all 26 fronts to situational English cues:
+**On the "dual learning" argument (learning idiom + free vocab from Spanish description):** The Spanish explanations from the YouTube video are valuable for elaborative encoding — but they belong on the *back* as context read after recall, not on the front as the retrieval cue. Drilling paraphrase→idiom trains a skill that never fires in real conversation. See `decks/languages/production_vs_comprehension.md` for full research basis.
+
+**Fix:** Flip all 26 fronts to situational English cues; keep Spanish definition/etymology on the back as supplementary context:
 > Front: "There's something fishy going on here."  
-> Back: "Hay gato encerrado."
+> Back: "Hay gato encerrado." + *(Spanish definition + related vocab from video)*
 
 Affected cards: 1778617822219 through 1778617822309 (the full animal idiom batch).
 
@@ -151,3 +153,4 @@ _This section will track decisions made, cards retired, and findings discovered 
 | 2026-05-26 | Leak 1 | Deleted 19 redundant cloze notes (paired production card forces the same form); 83 cloze cards remain | `audit_cloze_pairs.py` |
 | 2026-05-26 | Leak 2 | Deleted 4 notes (2 constructed/no-anchor production, 1 redundant cloze, 1 cloze converted); restructured 2 production backs; added 1 replacement Production note (darte) | 6 of 7 leeches resolved; note 1774207462172 was already gone |
 | 2026-05-26 | Leak 4 | Closed — manos batch was extracted from a YouTube video (Spanish explanations present), giving each idiom a real-world anchor; reactive extraction from consumed content is the right intake pattern | No further action |
+| 2026-05-26 | Leak 3 | Flipped all 27 animal idiom fronts to situational English cues; moved Spanish definitions to back as italicised context; back content (examples, etymology) preserved | See `decks/languages/production_vs_comprehension.md` |

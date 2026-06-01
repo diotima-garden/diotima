@@ -1,7 +1,7 @@
 ---
 name: youtube-extract
 description: Extract learnable content from a YouTube video using Gemini
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 Extract learnable content from a YouTube video and write it for review.
