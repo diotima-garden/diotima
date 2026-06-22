@@ -40,3 +40,6 @@ youtube-phrases.txt
 
 # Anki backups (binary .apkg files, large — restore from AnkiWeb if needed)
 decks/**/backups/*.apkg
+
+# Downloaded EPUBs (binary, large — not source)
+cache/

@@ -18,3 +18,7 @@ The longer-term direction is a generalized **learning conductor** — an interfa
 | `modes/meta/builder/context.md` | Builder mode — read before creating or modifying files outside of user areas |
 | `modes/meta/architect/context.md` | Architect mode — read before any structural or design decisions |
 | `modes/world-adoption/context.md` | World adoption mode — strategy, outreach, and go-to-market thinking |
+| `/pipe:anki-add-cards` | Add cards |
+| `/pipe:anki-process-flags` | Process flags / perform regular deck maintenance / cleanup |
+
+When the user's intent is ambiguous — unclear whether to invoke an atomic skill or a pipeline — default to the pipeline. Pipelines are the safer path.
