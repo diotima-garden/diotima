@@ -1,6 +1,6 @@
 # MCP Integration
 
-Read this before implementing a new external integration or modifying `.claude/anki-mcp/`.
+Read this before implementing a new external integration or modifying `anki-mcp/`.
 
 ## When to prefer MCP over bash
 
@@ -13,7 +13,7 @@ Use bash for one-shot commands that don't repeat across pipelines.
 
 ## Implementation
 
-Read `.claude/anki-mcp/README.md` — it covers tool registration, server structure, and
+Read `anki-mcp/README.md` — it covers tool registration, server structure, and
 the AnkiConnect API. That README is the reference; this file covers only the decisions
 and constraints that apply to any MCP integration.
 

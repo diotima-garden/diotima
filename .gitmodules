@@ -1,0 +1,3 @@
+[submodule "anki-mcp"]
+	path = anki-mcp
+	url = git@github.com:baturevychvitalii/anki-mcp.git
