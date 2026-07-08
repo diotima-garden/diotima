@@ -231,8 +231,22 @@ def run_hook(args):
     except Exception:
         existing = []
 
+    all_jobs = list(existing)
+    for new_job in new_jobs:
+        replaced = False
+        for i, ej in enumerate(all_jobs):
+            if (ej.get("session_id") == new_job["session_id"]
+                    and ej.get("target") == new_job["target"]
+                    and not ej.get("processed")):
+                all_jobs[i] = new_job
+                replaced = True
+                log(f"replaced unprocessed job for session={new_job['session_id'][:8]}...")
+                break
+        if not replaced:
+            all_jobs.append(new_job)
+
     try:
-        JOBS_DUMP_PATH.write_text(json.dumps(existing + new_jobs, indent=2))
+        JOBS_DUMP_PATH.write_text(json.dumps(all_jobs, indent=2))
         log(f"jobs written: {len(new_jobs)} bank(s), session={session_id}")
         spawn_worker()
     except Exception as e:

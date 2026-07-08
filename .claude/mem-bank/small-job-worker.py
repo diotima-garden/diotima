@@ -97,11 +97,8 @@ def main(argv):
             log(f"append failed for {target}: {e}")
             continue
 
-        for j in jobs:
-            if j.get("session_id") == job.get("session_id") and j.get("target") == job.get("target"):
-                j["processed"] = True
-                j["processed_at"] = datetime.now().isoformat(timespec="seconds")
-                break
+        job["processed"] = True
+        job["processed_at"] = datetime.now().isoformat(timespec="seconds")
         save_jobs(jobs)
 
     return 0
