@@ -23,7 +23,7 @@
 - await compile-context result [mandatory]
   Why: compiled context must be ready before card processing begins
 
-- skill: anki-process-red-edit `<compiled context file path>` `<ankiDeckName>` [mandatory]
+- skill: anki-mcp:process-user-feedback-on-deck `<compiled context file path>` `<ankiDeckName>` [mandatory]
   Why: the actual red-flag processing and in-place edits
 
 - skill: anki-process-purple-delete [mandatory]

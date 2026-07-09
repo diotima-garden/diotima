@@ -2,8 +2,8 @@
   "mcpServers": {
     "anki": {
       "type": "stdio",
-      "command": "anki-mcp/.venv/bin/python3",
-      "args": ["anki-mcp/server.py", "--managed-config", "groves/managed-models.json"]
+      "command": "plugins/anki-mcp/.venv/bin/python3",
+      "args": ["plugins/anki-mcp/server.py", "--managed-config", "groves/managed-models.json"]
     }
   }
 }

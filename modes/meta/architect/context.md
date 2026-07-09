@@ -107,7 +107,7 @@ of dependency — upper layers know about lower layers, never the reverse.
 
 Two structures sit alongside the stack rather than inside it:
 - **Shared primitives (`.claude/utils/`)** — consumed across hooks, scripts, and pipelines; no directional dependency
-- **Integration boundary (`anki-mcp/`)** — exposes external systems as native tools; referenced by pipelines, maintained as an independently-versioned submodule at the project root
+- **Integration boundary (`plugins/anki-mcp/`)** — exposes external systems as native tools; referenced by pipelines, maintained as an independently-versioned submodule packaged as a plugin
 
 Collapsing layers for convenience is always a short-term gain and a long-term cost.
 
