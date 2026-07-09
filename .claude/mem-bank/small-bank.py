@@ -66,6 +66,7 @@ def git_status(cwd):
 
 
 RESPONSE_CAP = 3000
+PROMPT_CAP = 3000
 
 SYSTEM_REMINDER_RE = re.compile(
     r"<system-reminder\b[^>]*>.*?</system-reminder>",
@@ -92,22 +93,25 @@ def _format_task_notification(block):
     return "[task-notification]"
 
 
+def _elide(text, cap):
+    if len(text) <= cap:
+        return text
+    head = text[:1000]
+    tail = text[-300:]
+    elided = len(text) - len(head) - len(tail)
+    return f"{head}\n…[elided {elided} chars]…\n{tail}"
+
+
 def clean_user_prompt(text):
     m = COMMAND_NAME_RE.search(text)
     if m:
         return f"[invoked /{m.group(1).strip()}]"
     text = TASK_NOTIFICATION_RE.sub(lambda mm: _format_task_notification(mm.group(0)), text)
-    return SYSTEM_REMINDER_RE.sub("", text).strip()
+    return _elide(SYSTEM_REMINDER_RE.sub("", text).strip(), PROMPT_CAP)
 
 
 def slim_assistant(text):
-    text = SYSTEM_REMINDER_RE.sub("", text).strip()
-    if len(text) > RESPONSE_CAP:
-        head = text[:1000]
-        tail = text[-300:]
-        elided = len(text) - len(head) - len(tail)
-        text = f"{head}\n…[elided {elided} chars]…\n{tail}"
-    return text
+    return _elide(SYSTEM_REMINDER_RE.sub("", text).strip(), RESPONSE_CAP)
 
 
 def build_prompt(prompts, last_responses, gstatus, bank_prompt=""):
