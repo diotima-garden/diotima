@@ -28,8 +28,5 @@ Usage: `/pipe:anki-process-flags <grove-dir>`
 - skill: anki-mcp:process-user-feedback-on-deck `<compiled context file path>` `<ankiDeckName>` [mandatory]
   Why: the actual processing and card edits
 
-- skill: anki-process-purple-delete [mandatory]
-  Why: cleanup unneeded cards
-
 - mcp__anki__sync [mandatory]
   Why: push changes to Anki
