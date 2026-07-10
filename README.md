@@ -54,7 +54,8 @@ prompt, backs up the deck, generates cards at your skill level, and syncs them i
 
 A feedback loop runs the other direction too: write a plain-language fix onto any card
 in Anki, and the system finds it, edits the fields, and keeps an append-only log of
-every change.
+every change. One card's full round trip, screenshotted:
+[`plugins/anki-mcp/README.md` → Example: feedback loop in action](plugins/anki-mcp/README.md#example-feedback-loop-in-action).
 
 ---
 
