@@ -31,6 +31,7 @@ __pycache__/
 # Generated context snapshots (preprocessed/compiled output, not source)
 *.preprocessed.md
 *.compiled.md
+*.md.feedback.jsonl
 
 # Skill scratch space (generated temp files)
 .claude/tmp/
