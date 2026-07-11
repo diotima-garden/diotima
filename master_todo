@@ -1,55 +1,62 @@
-# Subsystems
-Move to folders outside of claude; considure when graduate into plugin
-
-Inheritance manually listing files to inherit -> enables multi inheritance and maybe more structural ease.
 
 consider crawler MCP - might be a powerful tool for meta interaction with claude. Brainstorm of reliable ways to have modes and whether this is a good idea at the end of the day.
+→ Resolved: User/Builder/Architect modes shipped and are documented (modes.md, commit 86b7204) — reliable mode routing exists via CLAUDE.md + hooks, not via an MCP server. The literal "crawler MCP" (a dedicated MCP server for meta interaction) was never built — session_crawler ended up as a plain Python module (system/session_crawler/), not an MCP. If the MCP-server framing specifically still matters to you, that's a distinct open idea from "do modes work reliably," which is settled.
 
-from tests on the crawler - order of context matters. However - if architect is touched - it is architect now...
-
-subsystems need to have logging 
 
 
 # Boox
 Brainstorm boox selecting ereader text to anki
 
 Selecting text in Boox -> auto promote into cards
+→ Actual issue, unscoped: no Boox-related code exists anywhere in the repo — this hasn't been started. Real feature idea, but needs a spec pass (trigger mechanism, how text gets off-device) before it's issue-shaped.
 
 
 # User integration
 Card models that enable richer integration (maybe field with some history, maybe with initial string to get generated)
+→ Partially addressed: the feedback pipeline's user_feedback field + jsonl edit log is the closest existing thing to "a field with history." No note-type field literally stores original-sentence/history. As written ("maybe... maybe...") this is still too speculative to action — needs a firmer spec.
 
 Brainstorm cloze before the big one.
+→ Resolved: cloze is fully handled generically now — anki-mcp is model-agnostic, auto-selects/creates cloze models, and hides cloze mechanics behind the MCP layer (see anki-mcp-server-expansion big-bank entry).
 
 When dealing with red flags - unsuspend & unburry
+→ Open question, couldn't resolve from code alone: unsuspend_cards exists as an MCP tool but isn't wired into the feedback flow. Flagging has since moved from native Anki flags to a user_feedback field + SVG marker — unclear whether "unsuspend & unbury on red flag" is still a live need or superseded by that newer marker system. Your call.
 
 One field with original sentence - custom note. Can be used later to improve generation.
 Also, red edit accumulation can be used as well
+→ Actual issue: the feedback jsonl log already captures edit history, but nothing feeds that history back into card-generation prompts to improve future output. Concrete next step: use accumulated feedback as a generation-quality signal.
 
  1. don't write extraction into /tmp. rather write into the same folder, where the context file is provided. (now we use compiled.md, but later I will do a different file)
+→ Resolved: current .claude/skills/youtube-extract writes output to <context_file_dir>/youtube-phrases.txt, not /tmp.
 
 2. don't do the pipeline for now.
+→ Resolved (moot): it ended up as a skill, not a pipe: pipeline — consistent with this note.
 
 3. you are using [bias hint] as an optional arg to a new script; how will it work? simple concatenation with the contents of the file provided?
+→ Resolved: bias_hint is plain free text appended to the extraction prompt (confirmed in .claude/skills/youtube-extract/SKILL.md).
 
 4. what is the justification of having a subsystem here? In other words, why just adding another small function to our utils/llm : call_gemini(prompt) won't suffice
+→ Resolved: that's exactly what exists now — call_gemini(prompt, model) lives directly in .claude/utils/llm_triggers.py.
 
 
 instead of having scripts/youtube_extract.py and commands/youtube-extract - use the .claude/skills approach so that related things are in one dir.
+→ Resolved: .claude/skills/youtube-extract/ now holds extract.py, SKILL.md, and prompt.md together.
 
 
 #compilation
 don't use file if has #include inside
 include cleanup at preprocessing time
+→ Resolved: plugins/context-compiler separates preprocessing (include resolution, include_graph.py) from compilation, emitting FRESH/STALE/BROKEN_INCLUDE tokens.
 
 
 manual small-bank usage when in a new area and not having a subscription yet
+→ Open question, couldn't resolve from code alone: subscriptions.json now documents how to register a bank, but that's the steady-state process, not necessarily the interim workflow before a new area is registered. Still a real gap, or does registration cover it now? Your call.
 
 sessoin crawler modes are hardcoded. Shall be picked by the system. Modes thus have to be more deeply integrated / better defined abstraction.
+→ Actual issue, confirmed still live: system/session_crawler/crawler.py still uses hardcoded _ARCHITECT_RE/_BUILDER_RE regexes matched in fixed order, unlike mem-bank's subscriptions.json-style registry. Concrete action: externalize mode definitions into config instead of hardcoding them in the crawler.
 
 
 cyclic dependency utils <-> gemini plugin
-
-consider skill to create wonderful navigation layer directive
+→ Resolved: checked .claude/gemini/gemini.py directly — it has no imports from utils. Dependency is one-directional (utils -> gemini via sys.path insert). No cycle exists today.
 
 make scalable Anki add cards section where it checks quality control at the end
+→ Actual issue, confirmed still live: read .claude/commands/pipe/anki-add-cards.md — the pipeline ends after mcp__anki__sync with no QC/review step. Concrete action: add one.
