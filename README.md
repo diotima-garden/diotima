@@ -1,35 +1,28 @@
-# Choosing what you add to your knowledge - is your taste & essence;
-# Learning it - waste of time dictated by biology of mind.
-# Every step pushing us towards that biological frontier is precious.
+# Project Diotima
+> *The choice of what one learns manifests their taste & essence*
+>
+> *Learning itself is a mere waste of time dictated by biology of mind.*
 
-# Fire -> Society -> Writing -> Welcome to anothe step, Diotima
+Imagine, Aristotele sharing his reasoning dogmas with you and approaches on how
+exactly he filters information, and in what format he would like to preserve it in his being.
+What if he could share it with you via one thin 'plugin'?
 
-Think of it this way:
+Imagine the most efficient way for Aristotele to learn would be to build this 'plugin'
+for his own daily use and reasoning. This way, sharing it would cost him nothing.
 
-Instead of sharing what to learn - (exchanging concrete books)
-Share **how** one can lern - (exchange principles on how books shall be selected)
 
 
 Basically one abstraction layer higher.
 
 Instead of sharing domain knowledge
-We share a knowledge filter & generator.
-
-Imagine, Aristotele sharing his reasoning dogmas with you and approaches on how
-exactly he filters information, and in what format he would like to preserve it in himself.
-What if he could share it with you via one thin 'plugin'?
-
-Imagine the most efficient way for Aristotele to learn himself would be to build this 'plugin'
-for his own daily use and reasoning. This way, sharing it would cost him nothing.
-
-Something like sharing the minimal golden essence of {browser history, architectural vision, gemini memory}.
+We share taste, knowledge filter & generator.
 
 
 In a way, Internet itself does it but how many sailors has it's tide consumed..?! (for the amount of noise)
 In a way - universities are quite good at it... And in fact they shall be the most zealous to jump on board.
 Enough words! Go! Explore!!
 
-## details for nerds ;)
+## details for nerds like myself ;)
 An AI-powered **learning conductor**: a generalized interface for learning any skill,
 built on spaced repetition (Anki) and context engineering. Describe a domain once, and
 the system takes over the boring machinery.
