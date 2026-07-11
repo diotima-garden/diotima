@@ -99,7 +99,10 @@ Read `../memory/context.md` on entry.
 The system has distinct layers. Each layer has a single responsibility and a direction
 of dependency — upper layers know about lower layers, never the reverse.
 
-- **Domain packages** — carry their own rules and behavior; the system reads from them
+- **Domain packages (groves)** — carry their own rules and behavior; the system reads
+  from them. Trajectory: groves graduate toward independently-versioned, distributable
+  knowledge packages; they rely on infrastructure without referencing it (see
+  `product-vision.md`)
 - **Stdlib (skills)** — generic operations; read from packages, know nothing about pipelines
 - **Application layer (pipelines)** — orchestrate skills with error handling; no inline logic
 - **Enforcement layer (hooks)** — enforce contracts at write time; independent of content
@@ -122,8 +125,8 @@ designing something new — they describe the shape every subsystem here has con
 The orchestrator (Python) handles deterministic mechanics: file I/O, process management,
 state. The AI worker (`claude -p --bare`) handles judgment: summarization, generation,
 analysis. The artifact carries output and serves as the interface between components.
-This shape — and the decoupling it enforces — appears in mem-bank, health-agent, and
-compiled-context generation. New AI-powered subsystems should fit it.
+This shape — and the decoupling it enforces — appears in mem-bank and compiled-context
+generation. New AI-powered subsystems should fit it.
 
 **Behavior is data, not code.**
 AI behavior is parameterized via context files, not skill implementations. New domain =

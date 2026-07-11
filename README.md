@@ -1,4 +1,4 @@
-# Choosing what you add to your knowledge - is your taste;
+# Choosing what you add to your knowledge - is your taste & essence;
 # Learning it - waste of time dictated by biology of mind.
 # Every step pushing us towards that biological frontier is precious.
 
@@ -10,15 +10,13 @@ Instead of sharing what to learn - (exchanging concrete books)
 Share **how** one can lern - (exchange principles on how books shall be selected)
 
 
-Basically one abstraction layer higher
+Basically one abstraction layer higher.
 
 Instead of sharing domain knowledge
 We share a knowledge filter & generator.
 
-
-
-Imagine, Aristotele sharing his thinking dogmas with you and approaches to how
-exactly he filters information, and in what format he would like to preserve it in his memory.
+Imagine, Aristotele sharing his reasoning dogmas with you and approaches on how
+exactly he filters information, and in what format he would like to preserve it in himself.
 What if he could share it with you via one thin 'plugin'?
 
 Imagine the most efficient way for Aristotele to learn himself would be to build this 'plugin'
@@ -27,16 +25,14 @@ for his own daily use and reasoning. This way, sharing it would cost him nothing
 Something like sharing the minimal golden essence of {browser history, architectural vision, gemini memory}.
 
 
-In a way, Internet itself does it's but how many sailors have it's tide consumed, for the amount of noise...
-In a way - universities are quite good at it...
-Enough words, go, explore!!
+In a way, Internet itself does it but how many sailors has it's tide consumed..?! (for the amount of noise)
+In a way - universities are quite good at it... And in fact they shall be the most zealous to jump on board.
+Enough words! Go! Explore!!
 
 ## details for nerds ;)
-An AI-powered **learning conductor**: a generalized interface for learning any skill.
-built on top of spaced repetition (Anki) and context engineering. You describe a domain
-once — its card types, its quality rules, what "good" looks like — and the system takes
-over the boring machinery: extracting material, generating cards tuned to your current
-level, and folding your review history back into what it makes next.
+An AI-powered **learning conductor**: a generalized interface for learning any skill,
+built on spaced repetition (Anki) and context engineering. Describe a domain once, and
+the system takes over the boring machinery.
 
 > Not just automating Anki; automating the
 > [*rules about how automation gets written*](modes/meta/memory/big-bank/trajectory-snapshot.md#L32).
@@ -47,21 +43,13 @@ level, and folding your review history back into what it makes next.
 
 **This is not a tool you drive by hand.** There are no commands to memorize and no UI to
 learn. You talk to an LLM (today, Claude Code); it reads `CLAUDE.md`, sees the available
-skills and MCP tools, and from that alone has *full coverage of the project* — every
-capability is discoverable, nothing is hidden in someone's head or in undocumented lore.
-
-I almost never interact with the files directly. When I do, it's occasional fine-tuning —
-trimming a hardcoded value, cutting unnecessary words — done in the confidence that the
-LLM will figure the rest out from the structure. The whole project is built, from the
-ground up, to be *legible to a model reading it cold*.
-
-This matters for two reasons:
+skills and MCP tools, and from that alone has *full coverage of the project*. The whole
+repo is built, from the ground up, to be *legible to a model reading it cold*.
 
 - **For a curious user:** don't judge it by the install length below. Once it's running,
   you don't wrangle it — you ask, and it acts.
-- **For a contributor:** the same property makes it unusually easy to work on. You don't
-  need a guided tour; point an LLM at the repo and it will orient itself the same way it
-  orients an end user.
+- **For a contributor:** the same property makes it unusually easy to work on. Point an
+  LLM at the repo and it will orient itself the same way it orients an end user.
 
 ---
 
@@ -119,28 +107,22 @@ decks**. I think a **library of shared *groves*** is the better primitive — an
 direction I want to take this.
 
 A deck is a frozen output: someone's finished cards, take them or leave them. A grove is
-the *generative spec* — the approach to a domain. It encodes how a knowledgeable person
-chose to break the subject down: what's worth a card, what card types fit, what "good"
-looks like, how source material gets pulled in. Sharing that is sharing the *method*, not
-just the result, and the method is what's actually hard to reproduce.
+the *generative spec* — how a knowledgeable person chose to break the subject down:
+what's worth a card, what card types fit, what "good" looks like, how source material
+gets pulled in. Sharing that is sharing the *method*, not just the result, and the
+method is what's actually hard to reproduce.
 
-The baseline for this already exists. Configuring a grove is deliberately easy, the
-context-compiler and pipeline infrastructure are built, and grove authoring is done
-through the same artifacts everything else uses. So a marketplace here isn't a new system
-to build from scratch — it's mostly a distribution layer over a format that already works.
-
-What that unlocks is **fork-and-refocus**. Because a grove is easy to point an LLM at, you
-don't adopt it wholesale — you remix it:
+Because a grove is easy to point an LLM at, you don't adopt it wholesale — you remix it:
 
 > *Say someone publishes a history grove — its whole approach is populating an Anki deck
 > with the important dates and pulling in matching images from Wikipedia. You point the
 > LLM at it and say: "I like how they approach history knowledge at Harvard; take their
 > grove, but let's focus it on the history of mathematics instead."*
 
-The LLM reads their spec, keeps the parts that make it good — the date-first framing, the
-Wikipedia image handling, the card-quality rules — and re-aims it at your subject. You
-inherit an expert's *encoding of a domain* and redirect it at what you actually want to
-learn, in one sentence.
+You inherit an expert's *encoding of a domain* and re-aim it at what you actually want to
+learn, in one sentence. The full trajectory — grove format, inheritance and composition,
+distribution — lives in
+[`modes/meta/architect/product-vision.md`](modes/meta/architect/product-vision.md).
 
 ---
 
@@ -202,27 +184,13 @@ self-contained:
 2. **Automated setup → a single deliverable** — replace the manual venv-and-key dance with
    a reproducible bootstrap, and ultimately package the whole thing as one installable
    artifact so an end user runs a single command instead of assembling parts by hand.
-3. **LLM-provider-agnostic core (planned direction: opencode)** — the system is currently
-   Claude-Code-shaped, and the intended direction is a migration toward
-   [opencode](https://opencode.ai) as a portable, provider-agnostic runtime. Part of this
-   same effort is **restructuring the `.claude/` directory** — relocating what lives there
-   today into `plugins/`, `system/`, or other harness-neutral homes, so the project isn't
-   tied to one tool's layout. Anki-mcp already moved to `plugins/`; more should follow.
+3. **LLM-provider-agnostic core** — migrate the Claude-Code-shaped runtime toward
+   [opencode](https://opencode.ai) as a portable, provider-agnostic base, restructuring
+   `.claude/` into harness-neutral homes along the way. The layout rules driving this
+   are in [`modes/meta/architect/product-vision.md`](modes/meta/architect/product-vision.md).
 4. **HTTPS submodule URLs** — the submodules use SSH remotes, so a stranger can't clone
    them cleanly; switching to HTTPS is a small, unblocking change.
 
 If any of these looks fun, open an issue to say hi — the architecture is documented and
 I'm happy to orient you.
 
----
-
-## Layout
-
-| Where | What |
-|---|---|
-| `groves/` | One directory per learning domain — the declarative knowledge specs. |
-| `modes/` | Operating modes for evolving the system (architect, builder, world-adoption). |
-| `plugins/anki-mcp/` | MCP server exposing Anki as native tools + the feedback pipeline. |
-| `plugins/context-compiler/` | Compiles a grove's spec into generation context. |
-| `.claude/` | Skills, pipelines, hooks, and the Gemini subsystem. |
-| `CLAUDE.md` | The authoritative overview of the whole project. |
