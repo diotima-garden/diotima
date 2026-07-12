@@ -117,6 +117,17 @@ learn, in one sentence. The full trajectory — grove format, inheritance and co
 distribution — lives in
 [`modes/meta/architect/product-vision.md`](modes/meta/architect/product-vision.md).
 
+### Licensing: open runtime, sovereign groves
+
+The runtime is open source under
+[Apache-2.0](LICENSE). Groves are a different thing: a grove you create is *your*
+content — the runtime's license doesn't touch it, and you choose how to share it (or
+not to). For groves meant to be forked and re-aimed, a share-alike content license like
+[CC BY-SA](https://creativecommons.org/licenses/by-sa/4.0/) is the natural fit — it
+keeps the remix chain open the same way the grove format keeps it traceable. As the
+grove format matures, each grove will declare its license in its manifest so an
+inheritance chain stays legally clear end to end.
+
 ---
 
 ## Status: works on my machine — and that's exactly where help is wanted
