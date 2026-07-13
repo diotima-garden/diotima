@@ -55,6 +55,7 @@
       "Write(/tmp/card-edit-context.md)",
       "Read(/tmp/card-edit-context.md)",
       "Write(/tmp/card-input.txt)",
+      "Edit(modes/world-adoption/outbound/ledger.md)",
       "Bash(claude -p --bare *)",
       "Bash(python3 .claude/skills/youtube-extract/extract.py:*)",
       "Bash(plugins/context-compiler/.venv/bin/python3 plugins/context-compiler/preprocess.py:*)",

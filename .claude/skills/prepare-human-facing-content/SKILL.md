@@ -37,12 +37,16 @@ footer). Do not alter the draft's content in this step beyond the insertion.
 
 ## Approval gate
 
-Present the assembled piece to the user in full and wait for explicit approval. Edits
-requested by the user are applied and the piece is re-presented. Approved content is
-handed back to the user (or the calling pipeline) — sending is not this skill's job.
+Present the assembled piece to the user in full, alongside **where it goes** — the exact
+destination (link, address, or thread) so the user can act without hunting for it. Take
+the destination from conversation context; ask only if it genuinely isn't there. Wait for
+explicit approval. Edits requested by the user are applied and the piece is re-presented.
+Approved content is handed back to the user (or the calling pipeline) — sending is not
+this skill's job.
 
 ## Record in the ledger
 
-Only after the user confirms the piece was actually **sent** (approval alone is not
-enough), append an entry to `modes/world-adoption/outbound/ledger.md` in the format the
-contract prescribes.
+Once the user confirms the piece was actually **sent** (approval alone is not enough),
+append the entry to `modes/world-adoption/outbound/ledger.md` yourself — assembled from
+context, in the format the contract prescribes. Don't ask the user to supply or approve
+it; "sent" is the only trigger.
