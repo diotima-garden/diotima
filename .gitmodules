@@ -1,6 +1,6 @@
 [submodule "anki-mcp"]
 	path = plugins/anki-mcp
-	url = git@github.com:diotima-garden/anki-mcp.git
+	url = https://github.com/diotima-garden/anki-mcp.git
 [submodule ".claude/utils"]
 	path = .claude/utils
-	url = git@github.com:diotima-garden/python-utils.git
+	url = https://github.com/diotima-garden/python-utils.git

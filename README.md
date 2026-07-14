@@ -192,8 +192,10 @@ first contributions are self-contained.
 - **Anki desktop + [AnkiConnect](https://ankiweb.net/shared/info/2055492159)** add-on,
   installed and running — the MCP server drives Anki through it.
 - **Two git submodules** — `plugins/anki-mcp` (the Anki MCP server) and `.claude/utils`
-  (shared Python helpers). *Note: currently referenced by `git@…` SSH URLs, so cloning
-  them requires SSH access — see seam #4.*
+  (shared Python helpers), referenced over HTTPS so anonymous clones work with no
+  GitHub SSH key. If you prefer pushing over SSH, add a rewrite to your own global
+  gitconfig instead of editing the tracked URLs:
+  `git config --global url."git@github.com:diotima-garden/".insteadOf "https://github.com/diotima-garden/"`
 - **Several Python virtualenvs**, gitignored and set up per machine:
   `plugins/anki-mcp/.venv` (needs `mcp`), `plugins/context-compiler/.venv`, and
   `.claude/gemini/.venv` (needs `google-genai`).
@@ -234,8 +236,6 @@ self-contained:
    [opencode](https://opencode.ai) as a portable, provider-agnostic base, restructuring
    `.claude/` into harness-neutral homes along the way. The layout rules driving this
    are in [`modes/meta/architect/product-vision.md`](modes/meta/architect/product-vision.md).
-4. **HTTPS submodule URLs** — the submodules use SSH remotes, so a stranger can't clone
-   them cleanly; switching to HTTPS is a small, unblocking change.
 
 If any of these looks fun, open an issue to say hi — the architecture is documented and
 I'm happy to orient you.

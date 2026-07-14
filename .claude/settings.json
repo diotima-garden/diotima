@@ -85,7 +85,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/debug/turn-tracker.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/debug/turn-tracker.py"
           }
         ]
       }
@@ -95,7 +95,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/debug/log-instructions-loaded.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/debug/log-instructions-loaded.py"
           }
         ]
       }
@@ -105,7 +105,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/debug/log-permission-request.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/debug/log-permission-request.py"
           }
         ]
       }
@@ -116,7 +116,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 system/scm-integration/gh-issue-label-gate.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/system/scm-integration/gh-issue-label-gate.py"
           }
         ]
       }
@@ -127,11 +127,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/debug/notify-meta-read.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/debug/notify-meta-read.py"
           },
           {
             "type": "command",
-            "command": "python3 .claude/hooks/debug/notify-context-read.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/debug/notify-context-read.py"
           }
         ]
       }
@@ -141,11 +141,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/debug/log-session-end.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/debug/log-session-end.py"
           },
           {
             "type": "command",
-            "command": "python3 .claude/mem-bank/small-bank.py --subscriptions .claude/mem-bank/subscriptions.json"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/mem-bank/small-bank.py --subscriptions \"$CLAUDE_PROJECT_DIR\"/.claude/mem-bank/subscriptions.json"
           }
         ]
       }
