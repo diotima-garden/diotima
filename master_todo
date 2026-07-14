@@ -60,3 +60,7 @@ cyclic dependency utils <-> gemini plugin
 
 make scalable Anki add cards section where it checks quality control at the end
 → Actual issue, confirmed still live: read .claude/commands/pipe/anki-add-cards.md — the pipeline ends after mcp__anki__sync with no QC/review step. Concrete action: add one.
+
+make a case on why better to generate cards personally instead of getting pre-made decks. For example if I like philosophy, I will from the beginning of the learning
+process bake wonderful phrases of Socrates into my production and speaking patterns. And everyone, has their own Socrates.
+Thus, this system combines the taste of an expert on the field & user's taste acquired in life.

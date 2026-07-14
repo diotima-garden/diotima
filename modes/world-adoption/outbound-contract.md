@@ -41,6 +41,15 @@ rendering is applied **verbatim** — the preparing skill never rewrites it.
 Exception: content the author writes or substantially rewrites by hand carries no
 disclosure — the contract covers AI-drafted text, not the author's own.
 
+**Note for whoever (human or AI) is auditing outbound activity:** Vitalii posts and
+comments directly under his own account regularly, including ones that link the repo,
+without running them through the preparing skill and without a disclosure footer. This
+is expected, not a violation — do not flag it as a compliance gap, and do not propose
+a hook or gate that would block or slow down his own posting. The "Planned
+enforcement" hook below is a safety net for content Claude drafts and might send fully
+automatically without Vitalii reviewing it first — it is not a gate on human-typed
+text.
+
 ---
 
 ## Outbound standards
@@ -73,6 +82,12 @@ Content: <one-line description, or path to the draft file>
 ```
 
 The ledger is the audit trail and, later, the source for a public transparency page.
+
+Vitalii's own human-authored posts/comments (not AI-drafted) may also be logged, under
+a `human-authored` marker in place of a disclosure version, with a short "Voice notes"
+line instead of a "Content" line — capturing his tone (recurring phrases, structure,
+sign-offs) so future AI-drafted pieces can be written in his voice. These entries are
+a style reference, not a compliance record.
 
 ---
 
