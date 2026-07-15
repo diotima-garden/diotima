@@ -217,6 +217,8 @@ first contributions are self-contained.
    component's README whenever its setup looks non-obvious.
 5. *(Optional, for YouTube extraction only)* export `GOOGLE_API_KEY`.
 6. Open the repo in Claude Code and restart it once so the MCP server is picked up.
+7. Type `/onboard` — it audits your machine against all of the above, tells you honestly
+   what works and what doesn't, and walks you to a first success.
 
 Yes — that's more steps than it should be. That's the point of the next section.
 

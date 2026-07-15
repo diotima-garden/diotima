@@ -25,3 +25,8 @@ Content: reply reframing deck-structure ceiling as "pull structure out of Anki i
 ## 2026-07-14 · comment · v1
 Target: r/AnkiAi thread "No premade Anki deck ever matched what I needed... so I built a file that teaches LLMs how to generate them reliably" (Kotoba, u/rookiecookie12) — https://www.reddit.com/r/AnkiAi/comments/1u7qonn/no_premade_anki_deck_ever_matched_what_i_needed/
 Content: peer reply answering OP's "what's missing" ask — contrasts our in-collection cards + user_feedback loop vs their standalone .apkg, and inherited language-defaults layer vs their per-language reference files; links repo
+
+## 2026-07-15 · comment · human-authored
+Target: r/Anki thread "sophisticated structuring strategies", reply to Salitur's "how do I run it" onboarding question — comment id oxse3cb
+Content: modes/world-adoption/drafts/reply-on-user-setup.md; sent version replaces the draft's long paste-a-prompt with clone instructions + "type /onboard" (the newcomer skill built for this reply)
+Voice notes: leads with expectation-setting framed as caring about the reader's time ("I don't want you to hate me"); self-aware humor spread ("wow, a marvel of architecture" vs "I have lost a day of my life"); nested-paren asides when hedging technical caveats; closes "Good luck." and flags hand-written authorship in a P.S. ("a rare occasion for me")
