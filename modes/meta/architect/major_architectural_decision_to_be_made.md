@@ -196,6 +196,8 @@ integrations (anki-mcp already does, correctly) but cannot be the grove↔runtim
 lists known groves and drops you into one is pure sugar on top — it scans a directory or
 a user-level list, and crucially it never requires a grove to *register itself*. That
 answers the either/or without reintroducing the runtime→grove-internals coupling.
+*The sugar layer is now settled — see `interaction_north_star.md` (2026-07-18): git-model
+primitive now, garden default-dir as sugar, managed-library verbs deferred to D5.*
 
 **How the manifest gets loaded — VERIFY, do not treat as settled.** The runtime injects
 the grove's manifest at session start via the harness's context mechanism. `.claude/`
@@ -447,6 +449,9 @@ before they freeze.
 
 ### D4. Submodule pin vs. resolved version range — reproducibility or auto-propagation?
 
+***Resolved 2026-07-19 — pins + assisted update. See the ruling section at the end of
+this record. Original analysis kept for the reasoning trail.***
+
 **The unexamined fork in the proposed layout, and the real crux of the forward-compat
 question.** It deserves a conscious decision because the sketch implicitly assumes one
 answer while the stated goal wishes for the other.
@@ -684,11 +689,45 @@ instances; nothing in the current design forecloses it.
 
 ### New open questions (also parked in `dafne_simulation/context.md`)
 
-- Does `requires:` union up the parent tree, or is it re-declared per node? (`language`
-  needs anki only via `deck` — re-declaration breaks encapsulation, union needs a rule.)
+- ~~Does `requires:` union up the parent tree, or is it re-declared per node?~~
+  **Resolved 2026-07-19: union — see the ruling section below.**
 - The production `groves/` tree still needs the D3 repo surgery (promote → vendor
   downward → rewrite includes). The sandbox validated the target topology, not the
-  transform.
+  transform. **Execution plan: `dafne_plan.md`.**
+
+---
+
+## Decided — D4 and `requires:` scope (user rulings, 2026-07-19)
+
+**D4: pins + assisted update.** Version truth = the submodule SHA; git is the entire
+format-side mechanism, and no version field returns to `DAFNE.md`. Propagation becomes
+runtime UX: an assisted-update flow ("tend parents") fetches submodule upstreams, nudges
+on new commits, shows the **compiled-output diff** (possible only because groves are
+text), and commits the new pin — the commit is the audit trail, `git revert` the
+rollback.
+
+The deciding analysis: ranges fork into (B1) no-lockfile — true auto-propagation, but
+compiled output changes under you, which breaks the grove-as-*record* product outright —
+and (B2) with-lockfile, whose update UX (nudge → accept → recompile → verify → commit)
+is *identical* to pins-plus-assist while additionally costing a resolver, a lockfile
+format, a diamond-version policy, a resurrected manifest field duplicating
+`.gitmodules`, and a semver-discipline obligation on authors who are teachers, not
+library maintainers. No shipping ecosystem lives in B1; B2 buys nothing pins don't.
+Pins also place each concern on its naturally-propagating side of the boundary: version
+*truth* in the grove (frozen, reproducible), version *intelligence* in the ambient
+runtime (improves for free per D0).
+
+**The door stays open:** a future `versions:` range field is purely additive — the
+unknown-fields rule means an old runtime opening a ranged grove degrades gracefully to
+its submodule pins. Deferred until a real propagation instance exists to discipline the
+design (zero-instance rule).
+
+**`requires:` unions up the parent tree.** The engine computes effective requirements by
+walking `parents/` manifests — structure and manifests only, per the efficiency
+contract. Encapsulation holds: `language` never re-declares that `deck` needs anki, and
+a parent adding a capability never forces descendant edits. A local *mask* (child
+suppresses an inherited requirement) has zero instances and is deferred; union does not
+foreclose it.
 
 ---
 
