@@ -159,6 +159,15 @@ learn, in one sentence. The full trajectory — grove format, inheritance and co
 distribution — lives in
 [`modes/meta/architect/product-vision.md`](modes/meta/architect/product-vision.md).
 
+### Currently in progress: monolith groves → DAFNE
+
+Today's `groves/` is a monolith — every domain lives inside this one repo. That's
+changing: groves are becoming independent repositories, composed via explicit
+multi-parent inheritance rather than living in one shared tree. The engine behind this
+is **DAFNE** (*Directory Architecture for Fractal Nested Ecosystems*). The architectural decisions are
+closed; the execution plan is
+[`modes/meta/architect/dafne_plan.md`](modes/meta/architect/dafne_plan.md).
+
 ### Licensing: open runtime, sovereign groves
 
 The runtime is open source under

@@ -13,7 +13,7 @@ The longer-term direction is a generalized **learning conductor** — an interfa
 | Where | What |
 |---|---|
 | `groves/` | Knowledge isles — one subdirectory per area (a *grove*). Each grove holds that area's knowledge specification and, where applicable, maps to an Anki deck. This is where all area-specific knowledge lives. |
-| `dafne_simulation/` | Sandbox for **DAFNE** — *Directory As a Fractal Node Engine*, the planned deterministic interpreter of the node inheritance tree (future standalone repo under `plugins/`). Each subdirectory simulates a standalone node repository (a *grove* = node + memory); `parents/` symlinks simulate submodules; `DAFNE.md` is the node manifest. See `dafne_simulation/context.md`. |
+| `dafne_simulation/` | Sandbox for **DAFNE** — *Directory Architecture for Fractal Nested Ecosystems*, the planned deterministic interpreter of the node inheritance tree (future standalone repo under `plugins/`). Each subdirectory simulates a standalone node repository (a *grove* = node + memory); `parents/` symlinks simulate submodules; `DAFNE.md` is the node manifest. See `dafne_simulation/context.md`. |
 | `groves/languages/spanish/context.md` | Spanish grove — directory overview and file index |
 | `groves/languages/english/english.md` | English grove — card types, domain tags |
 | `groves/instruments/instruments.md` | Instruments grove — visual identification, image handling, IPA |

@@ -1,7 +1,6 @@
 # DAFNE simulation — grove inheritance played out on disk
 
-*This is the sandbox, not the engine. DAFNE (Directory As a Fractal Node
-Engine) — the deterministic interpreter of the node tree — will be its own
+*This is the sandbox, not the engine. DAFNE (Directory Architecture for Fractal Nested Ecosystems) — the deterministic interpreter of the node tree — will be its own
 repository, mounted under `plugins/` like context-compiler and anki-mcp.*
 
 Experimental space for the grove inheritance & distribution decision

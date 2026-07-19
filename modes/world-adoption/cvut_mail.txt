@@ -1,8 +1,8 @@
-Greetings
+Hello
 
-Not that long ago I used to stady at our university (obor: teoreticka informatika, uid: baturvit)
+Not that long ago I used to study at our university (obor: teoreticka informatika, uid: baturvit)
 
-Practicing context engineering I've created quite an impressive & in my opinion enormously useful project
+While practicing context engineering I've created quite an impressive & in my opinion enormously useful project
 that helps me to utilize my ability of working with human memory & boost the research.
 Also I find the architectural layout of the project & it's many subprojects having a potential to make a substantial
 impact on many fields of human endeavour (for example one subproject is a domain specific programming language DAFNE).
@@ -11,29 +11,29 @@ spaced repetition database (Anki) for now + more if I have time & health.
 
 It's open source and I seek any kind of support from all the potential sources
 
-The thing is, I don't have much time to develop it and deal with it's adoption.
-Quite sad, considering the potential... I'm leading numerous other projects and frequently sacrificing sleep.
+The thing is, I don't have time to develop it and progress with it's adoption.
+Quite sad, considering the potential...
 
-I would be glad if you looked into it and if possible levarage the infrastructure of university to develop and share.
+I would be glad if you looked into it and leverage the infrastructure of university to foster it's
+development and sharing. I myself am doing fine and not looking into earning anything on it as of now. So
+the motivation is rather to just cooperate, see whether it can grow, get some feedback.
 
 The project can be used as a base for
 * thesis on applied machine learning & context engineering
-	- improving project architecture
 	- making cross platform & llm provider agnostic (opencode migration)
-	- packaging project into single deliverable for end-user convenience
 * for architects
 	- another example how the project yields a subproject (DAFNE) that is more generic and useful
-	- DAFNE - "irectory-as-an-object programming language" - LLMs & humans & operating systems & SCM alike work well with text & directories. Empowering text & directories with inheritence & other OOP concepts makes me envision interesting projects & opportunities.
+	- DAFNE - "directory-as-an-object programming language" - LLMs & humans & operating systems & SCM alike work well with text & directories. Empowering text & directories with inheritence & other OOP concepts makes me envision interesting projects & opportunities.
 	- full memory on taking architectural decisions, not only through git, but also through llm summaries into a memory bank
 * for application developers
-	- bundling this into a more user-friendly experiences
+	- packaging/directing this into a more user-friendly experiences 
 * for marketing & community work, namely by onboarding & tailoring to specific use case in
 	- other faculties of your university
 	- other universities
 	- organizations with complex & lengthy employee onboarding processes
-	  (for example in some infrastructural old institutions, banks)
+	  (for example in some infrastructural old institutions, military, banks)
 	- in this project you can observe how is an individual, augmented with an llm finds ways to get support and audience.
-	effectively compensating his ignorance in marketing with LLM advisors & his tech savvy.
+	Attempting to compensating his ignorance in marketing with LLM advisors & his tech savvy.
 * by students themselves in their day to day studies across faculties & universities
   In fact, I can not even imagine what will the future of education be like if such receive mass adoption...
 
@@ -41,4 +41,4 @@ The project can be used as a base for
 Clearly, because I believe in my project and time is an exceptionally precious resource - I am reaching out to many of your colleagues in parallel.
 Until the moment I perceive that some institution (hopefully, our university) handles the 'reaching out' part more effectively I will proceed with this mission on my own for some time until the sparkle wanes.
 
-A million thanks
+A bow

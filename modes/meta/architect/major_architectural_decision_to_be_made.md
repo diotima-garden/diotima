@@ -617,7 +617,7 @@ parent nodes compile standalone with zero edits. Findings graduated into rulings
 
 ### DAFNE — the engine has a name and a home
 
-**DAFNE** (*Directory As a Fractal Node Engine*): the deterministic interpreter of the
+**DAFNE** (*Directory Architecture for Fractal Nested Ecosystems*): the deterministic interpreter of the
 node tree. Its own repository, mounted under `plugins/` like context-compiler and
 anki-mcp — runtime, ambient (D0), independently versioned. **It absorbs context-compiler
 rather than sitting beside it**: `include_graph.py` is the proto-DAFNE, and two
