@@ -38,3 +38,6 @@ youtube-phrases.txt
 
 # Downloaded EPUBs (binary, large — not source)
 cache/
+
+# Don't track letter esquisses
+**/world-adoption/**.txt

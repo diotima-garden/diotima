@@ -2,6 +2,3 @@
 *.csv
 *.json
 *.jsonl
-
-# Per-subject outreach draft — kept locally; carries named contacts.
-drafts/cvut-per-subject-outreach.md

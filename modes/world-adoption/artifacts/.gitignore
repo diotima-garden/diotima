@@ -1,0 +1,5 @@
+# Local-only outreach artifacts — never tracked.
+# Carries named contacts, scraped data, drafts, and outbound records.
+*
+!.gitignore
+!.gitkeep

@@ -15,6 +15,7 @@ Read `./memory/context.md` on entry.
 | Path | What |
 |---|---|
 | `./inception.md` | Founding research: landscape + adoption path options (2026-05-22) |
+| `./channel-strategy.md` | Where feedback & developers actually come from — Gemini channel consult (2026-07-21), Reddit/dev-community plan, P0 onboarding gate |
 | `./outbound-contract.md` | Governance contract for all internet-facing content — disclosure wording, venue renderings, standards. Rendered by `/prepare-human-facing-content`; never bypassed |
 | `./outbound/ledger.md` | Append-only audit trail of every AI-drafted piece sent |
 | `./drafts/` | Working drafts of outreach content (posts, essays, replies) |

@@ -73,7 +73,7 @@ Labeling is necessary, not sufficient. Every outbound piece also satisfies:
 
 ## Ledger
 
-Every piece confirmed as sent is appended to `outbound/ledger.md`:
+Every piece confirmed as sent is appended to `artifacts/outbound/ledger.md`:
 
 ```
 ## <YYYY-MM-DD> · <venue key> · v<disclosure version>
