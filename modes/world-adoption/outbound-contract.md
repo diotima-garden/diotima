@@ -58,6 +58,9 @@ Labeling is necessary, not sufficient. Every outbound piece also satisfies:
 
 - **Human approval, per piece.** Nothing is sent that Vitalii has not seen assembled in
   final form. The preparing skill stops at an approval gate; it never posts.
+- **Voice check, per AI-drafted piece.** Any body an AI drafts is checked against
+  [`voice.md`](./voice.md) before the approval gate — it must read as Vitalii, not as a
+  pitch. The read-aloud test there is the bar.
 - **No bulk identical bodies.** The same body is never sent to multiple venues without
   venue-specific adaptation — both courtesy and spam-filter hygiene (identical repeated
   text is a dedup signature).
