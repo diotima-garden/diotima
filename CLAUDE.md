@@ -17,6 +17,7 @@ The longer-term direction is a generalized **learning conductor** — an interfa
 | `groves/languages/spanish/context.md` | Spanish grove — directory overview and file index |
 | `groves/languages/english/english.md` | English grove — card types, domain tags |
 | `groves/instruments/instruments.md` | Instruments grove — visual identification, image handling, IPA |
+| `groves/social-dynamics/context.md` | Social dynamics grove — frame-control drills under social pressure (text-only simulator, no Anki) |
 | `modes/meta/builder/context.md` | Builder mode — read before creating or modifying files outside of user areas |
 | `modes/meta/architect/context.md` | Architect mode — read before any structural or design decisions |
 | `modes/world-adoption/context.md` | World adoption mode — strategy, outreach, and go-to-market thinking |

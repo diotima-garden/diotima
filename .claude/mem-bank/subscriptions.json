@@ -19,6 +19,12 @@
     {
       "name": "world-adoption",
       "bank": "modes/world-adoption/memory"
+    },
+    {
+      "name": "social-dynamics",
+      "bank": "groves/social-dynamics/memory",
+      "graduate": false,
+      "patterns": ["social-dynamics/.*"]
     }
   ]
 }
