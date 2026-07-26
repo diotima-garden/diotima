@@ -1,4 +1,4 @@
-Usage: `/pipe:anki-add-cards <grove-dir> [input]`
+Usage: `/pipe:add-cards-to-grove <grove-dir> [input]`
 
 # Pipeline: add-cards
 
@@ -25,8 +25,10 @@ Usage: `/pipe:anki-add-cards <grove-dir> [input]`
 - await compile-context result [mandatory]
   Why: compiled context must be ready before generation begins
 
-- skill: anki-add-cards `<compiled context>` `<input>` [mandatory]
-  Why: the actual card generation (isolated subprocess) and injection
+- skill: anki-mcp:add-cards-to-deck `<ankiDeckName>` `<compiled context>` `<input>` [mandatory]
+  Why: the actual card generation (isolated subprocess) and injection. The worker is
+  Anki-domain and grove-blind — the pipeline hands it the resolved deck and context file;
+  it never learns the grove or that compilation happened.
 
 - mcp__anki__sync [mandatory]
   Why: push changes to anki

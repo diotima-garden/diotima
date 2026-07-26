@@ -83,7 +83,7 @@ Monsieur es todo un conocedor de la alta cocina.
 Estas hecho un limon
 ```
 
-That's enough to launch the `/pipe:anki-add-cards` pipeline. Before anything is
+That's enough to launch the `/pipe:add-cards-to-grove` pipeline. Before anything is
 generated, the trust machinery runs: the grove's context compiles in the background
 while the collection syncs, "spanish" fuzzy-matches to the actual deck name
 **Español**, and the deck is backed up to a dated `.apkg` — every run, not just risky

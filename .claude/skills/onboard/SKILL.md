@@ -126,7 +126,7 @@ Then walk them to a first success, shaped by what they said they came to learn:
   Spanish and English do. Otherwise: model the structure on the Spanish grove and
   `groves/instruments/`.
 - With a grove in hand (theirs or an existing one), invite their first real input and
-  run `/pipe:anki-add-cards <grove-dir> <input>` — backup, generation, and the
+  run `/pipe:add-cards-to-grove <grove-dir> <input>` — backup, generation, and the
   approval gate will introduce themselves.
 
 Close by pointing at `CLAUDE.md` as the map, and the README's contributor backlog if
