@@ -8,6 +8,8 @@ grades you) plus the **principles** that define a good response. It is text-only
 run as LLM conversations. Optional later tools (Anki leak-log, web-research evidence,
 context-compiler) are noted as seams in the repo-root build plan, not built.
 
+Read `./memory/context.md`
+
 ## Files in this area
 
 | Path | What |
@@ -18,4 +20,3 @@ context-compiler) are noted as seams in the repo-root build plan, not built.
 | `./research/` | Collected efficacy evidence ("artifact proofs") on whether such simulations work. |
 | `./improvement-plan.md` | Deferred, research-motivated changes to the grove (grader calibration, recognition scoring, a `saying-no` drill, the leak-log loop). |
 | `./artifacts/` | Grove-level artifacts, incl. `social-dynamics-grove-plan.md` — the original turnkey build plan this grove was created from. |
-| `./memory/context.md` | Memory bank — obfuscated session history. Captures the abstract training signal only; strips names and identifying detail. Read it when asked to continue session, to start a drill, or overall explicit user interest in social dynamics grove|
