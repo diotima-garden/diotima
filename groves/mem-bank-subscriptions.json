@@ -5,7 +5,7 @@
       "bank": "modes/meta/memory",
       "patterns": [
         "meta/.*/context\\.md",
-        "mem-bank/README\\.md"
+        "mneme/README\\.md"
       ]
     },
     {
