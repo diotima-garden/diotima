@@ -10,7 +10,9 @@ the [before → after](#before--after-the-real-gap) contrast. If a line sounds l
 page, it's wrong, even if it's "better writing."
 
 Sources: `artifacts/cvut_mail.txt` (hand-written), Reddit u/Vitalakeks project replies
-(2026-07), and the contrast against AI-reworked `artifacts/cvut-outreach/letters/`.
+(2026-07), the contrast against AI-reworked `artifacts/cvut-outreach/letters/`, and
+`shared/team_breakdown_esquisse.md` (hand-written — his private
+planning register; see [Private register](#private-register-his-own-notes)).
 
 ---
 
@@ -48,6 +50,7 @@ sprinkle them mechanically.
   `Voila, have fun. With my setup it's a 7 minute job`. A little flourish after handing
   something over.
 - **`&` for "and"**, especially in fast lists — "onboarding & tailoring", "feedback/thought/licence claim/hello".
+- **The occasional French / erudite loanword** — titles a planning sketch `esquisse`, closes with `Voila`. He reaches for the slightly-elevated word without irony; it's genuine, not showing off. In fast private notes this rides alongside abbreviations like `sth.`
 - **"shall" where others write "should/will"** — "Your mind shall decide 'what kind of stuff shall be in the deck'". A distinctive, slightly formal Slavic-English note. Keep it; it's his.
 - **Self-deprecation as a wink** — "I'm not Socrates, of course some cards don't age well", "I like to be the boss!", "I suffered the same before I gave up and built an orchestrator".
 - **Upfront honest disclaimer** — leads hard requests by protecting the reader's time: "A small disclaimer first since I appreciate your time & I don't want you to hate me." "Being upfront: this is not an Anki add-on."
@@ -70,6 +73,33 @@ actually exist right now:
 
 The email is *not* a different person — it's the same wistful, honest voice with the collar
 buttoned. `cvut_mail.txt` is the reference specimen for this register.
+
+---
+
+## Private register (his own notes)
+
+The two venues above are *outbound*. But his hand-written **planning notes** — the
+`team_breakdown_esquisse.md` — are a third specimen, and the most useful thing they reveal is
+what the voice looks like *before it's tempered for a reader*. Not a venue to write *in*; a
+window into the conviction underneath.
+
+What it looks like: terse, fragmentary, note-form ("Team engineers — devops", bullet stubs);
+imperative when sketching roles ("Your job is…", "Take those as inspiration"); vivid metaphor
+doing real work ("a naked OS kernel plus a few example apps", "turn a Linux kernel into sth.
+like Ubuntu"); and — the key part — **openly, unhedged confident**: "the architecture,
+philosophy and paradigm are world-class", "20% of effort, 80% of result", optimization was
+"ruthlessly sacrificed".
+
+**The confidence gap — the single most useful thing here.** In private he says *world-class*
+flat out. Outbound, that same conviction downshifts to humble-confident ("It is a good
+architecture", "quite promissing"). This tells you two things when drafting from his notes:
+
+- **The confidence is real, not bravado.** The humble outbound tone is a deliberate downshift,
+  not actual doubt — so don't sand the pride out entirely; it's genuine.
+- **But never carry the private wattage into an outbound piece.** "World-class", "exactly what
+  you need", "80% of result" belong in his notebook, not in a letter to Mlejnek — outbound they
+  become pitch-confident, the exact failure mode this guide exists to catch. Translate the
+  conviction *down* into humble-confident; keep the metaphors, drop the superlatives.
 
 ---
 
