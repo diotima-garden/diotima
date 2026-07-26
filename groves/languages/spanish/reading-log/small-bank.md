@@ -13,3 +13,6 @@ I have finished reading el principito in spanish. It was not easy. You can see h
 SUMMARY:
 User completed El Principito over a long reading period (evenings, several pages or chapters at a time), finding it progressively easier despite missing 20–30% of vocabulary; prior knowledge of the story in their mother tongue from four years ago significantly aided comprehension. They've now selected Cuentos de la Selva by Horacio Quiroga as the next book (EPUB obtained, verified complete with all 8 stories, assessed at B1 difficulty as a gentle step up). The assistant recommended treating this as extensive reading without creating cards during reading—collect recurring words and process them afterward via the card pipeline if needed.
 
+## 2026-07-26 00:06 (session 9ebdd2)
+This session is not relevant to the Spanish reading history bank. The discussion covered creating a new social-dynamics grove, planning its structure, and designing a memory bank for conversational drills on social boundaries — none of which involves Spanish reading selections, book verdicts, or reading difficulty assessments. No summary should be appended to the reading history.
+
