@@ -252,3 +252,12 @@ self-contained:
 If any of these looks fun, open an issue to say hi — the architecture is documented and
 I'm happy to orient you.
 
+---
+
+## Acknowledgments
+
+What actually got me off the sofa to start building this was one of
+[Jake Van Clief](https://www.linkedin.com/in/jake-van-clief/)'s reels, where he
+stressed that directories & markdown file architecture is a genuinely sound way to
+look at the current AI agent wave.
+Thanks, Jake.
