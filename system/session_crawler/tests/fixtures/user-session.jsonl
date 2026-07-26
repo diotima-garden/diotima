@@ -1,5 +1,0 @@
-{"parentUuid":null,"type":"user","message":{"role":"user","content":"add a card about photosynthesis"},"uuid":"u1","timestamp":"2026-05-01T10:00:00.000Z","sessionId":"fixture-user-session"}
-{"parentUuid":"u1","type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"Read","id":"t1","input":{"file_path":"groves/languages/spanish/inheritable-spanish.md"}}]},"uuid":"a1","timestamp":"2026-05-01T10:00:01.000Z","sessionId":"fixture-user-session"}
-{"parentUuid":"a1","type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Here is a card about photosynthesis."}]},"uuid":"a2","timestamp":"2026-05-01T10:00:02.000Z","sessionId":"fixture-user-session"}
-{"parentUuid":"a2","type":"user","message":{"role":"user","content":"looks good"},"uuid":"u2","timestamp":"2026-05-01T10:01:00.000Z","sessionId":"fixture-user-session"}
-{"parentUuid":"u2","type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Great!"}]},"uuid":"a3","timestamp":"2026-05-01T10:01:01.000Z","sessionId":"fixture-user-session"}

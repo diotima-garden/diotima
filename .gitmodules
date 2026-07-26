@@ -4,3 +4,6 @@
 [submodule ".claude/utils"]
 	path = .claude/utils
 	url = https://github.com/diotima-garden/python-utils.git
+[submodule "plugins/mneme"]
+	path = plugins/mneme
+	url = https://github.com/diotima-garden/mneme.git

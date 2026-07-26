@@ -41,8 +41,8 @@
       "mcp__anki__get_reviews_of_cards",
       "mcp__anki__get_latest_review_id",
       "mcp__anki__sync",
-      "Bash(python3 .claude/mem-bank/big-bank.py:*)",
-      "Bash(python3 .claude/mem-bank/small-job-worker.py*)",
+      "Bash(python3 plugins/mneme/big-bank.py:*)",
+      "Bash(python3 plugins/mneme/small-job-worker.py*)",
       "Bash(pwd)",
       "Bash(ls *)",
       "Bash(date *)",
@@ -148,7 +148,7 @@
           },
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/mem-bank/small-bank.py --subscriptions \"$CLAUDE_PROJECT_DIR\"/.claude/mem-bank/subscriptions.json"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/plugins/mneme/small-bank.py --subscriptions \"$CLAUDE_PROJECT_DIR\"/groves/mem-bank-subscriptions.json"
           }
         ]
       }
