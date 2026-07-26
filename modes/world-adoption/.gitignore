@@ -2,3 +2,7 @@
 *.csv
 *.json
 *.jsonl
+
+# Private clone of github.com/baturevychvitalii/personal-register — versioned in its own
+# repo, not here. Never tracked, so a plain clone of this project never sees it.
+personal-register/
