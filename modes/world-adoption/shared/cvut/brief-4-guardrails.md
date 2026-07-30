@@ -1,33 +1,9 @@
-# Customer brief — "Guardrails that protect a non-technical user from themselves"
+# Focus area — "Guardrails that protect a non-technical user from themselves"
 
-> **Draft scaffold, not a final send.** AI-assisted, written to your voice (`voice.md`) —
-> run the read-aloud test and rework by hand before this reaches Mlejnek or any student.
-> Language: English, matching `cvut_mail.txt`. Whether the version students see should be
-> Czech is an open decision (Mlejnek formalizes the official `zadání` either way).
->
-> This is a **customer brief**: it states the problem I want solved and what "done" feels
-> like. The requirements analysis and the design are the team's to make — that is the part
-> the course is there to teach, so I deliberately don't pre-solve it here.
+*One of the optional focus areas under [`project.md`](project.md) — a suggestion the team may
+fold in, not a standalone assignment. It has a genuine research half, so it also stands as a
+BP/DP topic on its own if a single strong student wants it.*
 
-> **Source of truth.** This brief is the customer problem statement — the canonical scope &
-> "what done looks like" that Mlejnek formally lists as the BI-SP1 `zadání`, and it stays
-> stable for the semester. The *build backlog* (how it gets made, PRs, good-first-issues)
-> belongs in a GitHub issue that owns this thread — **to be filed**. The issue will track
-> implementation; this brief owns the problem.
-
-> **Thesis-shaped.** This one has a genuine research half (survey how agent systems defend
-> against well-meaning-but-unsafe requests) alongside the build. It fits a team project, but
-> also stands as a BP/DP topic on its own if a single strong student wants it.
-
----
-
-## Who's asking, & why
-
-I'm a FIT graduate (Teoretická informatika, uid: baturvit). In my spare time — my bank job
-started to bore me — I built an open-source project called **Diotima**: a context-engineering
-system around a structured directory architecture, with deep integration of a spaced-repetition
-database (Anki) to help a person actually learn. I use it every day, & the architecture is
-genuinely good.
 
 Here's what keeps me up about handing it to real people: the system is driven by an LLM agent
 with real power over a local repository, & the users I most want are **not technical**. A
@@ -70,6 +46,7 @@ Two halves that make this a real project, not a patch:
 - The behavior is demonstrated against a batch of "innocent but unsafe" prompts, not a single
   happy-path demo.
 - The guardrail is a real seam a maintainer can point to & extend, not scattered `if` checks.
+- Technical user shall still be able to do their crazy things
 
 ## Explicitly out of scope
 

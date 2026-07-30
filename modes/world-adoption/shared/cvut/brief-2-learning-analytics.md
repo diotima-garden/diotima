@@ -1,31 +1,8 @@
-# Customer brief — "A learning-observability surface over Diotima"
+# Focus area — "A learning-observability surface over Diotima"
 
-> **Draft scaffold, not a final send.** AI-assisted, written to your voice (`voice.md`) —
-> run the read-aloud test and rework by hand before this reaches Mlejnek or any student.
-> Language: English, matching `cvut_mail.txt`. Whether the version students see should be
-> Czech is an open decision (Mlejnek formalizes the official `zadání` either way).
->
-> This is a **customer brief**: it states the problem I want solved and what "done" feels
-> like. The requirements analysis, the product design, and the UI are the team's to make —
-> that is the part the course is there to teach, so I deliberately don't pre-solve it here.
+*One of the optional focus areas under [`project.md`](project.md) — a suggestion the team may
+fold in, not a standalone assignment.*
 
-> **Source of truth.** This brief is the customer problem statement — the canonical scope &
-> "what done looks like" that Mlejnek formally lists as the BI-SP1 `zadání`, and it stays
-> stable for the semester. The *build backlog* (how it gets made, PRs, good-first-issues)
-> lives in GitHub issue [#12](https://github.com/diotima-garden/diotima/issues/12); that
-> issue tracks implementation, this brief owns the problem. Note the altitude gap: #12
-> pre-commits to one narrow slice (a weekly stats *digest*), while this brief keeps the
-> surface open (dashboard / reporting, the team's to design). Read #12 as one candidate
-> starting point a contributor sketched — customer input, not the scope you're handed.
-
----
-
-## Who's asking, & why
-
-I'm a FIT graduate (Teoretická informatika, uid: baturvit). In my spare time I built an
-open-source project called **Diotima** — a context-engineering system with deep integration of a
-spaced-repetition database (Anki) to help a person actually learn a skill. It generates cards,
-schedules reviews, & takes feedback. I use it every day.
 
 Here's the gap that bothers me. The system is busy *doing* — adding cards, running reviews — but
 I have almost no honest view of whether the learning is actually *working*. Am I getting faster?
@@ -84,9 +61,20 @@ about to disengage. Treat that as the north star the architecture should not for
 
 ## What the team gets from me
 
-- **The data, already exposed.** The project's Anki integration already surfaces the raw signal
-  (learning velocity, vocabulary snapshot, review history, deck & collection statistics). No scraping,
-  no reverse-engineering — the inputs are handed over.
+- **The data, already exposed.** The project's Anki integration hands over the raw signal — review
+  history, per-deck & collection statistics — no scraping, no reverse-engineering. On top of that
+  there's a first stab at the *computed* metrics: [`analytics.py`](../../../../plugins/anki-mcp/tools/analytics.py)
+  (`vocabulary_snapshot`, `learning_velocity`). Fair warning — it was never tested, & honestly probably
+  doesn't work as it stands. But the idea behind it is sound, & it's a real starting point rather than a
+  blank page. Treat it as a sketch to validate & fix, not a dependency to trust.
+- **Real sample data to build against.** A snapshot of one of my actual decks lives in
+  [`deck_quality_bootstrapping/`](../../../../groves/languages/spanish/deck_quality_bootstrapping/)
+  (387 cards, 3.5 months in, 211 mature) — so you can develop the surface against a real learner's
+  history from day one, not invent numbers.
+- **An idea bank.** [`creative-usages.md`](../../../../groves/languages/creative-usages.md) is my rough,
+  unordered list of what becomes possible once an AI can reason over a full deck — vocabulary mapping,
+  plateau detection, study recommendations & more. Plenty of it is analytics-shaped; mine it for
+  inspiration, ignore what doesn't fit.
 - **A repo built to be read by a machine cold.** `CLAUDE.md` is the map; skills, pipelines & MCP
   tools are self-describing. Point an LLM at the repo & ask it where a thing lives — that's the
   intended onboarding path, so nobody inherits a black box.

@@ -20,5 +20,5 @@ Read `./memory/context.md` on entry.
 | `./outbound-contract.md` | Governance contract for all internet-facing content — disclosure wording, venue renderings, standards. Rendered by `/prepare-human-facing-content`; never bypassed |
 | `./outbound/ledger.md` | Append-only audit trail of every AI-drafted piece sent |
 | `./drafts/` | Working drafts of outreach content (posts, essays, replies) |
-| `./shared/` | Naturally-tracked, meant-to-be-shared material (outside the gitignored `artifacts/`). `shared/cvut/` = BI-SP1 student-project briefs for Mlejnek; `shared/team_breakdown_esquisse.md` = the hand-written team-breakdown vision they're mined from |
+| `./shared/` | Naturally-tracked, meant-to-be-shared material (outside the gitignored `artifacts/`). `shared/cvut/` = the BI-SP1 team project for Mlejnek — one project (`project.md`) plus optional focus-area suggestions (`brief-*`); `shared/team_breakdown_esquisse.md` = the raw hand-written 5-team vision, deliberately left as-is (it's `voice.md`'s private-register specimen), now diverged from the shipped 1-team `cvut/` structure |
 | `./memory/` | Mem-bank for this area — active session log + graduation archive |

@@ -1,20 +1,20 @@
-# Diotima — student-project briefs (BI-SP1)
+# Diotima — a student team project (BI-SP1)
 
-> **Working drafts, shared to be shaped together.** These are still being reworked into
-> good assignments — feedback and proposed changes are very welcome.
+A team software project on **Diotima**, an open-source learning system. It's scoped as **one
+project for one team**, not a menu of separate assignments — a coordinated team with fresh eyes
+on the whole picture is worth more at this stage than depth in any single corner.
 
-Customer briefs for team software projects on **Diotima**, an open-source learning system.
-Each brief is one self-contained assignment: it states the problem I'd like a team to solve
-& what "done" looks like — deliberately *not* the design, since working that out is the part
-the team project is there to teach.
+**Start here:** [`project.md`](project.md) — the one goal (take a grove & make it a trivially
+installable app), what "done" looks like, & what the team gets from me. It states the problem &
+what "done" feels like — deliberately *not* the design, since working that out is the part the
+team project is there to teach.
 
-| Brief | Problem |
-|---|---|
-| [brief-1](brief-1-packaging.md) | Make Diotima trivially runnable across Windows / macOS / Linux |
-| [brief-2](brief-2-learning-analytics.md) | A learning-observability surface over data the system already collects |
-| [brief-3](brief-3-provider-agnostic.md) | Un-weld the core from a single LLM vendor |
-| [brief-4](brief-4-guardrails.md) | Guardrails that protect a non-technical user from unsafe requests |
-| [brief-5](brief-5-determinism.md) | Replace LLM orchestration with deterministic code where an LLM isn't needed |
+The files below are **optional focus areas** the team may fold in — suggestions, not
+requirements — pointed to from `project.md`:
 
-Each brief points to the GitHub issue that tracks its *implementation* backlog; the brief
-itself stays the problem statement.
+| Focus area | Problem | Backlog |
+|---|---|---|
+| [Learning analytics](brief-2-learning-analytics.md) | A learning-observability surface over data the system already collects | [#12](https://github.com/diotima-garden/diotima/issues/12) |
+| [Guardrails](brief-4-guardrails.md) | Protect a non-technical user from unsafe requests (research + build; also a standalone BP/DP topic) | [#33](https://github.com/diotima-garden/diotima/issues/33) |
+| [Determinism](brief-5-determinism.md) | Replace LLM orchestration with deterministic code where an LLM isn't needed | [#34](https://github.com/diotima-garden/diotima/issues/34) |
+| World adoption *(non-technical)* | Find a real first user or use-case for the slice — a faculty, institution, or company — & follow the thread (see [`project.md`](project.md)) | — |
