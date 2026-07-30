@@ -29,7 +29,7 @@ Building or adopting a grove is how the system grows.
 The part I most want a real implementation to *showcase*: a grove is meant to be **trivially
 shareable**, & a new grove is meant to **inherit an existing one** — a language grove built on a
 generic deck node, a Spanish grove on the language grove, & so on. That inheritance structure is
-laid out in [`dafne_simulation/context.md`](../../../../dafne_simulation/context.md) (the chain
+laid out in [`dafne_simulation/context.md`](../../../../../dafne_simulation/context.md) (the chain
 `spanish → language → deck`, parents modelled as git submodules). The structure & philosophy of
 groves is *already this* — DAFNE, the engine that would resolve a chain automatically, is a
 separate piece that may or may not be built by the time you start. Take it into account if it's
@@ -129,8 +129,8 @@ having missed it.
 - **`/onboard`** — a command that audits a machine, says plainly what works & what doesn't, & walks
   to a first success. It's also a natural acceptance harness: the goal is the day `/onboard` finds
   nothing to complain about on a fresh machine.
-- **My honest analysis as customer input** — [`packaging-strategy.md`](../../../meta/architect/packaging-strategy.md)
-  & [`CONTRIBUTING.md`](../../../../CONTRIBUTING.md). Handed over as customer input, not as the
+- **My honest analysis as customer input** — [`packaging-strategy.md`](../../../../meta/architect/packaging-strategy.md)
+  & [`CONTRIBUTING.md`](../../../../../CONTRIBUTING.md). Handed over as customer input, not as the
   design you're stuck with.
 - **Me, as customer** — reachable for direction against clear milestones. Being upfront about my
   time: I steer toward the outcome & unblock decisions; I can't do daily hand-holding, so the
@@ -144,6 +144,6 @@ prerequisite — interest carries further than a checklist.
 
 ---
 
-*Implementation backlog: issue [#27](https://github.com/diotima-garden/diotima/issues/27). Its
-wording predates this grove-slice framing (it's written as cross-OS packaging of the existing
-runtime) & needs a reword to match.*
+*Implementation backlog: issue [#27](https://github.com/diotima-garden/diotima/issues/27) — the
+build backlog for this slice (PRs, good-first-issues). This brief owns the problem; the issue
+tracks how it gets made.*
