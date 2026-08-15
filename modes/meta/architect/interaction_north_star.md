@@ -1,7 +1,7 @@
 # Interaction North Star — how a user meets Diotima
 
 *Status: settled 2026-07-18 (user ruling). Companion to
-`major_architectural_decision_to_be_made.md` — D0 fixes the primitive (grove-rooted,
+`grove_inheritance_decisions.md` — D0 fixes the primitive (grove-rooted,
 runtime ambient); this record fixes the front door built on top of it.*
 
 The main Diotima repository carries no groves. Groves are separate repositories living in

@@ -10,7 +10,7 @@
     },
     {
       "name": "spanish-reading",
-      "bank": "groves/languages/spanish/reading-log",
+      "bank": "groves/spanish/reading-log",
       "graduate": false,
       "patterns": [
         "spanish/reading-log/context\\.md"

@@ -29,12 +29,10 @@ Building or adopting a grove is how the system grows.
 The part I most want a real implementation to *showcase*: a grove is meant to be **trivially
 shareable**, & a new grove is meant to **inherit an existing one** — a language grove built on a
 generic deck node, a Spanish grove on the language grove, & so on. That inheritance structure is
-laid out in [`dafne_simulation/context.md`](../../../../../dafne_simulation/context.md) (the chain
-`spanish → language → deck`, parents modelled as git submodules). The structure & philosophy of
-groves is *already this* — DAFNE, the engine that would resolve a chain automatically, is a
-separate piece that may or may not be built by the time you start. Take it into account if it's
-already implemented; otherwise don't wait on it, the grove structure you'd work with is the same
-either way.
+live in production now: `groves/spanish` → `parents/language` → `parents/deck`, each its own repo
+under `github.com/diotima-garden`, chained by git submodules and resolved automatically by
+[`plugins/dafne`](../../../../../plugins/dafne/README.md) (`DAFNE.md` is each node's manifest).
+`groves/spanish/context.md` is a worked example if you want to see it end to end.
 
 ## The one goal
 

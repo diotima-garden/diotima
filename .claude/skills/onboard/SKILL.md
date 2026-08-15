@@ -62,7 +62,7 @@ ls plugins/anki-mcp/.venv/bin/python3
 The card pipeline also compiles grove context through its own venv:
 
 ```bash
-ls plugins/context-compiler/.venv/bin/python3
+ls plugins/dafne/.venv/bin/python3
 ```
 
 For any missing venv, point at the component's own README for the exact setup commands
@@ -119,12 +119,13 @@ machinery; they ask, and it acts.
 Then walk them to a first success, shaped by what they said they came to learn:
 
 - Show the decks found in the smoke test (reuse that result — don't re-call).
-- Open `groves/languages/spanish/context.md` together as the worked example of a
-  *grove* — a per-domain spec the generator obeys.
-- If their goal is a language: offer to scaffold a grove for it under
-  `groves/languages/`, inheriting `groves/languages/language-defaults.md` the way
+- Open `groves/spanish/context.md` together as the worked example of a
+  *grove* — a per-domain spec the generator obeys, now its own DAFNE node repo
+  (`groves/spanish/DAFNE.md`) mounted as a submodule.
+- If their goal is a language: offer to scaffold a grove for it as a sibling repo
+  with `parents/language` as a submodule, inheriting `language-defaults.md` the way
   Spanish and English do. Otherwise: model the structure on the Spanish grove and
-  `groves/instruments/`.
+  `groves/instruments/` (parented on `deck` directly, no language tier).
 - With a grove in hand (theirs or an existing one), invite their first real input and
   run `/pipe:add-cards-to-grove <grove-dir> <input>` — backup, generation, and the
   approval gate will introduce themselves.

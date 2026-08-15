@@ -666,6 +666,18 @@ can express only pins. Dropping the field must not decide D4 silently.
 
 ### `.private/` — name reserved now, mechanism built later
 
+**Built 2026-08-15 in `plugins/dafne/include_graph.py` (Phase 1 of `dafne_plan.md`),
+with test coverage in `tests/test_include_graph.py`.** One implementation refinement
+vs. the rule as first stated below: the node-root escape check operates on the
+*authored* include path lexically (normalized, not symlink-followed), not on the
+fully resolved target — the sandbox's `parents/` mounts were relative symlinks that
+physically escape upward to simulate a submodule (a fidelity gap `dafne_simulation/context.md`
+already flagged), so a resolve()-based check rejected legitimate parent traversal.
+Real submodules sit physically inside the node's own tree, so this makes no
+difference against production content — verified byte-identical against
+`golden/{spanish,english,instruments}.golden.md` from both the sandbox and the
+real vendored groves.
+
 Visibility by position — a convention, exactly where Test 2 says conventions suffice
 (location-only fact, no per-file data). The honest justification is not script-hiding
 (scripts in nodes: zero instances) but **API-surface control for text**, which has a
@@ -695,9 +707,13 @@ instances; nothing in the current design forecloses it.
 
 - ~~Does `requires:` union up the parent tree, or is it re-declared per node?~~
   **Resolved 2026-07-19: union — see the ruling section below.**
-- The production `groves/` tree still needs the D3 repo surgery (promote → vendor
+- ~~The production `groves/` tree still needs the D3 repo surgery (promote → vendor
   downward → rewrite includes). The sandbox validated the target topology, not the
-  transform. **Execution plan: `dafne_plan.md`.**
+  transform.~~ **Done 2026-08-15 — `dafne_plan.md` Phases 1–2 executed.** `deck`,
+  `language`, `spanish`, `english`, `instruments`, and `social-dynamics` (a scope
+  addition beyond the original target topology, decided when Phase 2 began) are now
+  independent repos under `diotima-garden/`, mounted as submodules; every grove
+  clones standalone and compiles byte-identical to the Phase 0 golden outputs.
 
 ---
 

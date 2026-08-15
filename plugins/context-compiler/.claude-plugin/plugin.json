@@ -1,5 +1,0 @@
-{
-  "name": "context-compiler",
-  "description": "Context compilation — #include preprocessor and context assembly",
-  "version": "1.0.0"
-}

@@ -131,7 +131,7 @@ architecture around it:
   first-class, versioned artifacts, so the system's own construction is legible and safe
   to evolve.
 
-Start with `CLAUDE.md` for the full map, or `groves/languages/spanish/context.md` for a
+Start with `CLAUDE.md` for the full map, or `groves/spanish/context.md` for a
 worked example of a domain.
 
 ---
@@ -207,7 +207,7 @@ first contributions are self-contained.
   gitconfig instead of editing the tracked URLs:
   `git config --global url."git@github.com:diotima-garden/".insteadOf "https://github.com/diotima-garden/"`
 - **Several Python virtualenvs**, gitignored and set up per machine:
-  `plugins/anki-mcp/.venv` (needs `mcp`), `plugins/context-compiler/.venv`, and
+  `plugins/anki-mcp/.venv` (needs `mcp`), `plugins/dafne/.venv`, and
   `.claude/gemini/.venv` (needs `google-genai`).
 - **A `GOOGLE_API_KEY`** — *optional.* Only needed for the advanced, Google-native
   YouTube extraction (Gemini-backed). You don't need it to get started; skip it and the
@@ -221,7 +221,7 @@ first contributions are self-contained.
 2. Install Claude Code.
 3. Clone this repo, then `git submodule update --init --recursive`.
 4. Create the virtualenvs above and install each one's dependency (`mcp`, plus
-   context-compiler's; add `google-genai` only if you want YouTube extraction).
+   dafne's `pyyaml`/`pytest`; add `google-genai` only if you want YouTube extraction).
    Components with their own Python setup document the exact commands in their own
    READMEs — see `plugins/anki-mcp/README.md` and `.claude/gemini/README.md`; check a
    component's README whenever its setup looks non-obvious.

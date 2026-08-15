@@ -68,10 +68,10 @@ about to disengage. Treat that as the north star the architecture should not for
   doesn't work as it stands. But the idea behind it is sound, & it's a real starting point rather than a
   blank page. Treat it as a sketch to validate & fix, not a dependency to trust.
 - **Real sample data to build against.** A snapshot of one of my actual decks lives in
-  [`deck_quality_bootstrapping/`](../../../../../groves/languages/spanish/deck_quality_bootstrapping/)
+  [`deck_quality_bootstrapping/`](../../../../../groves/spanish/deck_quality_bootstrapping/)
   (387 cards, 3.5 months in, 211 mature) — so you can develop the surface against a real learner's
   history from day one, not invent numbers.
-- **An idea bank.** [`creative-usages.md`](../../../../../groves/languages/creative-usages.md) is my rough,
+- **An idea bank.** [`creative-usages.md`](../../../../../groves/spanish/parents/language/creative-usages.md) is my rough,
   unordered list of what becomes possible once an AI can reason over a full deck — vocabulary mapping,
   plateau detection, study recommendations & more. Plenty of it is analytics-shaped; mine it for
   inspiration, ignore what doesn't fit.

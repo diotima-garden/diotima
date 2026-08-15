@@ -1,7 +1,7 @@
 # DAFNE Execution Plan
 
 *Created 2026-07-19. All decisions feeding this plan are closed — see
-`major_architectural_decision_to_be_made.md` (D0–D4 + 2026-07-18/19 rulings) and
+`grove_inheritance_decisions.md` (D0–D4 + 2026-07-18/19 rulings) and
 `interaction_north_star.md`. This file is pure execution: phases in dependency order,
 each with concrete steps and an exit criterion. Check off as you go.*
 
@@ -102,32 +102,45 @@ english     ← english.md + backups + parents/language                        (
 instruments ← instruments.md + backups + parents/deck                        (grove)
 ```
 
-- [ ] **Promote:** create repos `diotima-garden/deck` and `diotima-garden/language` from
+- [x] **Promote:** create repos `diotima-garden/deck` and `diotima-garden/language` from
       the loose files above, each with a `DAFNE.md` (copy from
       `dafne_simulation/deck/DAFNE.md` and `language/DAFNE.md` — they are the validated
       templates). `language` gets `parents/deck` as a pinned submodule; rewrite its
       includes to `./parents/deck/...`. Push both.
-- [ ] **Vendor + rewrite the groves:** create repos `spanish`, `english`, `instruments`.
+- [x] **Vendor + rewrite the groves:** create repos `spanish`, `english`, `instruments`.
       Move all content *and state* (backups, `reading-log/`, `files/`,
       `deck_quality_bootstrapping/`, feedback `.jsonl`) into them — state lives in the
       grove. Add `parents/language` (spanish, english) / `parents/deck` (instruments)
       submodules; rewrite every include to `./`-relative. Each grove's `DAFNE.md`
       carries its bank config (Phase 3 fills the values).
-- [ ] **Remount in master:** delete the old `groves/` contents; mount the three grove
+- [x] **Remount in master:** delete the old `groves/` contents; mount the three grove
       repos as submodules (`groves/spanish`, `groves/english`, `groves/instruments` —
       flat; `deck` and `language` arrive only as nested submodules inside them).
       `groves/managed-models.json` is runtime/anki state, not grove content — move it to
       the anki-mcp side, not into any grove.
-- [ ] **Verify:** `git clone --recursive` each grove repo to a temp dir; compile
+- [x] **Verify:** `git clone --recursive` each grove repo to a temp dir; compile
       standalone with `plugins/dafne`; byte-compare against Phase 0 golden outputs.
       This is the record's own D3 test, now on production content.
-- [ ] **Repoint and retire:** switch the compile skills to `plugins/dafne`; remove
+- [x] **Repoint and retire:** switch the compile skills to `plugins/dafne`; remove
       `plugins/context-compiler` (its repo is absorbed, per Phase 1).
-- [ ] **Cleanup:** delete `dafne_simulation/` — it has served; fold any still-open notes
+- [x] **Cleanup:** delete `dafne_simulation/` — it has served; fold any still-open notes
       from `dafne_simulation/context.md` into the decision record first.
 
 **Exit:** every grove clones standalone and compiles byte-identical to golden with zero
 edits; master's `groves/` holds only submodule mounts; context-compiler is gone.
+**Phase 2 complete (2026-08-15).** Six repos pushed and mounted, not three — the plan's
+target topology didn't cover `groves/social-dynamics/`; extracted anyway as a bare root
+grove per an explicit scope decision when this phase began (see `grove_inheritance_decisions.md`).
+Two smaller deviations from the plan's literal text, both decided the same way:
+`queue-policy.md` (not in the plan's file table at all) landed in `language` alongside
+`language-defaults.md`; `groves/managed-models.json` stayed in `groves/` rather than
+moving to the anki-mcp side — deferred, not forgotten, since it touches a second repo
+(`plugins/anki-mcp`) this session left alone. `spanish`/`english`/`instruments` verified
+byte-identical to `golden/*.golden.md` three ways: from the master-mounted submodules,
+from a genuinely standalone `git clone --recursive`, and (for spanish) from the sandbox
+before it was deleted. `groves/mem-bank-subscriptions.json`'s `spanish-reading` bank path
+was updated to the new mount point as a courtesy — the live subscription source of truth
+stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
 
 ---
 
@@ -198,9 +211,12 @@ Building any of these before its trigger is designing from zero instances.
 Phase 0 ──> Phase 1 ──> Phase 2 ──> Phase 3 ──> Phase 4
 ```
 
-Phase 0 is complete; no open spike remains blocking any later phase.
+Phases 0–2 are complete (2026-08-15). No open spike remains blocking any later phase.
 
-Phases 1–2 are the irreversible core (published-format discipline); 3–4 are runtime-side
-and stay cheap to revise. When Phase 2 completes, `major_architectural_decision_to_be_made.md`
-can be renamed to a closed decision record — every question in it will be either ruled
-or executed.
+Phases 1–2 were the irreversible core (published-format discipline); 3–4 are
+runtime-side and stay cheap to revise. `grove_inheritance_decisions.md` has been
+renamed from `major_architectural_decision_to_be_made.md` — every question in it is
+now either ruled or executed. Phase 3 (runtime wiring: `subscriptions.json` →
+`DAFNE.md` bank config, `requires:` refusal, `SessionStart` manifest injection,
+assisted-update flow) and Phase 4 (launch UX) remain, deliberately deferred — not
+part of this session's scope.

@@ -33,5 +33,5 @@ Display the extracted phrases and report the output file path.
 Then show:
 ```
 Review <context_file_dir>/youtube-phrases.txt, then run:
-/pipe:add-cards-to-grove groves/languages/spanish <context_file_dir>/youtube-phrases.txt
+/pipe:add-cards-to-grove groves/spanish <context_file_dir>/youtube-phrases.txt
 ```
