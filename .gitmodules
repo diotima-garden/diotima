@@ -7,3 +7,6 @@
 [submodule "plugins/mneme"]
 	path = plugins/mneme
 	url = https://github.com/diotima-garden/mneme.git
+[submodule "plugins/dafne"]
+	path = plugins/dafne
+	url = https://github.com/diotima-garden/dafne.git

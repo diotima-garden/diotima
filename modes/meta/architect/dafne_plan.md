@@ -50,29 +50,37 @@ checked.*
 
 *The engine exists as its own repo before any grove depends on it.*
 
-- [ ] Create repo `diotima-garden/dafne`; mount as submodule `plugins/dafne`.
-- [ ] **Absorb context-compiler** (it does not sit beside it — constitution's
+- [x] Create repo `diotima-garden/dafne`; mount as submodule `plugins/dafne`.
+- [x] **Absorb context-compiler** (it does not sit beside it — constitution's
       non-duplication rule): move `include_graph.py`, `preprocess.py`,
       `compiled-is-fresh.py`, `tests/`, and the compile skills into `plugins/dafne`.
-- [ ] **Simplify the resolver:** delete the `project_root` branch and parameter from
+- [x] **Simplify the resolver:** delete the `project_root` branch and parameter from
       `resolve_include_path` — non-dotted include paths become a hard error with a
       message naming the discipline ("includes are `./`-relative; see DAFNE format").
-- [ ] **Add the two remaining validations:** reject `../` that escapes the including
+- [x] **Add the two remaining validations:** reject `../` that escapes the including
       node's root; enforce the `.private/` rule (target must lie in the including node's
       own tree, or in a transitively vendored parent tree *outside* any `.private/`).
-- [ ] **Manifest reader:** parse `DAFNE.md` (`format`, `requires`, bank config);
+- [x] **Manifest reader:** parse `DAFNE.md` (`format`, `requires`, bank config);
       implement the `requires:` union walk over `parents/` manifests. Unknown fields
       ignored.
-- [ ] Port the existing compiler unit tests; add fixtures for: non-dotted rejection,
+- [x] Port the existing compiler unit tests; add fixtures for: non-dotted rejection,
       `../` escape rejection, `.private` visibility, requires-union over a two-level
       parent chain.
-- [ ] Do **not** repoint the production skills yet — production includes are still
+- [x] Do **not** repoint the production skills yet — production includes are still
       root-relative until Phase 2 rewrites them. The old context-compiler keeps serving
       daily use until Phase 2's last step.
 
 **Exit:** `plugins/dafne` compiles the *sandbox* (`dafne_simulation/spanish`)
 byte-identical to the golden-equivalent sandbox output; all new validation fixtures
-pass; production still compiles via the old path.
+pass; production still compiles via the old path. **Phase 1 complete** — 39/39 tests
+pass; sandbox recompiles byte-identical to `golden/spanish.golden.md`; repo pushed to
+`diotima-garden/dafne` (public), mounted as submodule. One deviation from the plan's
+literal wording: the node-root escape check operates on the *authored* include path
+lexically, not on the fully symlink-resolved target — the sandbox's `parents/` mounts
+are relative symlinks that physically escape upward (documented fidelity gap vs. real
+submodules in `dafne_simulation/context.md`), so a resolve()-based check would reject
+legitimate parent traversal. Real submodules sit physically inside the node's tree, so
+this makes no difference in production.
 
 ---
 
