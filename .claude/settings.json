@@ -53,11 +53,7 @@
       "Bash(git diff *)",
       "Bash(git add *)",
       "Bash(git check-ignore *)",
-      "Write(**/*.compiled.md)",
-      "Write(**/*.preprocessed.md)",
-      "Write(/tmp/card-edit-context.md)",
-      "Read(/tmp/card-edit-context.md)",
-      "Write(/tmp/card-input.txt)",
+      "Edit(**/*.compiled.md)",
       "Edit(modes/world-adoption/outbound/ledger.md)",
       "Bash(claude -p --bare *)",
       "Bash(python3 .claude/skills/youtube-extract/extract.py:*)",
@@ -77,7 +73,7 @@
       "A project-committed .claude/settings.json cannot grant out-of-tree write access (security): additionalDirectories only lifts this when set in PERSONAL settings (.claude/settings.local.json or ~/.claude/settings.json), not committed project settings.",
       "Reads are different — Read(//abs/path) works (double-slash = filesystem-absolute).",
       "Fix we adopted: keep script artifacts inside the project tree, see plugins/anki-mcp .artifacts/ (gitignored).",
-      "In-tree is NOT auto-approved: a file written via a python script (Bash) rides the Bash allow rule, but a file written via the Write TOOL still needs its own Write(...) allow rule. In-tree only avoids the hard out-of-tree block. The feedback pipeline writes all its artifacts from Python (extract/edit/apply), so it needs no Write(...) rule for them.",
+      "In-tree is NOT auto-approved: a file written via a python script (Bash) rides the Bash allow rule, but a file written via the Write tool still needs its own Edit(...) allow rule (file-permission checks only match Edit(path) rules — a Write(path) rule is never matched). In-tree only avoids the hard out-of-tree block. The feedback pipeline writes all its artifacts from Python (extract/edit/apply), so it needs no Edit(...) rule for them.",
       "The Bash venv rules above are enumerated one-per-script (interpreter + full script path + :*).",
       "A Bash allow-rule's :* wildcard only matches at whole-token boundaries — a mid-path prefix like '.../python3 plugins/anki-mcp/:*' never matches a real script path, so each script needs its own entry. Adding a new venv script means adding its own allow line."
     ]
