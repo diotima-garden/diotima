@@ -21,7 +21,9 @@ The current set of whitelisted rules is the source of truth: `.claude/settings.j
 
 ## Git Policy
 
-`git push` must **never** be run by Claude in this project — not even when asked generically. 
+`git push` is allowed when the user explicitly asks for it in the moment — confirm
+scope (which repo/branch) if it's ambiguous, then run it. Don't push proactively or
+bundle it into unrelated work without being asked.
 
 Read-only git commands (`git log`, `git diff`, `git status`) are fine and whitelisted.
 
