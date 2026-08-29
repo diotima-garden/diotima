@@ -8,6 +8,11 @@ Usage: `/pipe:tackle-feedback-on-grove <grove-dir>`
 
 ## Steps
 
+- bash: `plugins/dafne/.venv/bin/python3 system/diotima/check-requires.py <grove-dir>` [mandatory]
+  Why: this pipeline needs anki. Refuse here — before the background compile fork is
+  spawned — rather than dying deep at the first mcp__anki__ call.
+  `REQUIRES_UNSATISFIED` → stop and report. `REQUIRES_UNKNOWN` or `REQUIRES_SATISFIED` → proceed.
+
 - read `<grove-dir>/context.md` [mandatory] — identify the deck config file and derive `<backupDir>` = `<grove-dir>/backups`
   Why: deck config filename may not match the deck directory name; context.md is the authoritative index
 

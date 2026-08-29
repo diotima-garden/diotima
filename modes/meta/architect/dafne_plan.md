@@ -179,9 +179,50 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
       unchanged. Commits pending across `plugins/dafne`, `plugins/mneme`,
       `groves/spanish`, `groves/social-dynamics`, and `master` (submodule pointer
       bumps) — not yet pushed.
-- [ ] **`requires:` refusal:** opening a grove whose effective (unioned) requires
+- [x] **`requires:` refusal:** opening a grove whose effective (unioned) requires
       includes `anki` in a runtime without anki-mcp produces a plain, early message —
       not a deep pipeline failure. A grove requiring nothing is first-class.
+      → **Designed in `requires_refusal.md` (2026-08-29), executed and verified
+      2026-08-29.** `plugins/dafne/manifest.py` gained `Requirement` and
+      `requirements_with_provenance` (5 new fixtures, 53/53 dafne tests pass);
+      `system/diotima/capabilities.py` is the new probe (`installed_capabilities`,
+      reading the interpreter/server paths out of `.mcp.json` rather than hardcoding
+      them) and `system/diotima/check-requires.py` the CLI, emitting
+      `REQUIRES_SATISFIED` / `REQUIRES_UNSATISFIED` / `REQUIRES_UNKNOWN` per the design's
+      exact token convention. Both pipeline command files
+      (`add-cards-to-grove.md`, `tackle-feedback-on-grove.md`) gained a step-0 preflight
+      bash call, before the background compile fork. The `requires: []` line was
+      dropped from the four leaf grove manifests (spanish, english, instruments,
+      social-dynamics); `language`'s copy was deliberately left alone per the design's
+      own carve-out, so "every `requires:` line in the tree is a real claim" holds for
+      the four leaves grove authors copy, not literally tree-wide. Verified against
+      production, not just fixtures: `requirements_with_provenance` returns the exact
+      provenance paths the design's exit criteria name for spanish
+      (`parents/language/parents/deck`), instruments (`parents/deck`), and empty for
+      social-dynamics; with `plugins/anki-mcp/.venv` temporarily renamed (and restored
+      immediately after), the CLI against `groves/spanish` printed
+      `REQUIRES_UNSATISFIED` with the provenance path and the `missing:` path line,
+      never reaching a compile fork — the fork claim is structurally true from
+      preflight placement rather than independently driven, since this session has no
+      way to run the LLM pipeline itself; a fabricated node declaring an unnamed
+      capability correctly returned `REQUIRES_UNKNOWN` and would block nothing; `grep`
+      over non-test `plugins/dafne` files confirms zero mentions of anki, `.mcp.json`,
+      or installation. One implementation deviation from the design's literal text:
+      `requirements_with_provenance` guards recursion with a per-path `ancestors` set
+      (frozenset, copied down each branch) instead of `effective_requires`'s global
+      `seen` set — a diamond's second branch to the same physical parent must still be
+      walked and recorded (two distinct declaring paths), which a global visited-set
+      would suppress. A new test asserts the two functions' name-sets still agree on
+      the diamond fixture, since that agreement is now load-bearing. One adjacent,
+      out-of-scope finding surfaced during golden-oracle verification: recompiling
+      `groves/spanish/rioplatense-anki.md` no longer matches
+      `golden/spanish.golden.md` (183-line diff) — confirmed pre-existing (identical
+      with this session's changes stashed out), unrelated to `DAFNE.md` edits (manifests
+      were never part of the include graph), and not caused by this bullet; the golden
+      snapshot itself is stale against real content drift and needs its own refresh,
+      tracked separately. Commits pending across `plugins/dafne`, the four grove repos,
+      and `master` (submodule pointer bumps, plus `.claude/settings.json` and the two
+      pipeline command files) — not yet pushed.
 - [ ] **Manifest injection at session start:** `plugins/dafne` ships a `SessionStart`
       hook (`hooks/hooks.json`) that reads `DAFNE.md` from cwd and returns it as
       `additionalContext` — confirmed viable in Phase 0, no grove-side files needed. The
