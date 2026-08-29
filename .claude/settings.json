@@ -41,7 +41,7 @@
       "mcp__anki__get_reviews_of_cards",
       "mcp__anki__get_latest_review_id",
       "mcp__anki__sync",
-      "Bash(python3 plugins/mneme/big-bank.py:*)",
+      "Bash(plugins/dafne/.venv/bin/python3 system/diotima/graduate-banks.py:*)",
       "Bash(python3 plugins/mneme/small-job-worker.py*)",
       "Bash(pwd)",
       "Bash(ls *)",
@@ -144,7 +144,7 @@
           },
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/plugins/mneme/small-bank.py --subscriptions \"$CLAUDE_PROJECT_DIR\"/groves/mem-bank-subscriptions.json"
+            "command": "plugins/dafne/.venv/bin/python3 \"$CLAUDE_PROJECT_DIR\"/system/diotima/invoke-mneme-on-groves.py"
           }
         ]
       }

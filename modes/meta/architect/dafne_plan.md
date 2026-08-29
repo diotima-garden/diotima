@@ -148,11 +148,37 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
 
 *The runtime discovers what groves declare — the D1(b) contract goes live.*
 
-- [ ] **Kill the last runtime→grove-interior path:** move each bank's declaration
+- [x] **Kill the last runtime→grove-interior path:** move each bank's declaration
       (`name`, `patterns`, `graduate`, `recurse-mem-enable: false` default) from
       `.claude/mem-bank/subscriptions.json` into the owning grove's `DAFNE.md` bank
       config. mem-bank machinery enumerates mounted groves and reads their manifests;
       `subscriptions.json` retains only runtime-side preferences, or dies.
+      → **Designed in `bank_discovery_wiring.md` (2026-08-29), executed and verified
+      2026-08-29.** `plugins/dafne/manifest.py` gained `discover_banks`/
+      `discover_grove_banks` (recursive, absolute `bank:` paths, opaque payload
+      passthrough) plus a `discover_banks.py` CLI, with 9 new fixtures (48/48 dafne
+      tests pass). `plugins/mneme` gained one optional `banks=` parameter on
+      `small-bank.py`'s `run_hook` and `big-bank.py`'s `main` — standalone CLI
+      behavior confirmed byte-identical when omitted. `system/diotima/bank_union.py`
+      is the one place the two vocabularies meet; `invoke-mneme-on-groves.py`
+      replaces the old session-end hook entry, and `graduate-banks.py` replaces the
+      `mem-bank-big-bank` skill's direct call — this second script fills a gap the
+      design doc's spec left open (it added `banks=` to `big-bank.py.main` but never
+      wrote a caller for it; without one, trimming `subscriptions.json` would have
+      silently stopped grove banks from ever graduating). `system/mem-bank-
+      subscriptions.json` now holds only `meta`/`world-adoption`; `groves/mem-bank-
+      subscriptions.json` is deleted. `groves/spanish/DAFNE.md` and `groves/social-
+      dynamics/DAFNE.md` had their placeholder-scaffold paragraphs removed. Verified
+      end-to-end against scratch fixtures (not production banks): a `graduate: true`
+      grove bank was proven to actually reach `big-bank`'s read step (discriminated
+      from a `graduate: false` sibling, which was correctly skipped before ever being
+      read) and a pattern-matching session-end transcript was proven to queue a job
+      with the bank path resolved from the grove's manifest — with `JOBS_DUMP_PATH`
+      and `spawn_worker` monkeypatched so no real job queue or LLM subprocess was
+      touched. Standalone `--subscriptions` invocation of both mneme scripts confirmed
+      unchanged. Commits pending across `plugins/dafne`, `plugins/mneme`,
+      `groves/spanish`, `groves/social-dynamics`, and `master` (submodule pointer
+      bumps) — not yet pushed.
 - [ ] **`requires:` refusal:** opening a grove whose effective (unioned) requires
       includes `anki` in a runtime without anki-mcp produces a plain, early message —
       not a deep pipeline failure. A grove requiring nothing is first-class.

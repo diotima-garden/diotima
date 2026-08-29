@@ -1,0 +1,16 @@
+{
+  "banks": [
+    {
+      "name": "meta",
+      "bank": "modes/meta/memory",
+      "patterns": [
+        "meta/.*/context\\.md",
+        "mneme/README\\.md"
+      ]
+    },
+    {
+      "name": "world-adoption",
+      "bank": "modes/world-adoption/memory"
+    }
+  ]
+}
