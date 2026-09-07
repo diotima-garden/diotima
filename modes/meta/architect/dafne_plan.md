@@ -260,6 +260,86 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
       Phase 4's layout cwd *is* the garden and its children *are* the groves, so the same
       call works unchanged. Executing this bullet edits `.claude/settings.json` and so
       requires a builder-mode entry.
+
+      → **User ruling, 2026-09-07 — the garden search path, and master stops mounting
+      groves.** Two decisions taken together:
+
+      **(a) `master` will never again mount groves as submodules.** The current
+      `groves/spanish` … mounts are transitional Phase-2 artifacts, not the end state.
+      Groves live in the garden directory; the orchestrator points at it and owns nothing
+      inside it. This retires the `groves/` hardcode in
+      `system/diotima/bank_union.py:30` and the hand-maintained grove table in
+      `CLAUDE.md` — the same class of win as this phase's first bullet killing
+      `subscriptions.json`'s paths into grove interiors: orchestrator-side knowledge of
+      grove interiors, replaced by a directory listing.
+
+      **(b) An env var names the garden.** `DIOTIMA_GARDEN`, defaulting to
+      `~/Documents/diotima-garden`. This is **not** the mechanism D0 rejected. D0's
+      dismissal of `DIOTIMA_GARDEN=/a/b/c` is scoped to the *binding* problem — "how does
+      the runtime find the grove I opened" — which stays dissolved by grove = cwd.
+      *Enumerating* a garden is a different problem, and Phase 4's picker bullet already
+      concedes it needs a location; it merely hardcodes `~/diotima-garden` instead of
+      making it configurable. The governing distinction: **a registry lists groves; a
+      search path lists a directory.** D0 killed the registry — a grove registering
+      itself, discovery flowing grove → runtime. A search path plus readdir keeps
+      discovery flowing runtime → grove, and no grove knows anything.
+
+      The user's sketch, preserved verbatim as authored:
+
+      ```
+      dir = DIOTIMA_GARDEN ?? ~/Documents/diotima-garden
+      if dir not exist - create
+
+      available_groves= for f in $(ls dir): str_concat(dir, f)
+
+      define function: is_a_grove(repo): return repo root has DAFNE.md & repo root has 'parents' dir
+
+      if available_groves empty:
+          print "no groves avail check out existing at https://github.com/diotima-garden"
+
+          gh or curl deterministic for each repo under https://github.com/diotima-garden
+              if is_a_grove(repo) print repo
+
+      else
+          print all avail groves
+      ```
+
+      **Author's amendments to the sketch, same day — these override it where they
+      differ:**
+
+      - **`is_a_grove(repo)` is `DAFNE.md` alone.** The `parents/` condition is dropped:
+        a root grove legitimately has none (`social-dynamics` is exactly this), and the
+        engine's own `discover_grove_banks` already filters on `DAFNE.md` alone.
+        Requiring `parents/` would have hidden every root grove.
+      - **Non-empty-garden enumeration is a bounded `find`**, not `ls`:
+
+        ```
+        find dir -maxdepth 1 or 2 -type f -name DAFNE.md
+        ```
+
+        yielding absolute manifest paths:
+
+        ```
+        /home/papa/Documents/diotima-garden/grove_a/DAFNE.md
+        /home/papa/Documents/diotima-garden/spanish/DAFNE.md
+        ...
+        /home/papa/Documents/diotima-garden/another_grove/DAFNE.md
+        ```
+
+        Note for the implementer: **the depth bound is load-bearing, not a performance
+        tweak.** Depth 1 matches only the garden's own `DAFNE.md`, if it has one; depth 2
+        matches each grove's. Vendored parents sit at depth 3 and deeper
+        (`spanish/parents/language/DAFNE.md`), so `-maxdepth 2` is exactly what keeps
+        inherited parents out of the grove list. An unbounded `find` would present every
+        vendored parent as a top-level grove.
+
+      Remaining open points, none blocking:
+      - The empty-garden branch reaches the network at session start. Fine as an
+        occasional first-run nudge; it should not run on every launch.
+      - This sketch is Phase 4's picker built early, in the only place it can live before
+        a `diotima` launcher exists. It does not retire this bullet's *other* branch —
+        cwd-is-a-grove → inject that grove's `DAFNE.md` — which becomes reachable again
+        once the launcher can drop a session directly into a grove directory.
 - [ ] **Assisted update (D4's second half):** a "tend parents" flow — fetch upstreams of
       everything under `parents/` (recursively), nudge on new commits, show the
       **compiled-output diff**, and on acceptance commit the new pin. Runtime-side, so
