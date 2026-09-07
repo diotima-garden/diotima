@@ -225,7 +225,7 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
       Committed and pushed across `plugins/dafne`, the four grove repos, and `master`
       (submodule pointer bumps, plus `.claude/settings.json` and the two pipeline
       command files, `39330e6`).
-- [ ] **Manifest injection at session start:** a `SessionStart` hook shipped by
+- [x] **Manifest injection at session start:** a `SessionStart` hook shipped by
       `plugins/dafne` (`hooks/hooks.json`) injects orientation as `additionalContext`.
       Two branches, per the 2026-09-07 rulings below: cwd is a grove → inject its
       `DAFNE.md`; otherwise → inject the garden's grove list. Only the second is
@@ -339,6 +339,76 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
         a `diotima` launcher exists. It does not retire this bullet's *other* branch —
         cwd-is-a-grove → inject that grove's `DAFNE.md` — which becomes reachable again
         once the launcher can drop a session directly into a grove directory.
+
+      → **Executed 2026-09-07, with a design reversal from the spike's "Consequence for
+      the design" above — the engine-shipped placement it recommended turned out to be
+      wrong, discovered empirically while implementing it.**
+
+      **Finding that forced the reversal:** `.claude/settings.json` project config
+      (permissions, hooks) loads only when a session's `cwd` is *exactly* that project's
+      root — confirmed via `-d hooks --debug-file`, which showed Claude Code checking for
+      `{cwd}/.claude/settings.json` with zero ancestor-walking. Launching from
+      `groves/spanish` (a subdirectory, submodule or not) never finds master's settings.
+      Two consequences, not one:
+      1. An engine-shipped hook (`plugins/dafne/hooks/hooks.json`, the spiked design) is
+         the only way to get a hook to fire when `cwd` is a grove — a project-owned hook
+         structurally cannot, no matter when Phase 4's launcher arrives. This was verified
+         both ways: the plugin-shipped hook *did* fire correctly from `groves/spanish`
+         before this bullet moved it; a `system/diotima/`-owned hook, tested the same way,
+         did not.
+      2. **This also means Phase 4's second bullet's literal text — "cwd has `DAFNE.md` →
+         launch the runtime there, `grove = project root`" — is not just undemonstrated,
+         it's wrong as written.** Making a grove the literal project root would silence
+         master's own `.claude/settings.json` for that session: every whitelisted
+         anki/dafne bash command, every existing hook, the whole permissions allowlist —
+         gone, because groves carry no `.claude/` of their own. See the corrected shape
+         below; Phase 4's bullet needs re-reading against it before anyone picks it up.
+
+      **Ruling, same day, in response to the finding:** grove discovery is orchestrator
+      policy (which garden, what's in it) — split it back to match the precedent bullets
+      1 and 2 already set (dafne stays a pure engine; `system/diotima/` wires it into
+      *this* orchestrator's hooks), and solve the cwd-exact-match constraint at the
+      launcher instead of the hook. Corrected shape:
+      - `bin/diotima` (pulled forward from Phase 4, see its own bullet below) always
+        launches with `cwd = master`, regardless of where it was invoked from — this is
+        what keeps settings/hooks/permissions loading reliably. It resolves one thing
+        before launch: `dir = <invocation cwd> if that cwd carries a DAFNE.md, else the
+        garden`. That `dir` is exported to the child `claude` process only, reusing the
+        `DIOTIMA_GARDEN` name — deliberate, not an accident: within that one process it
+        *is* the single directory the hook needs to look at, and the reuse never touches
+        the caller's own shell variable (env vars don't propagate from a child process
+        back to its parent shell, the same reason the `cd` itself needs no save/restore).
+      - `system/diotima/session-start.py`, wired into master's own `.claude/settings.json`
+        (a plain `"SessionStart"` entry, alongside the existing `"SessionEnd"` one) reads
+        only `$DIOTIMA_GARDEN` and collapses to one check: does that directory itself
+        carry a `DAFNE.md`? Yes → inject its manifest text (the grove case). No → treat it
+        as a garden and enumerate `DAFNE.md`-carrying children one level deep (the
+        original `is_a_grove`/bounded-`find` shape above, unchanged). Two branches, one
+        function, no `cwd`-reading in the hook at all — the launcher already resolved it.
+      - **No hardcoded default anywhere.** The `~/Documents/diotima-garden` default lives
+        in exactly one place, `system/diotima/config.json`'s `default_garden` key; both
+        `bin/diotima` (bash, via a `python3 -c` one-liner) and the hook's own
+        direct-invocation fallback read it from there. A missing/broken config file fails
+        loudly (no silent duplicate default anywhere to fall back to) rather than masking
+        a real misconfiguration.
+
+      **Verified end-to-end** through the actual launch path (the spike's own lesson
+      applied to this bullet too — "a plugin's behaviour can only be tested through a
+      launch path that actually loads it"), using the same codeword-injection technique:
+      a uniquely-named scratch grove (`plovendrix-3347`) was returned by a print-mode
+      session with no other source for it when `bin/diotima` was run from elsewhere with
+      `$DIOTIMA_GARDEN` pointed at it (garden branch); a second scratch grove
+      (`xanthoreum`) was returned, manifest text and all, when `bin/diotima` was run from
+      *inside* that directory (grove branch, cwd-exact-match constraint satisfied by the
+      launcher's own resolution, not by the hook).
+
+      Two implementation-detail lessons worth keeping for the next hook written here: the
+      `SessionStart` output contract is `{"hookSpecificOutput": {"hookEventName":
+      "SessionStart", "additionalContext": "<plain string>"}}` — `hookEventName` **is**
+      required despite one doc lookup claiming otherwise, and `additionalContext` is a
+      plain string for this event, not the array-of-`{type,text}` form some other events
+      use. Both were wrong on the first attempt and only caught via `-d hooks
+      --debug-file`'s validation error, not from documentation.
 - [ ] **Assisted update (D4's second half):** a "tend parents" flow — fetch upstreams of
       everything under `parents/` (recursively), nudge on new commits, show the
       **compiled-output diff**, and on acceptance commit the new pin. Runtime-side, so
@@ -348,10 +418,12 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
 missing-anki refusal is demonstrable; a session started in the orchestrator lists the
 garden's groves from the manifest hook alone, with the hand-maintained grove table gone
 from `CLAUDE.md`; a parent update lands via the tend flow end-to-end on one real grove.
-*(The earlier clause "opening a grove injects its `DAFNE.md`" was removed 2026-09-07: it
-described D0's grove-as-cwd topology, which the garden rulings defer to Phase 4. That
-branch of the hook still gets built — it simply is not demonstrable until a launcher can
-start a session inside a grove, so it cannot gate this phase.)
+*(The manifest-injection bullet is executed and both its branches demonstrated
+end-to-end via `bin/diotima`, per the note above. The phase is still not fully exited:
+`groves/*` submodules are still mounted in master, `CLAUDE.md`'s grove table and
+`system/diotima/bank_union.py:30`'s `groves/` hardcode are not yet retired — that unmount
+is explicitly deferred out of this session's scope, see the dependency-graph notes below
+— and the assisted-update bullet remains pre-design.)
 
 ---
 
@@ -437,7 +509,7 @@ Both are launch-time flags. That makes the launcher the single place where a ses
 acquires its capabilities, and it must therefore exist before Phase 3's hook can be
 demonstrated end-to-end.
 
-- [ ] **`bin/diotima` — the minimum launcher (approved 2026-09-07; do this first).** A
+- [x] **`bin/diotima` — the minimum launcher (approved 2026-09-07; do this first).** A
       committed script in the orchestrator repo that assembles the launch line: one
       `--plugin-dir` per `plugins/*/` carrying `.claude-plugin`, plus `--add-dir` for the
       garden (`$DIOTIMA_GARDEN`, defaulting to `~/Documents/diotima-garden`), then
@@ -452,15 +524,42 @@ demonstrated end-to-end.
         wrapping it for their own environment (credential injection, sandboxing) does so
         by calling `bin/diotima`, which needs no knowledge of that layer and must carry
         none.
-      Explicitly *not* in this slice: the cwd-is-a-grove branch, the picker, and the MRU
-      file. Those stay in the bullet below — this is its first, unblocking slice.
-- [ ] `diotima` launcher on PATH: if cwd (or an ancestor) has `DAFNE.md` → launch the
-      runtime there, grove = project root; else → show the picker.
-- [ ] Picker sources = union of dumb, disposable data: `readdir(~/diotima-garden)`
+      Explicitly *not* in this slice: the picker and the MRU file. Those stay in the
+      bullet below.
+      → **Executed 2026-09-07.** Grew one requirement beyond the bullet's original text,
+      forced by the cwd-exact-match finding recorded under Phase 3's manifest-injection
+      bullet: `bin/diotima` *does* now resolve whether the invocation `cwd` is a grove
+      (`cwd/DAFNE.md` exists, checked *before* any `cd`, no ancestor-walking — matching
+      `is_a_grove`), but **it does not launch the runtime there.** It always launches with
+      `cwd = master` regardless, since that's the only `cwd` Claude Code will load
+      master's `.claude/settings.json` from. What the cwd-is-a-grove check controls
+      instead is which single directory (that grove, or the garden) gets `--add-dir`-ed
+      and handed to the session via `$DIOTIMA_GARDEN` for the `SessionStart` hook to read
+      — see that bullet for the full mechanism and the reasoning for reusing the
+      `DIOTIMA_GARDEN` name. Net effect: this slice already **absorbs the next bullet's
+      cwd-detection half** under a corrected mechanism; only the picker and MRU remain
+      open below. The garden default (`~/Documents/diotima-garden`) is not hardcoded in
+      the script — it lives in `system/diotima/config.json`'s `default_garden` key, read
+      by both `bin/diotima` and the hook's own fallback, so there is exactly one place to
+      change it. Verified: cwd-independence (`pwd` before and after differ, confirmed via
+      a fake `claude` binary substituted on `PATH`), correct `--plugin-dir` enumeration
+      (`anki-mcp`, `dafne`; `mneme` correctly excluded, no `.claude-plugin`), and all three
+      `dir`-resolution branches (grove cwd; `$DIOTIMA_GARDEN` set; config-default
+      fallback, which also exercises "if dir not exist → create").
+- [ ] `diotima` launcher on PATH: ~~if cwd (or an ancestor) has `DAFNE.md` → launch the
+      runtime there, grove = project root~~ **this phrasing is wrong, corrected 2026-09-07
+      — see the cwd-exact-match finding under Phase 3's manifest-injection bullet.**
+      Literally making a grove the project root would silence master's own
+      `.claude/settings.json` for that session (permissions, hooks — groves carry no
+      `.claude/` of their own). `bin/diotima`'s minimum-launcher slice above already
+      implements the corrected version of this bullet's cwd-detection half (resolve, but
+      never `cd` the runtime into, a grove). What's left here, once picked up again, is
+      genuinely just: else → show the picker.
+- [ ] Picker sources = union of dumb, disposable data: `readdir($DIOTIMA_GARDEN)`
       filtered on `DAFNE.md` ∪ MRU recents file (`~/.local/state/diotima/recent`,
       appended on every grove open). No daemon, no registry, no grove-side
       registration — this keeps the simple-GUI door open.
-- [ ] Grove creation defaults to `~/diotima-garden/<name>` unless a path is given.
+- [ ] Grove creation defaults to `$DIOTIMA_GARDEN/<name>` unless a path is given.
 
 **Exit:** clone `spanish` to an arbitrary directory → `diotima` → the session plays it;
 it appears in the picker afterward; a fresh install with an empty garden leads with
@@ -505,13 +604,21 @@ runtime-side and stay cheap to revise. `grove_inheritance_decisions.md` has been
 renamed from `major_architectural_decision_to_be_made.md` — every question in it is
 now either ruled or executed.
 
-**Open as of 2026-09-07:** Phase 3's first two bullets (bank discovery, `requires:`
-refusal) are executed and pushed; Phase 3.5 (manual edit audit) is committed. What
-remains, in build order: **`bin/diotima`** (Phase 4's first slice, now unblocking),
-**`SessionStart` manifest injection** (Phase 3, bullet 3 — spiked, shape ruled, not yet
-written), the **assisted parent-update flow** (Phase 3, bullet 4 — still pre-design, the
-only remaining bullet with no design work done on it), then the rest of Phase 4 (picker,
-MRU, grove creation). Phase 5 stays trigger-gated by construction.
+**Open as of 2026-09-07 (updated same day):** Phase 3's first three bullets (bank
+discovery, `requires:` refusal, `SessionStart` manifest injection) are executed; Phase
+3.5 (manual edit audit) is committed; `bin/diotima` (Phase 4's first slice) is executed
+too, pulled forward and built first as planned. None of this session's `master`-side
+changes are pushed yet (`plugins/dafne` had no net changes — the hook it briefly carried
+was moved out — so nothing to push there either). What remains, in build order: the
+**assisted parent-update flow** (Phase 3, bullet 4 — still pre-design, the only remaining
+bullet with no design work done on it), then the rest of Phase 4 (picker, MRU, grove
+creation — the picker's cwd-detection half is already done, see that bullet's note).
+Phase 5 stays trigger-gated by construction.
+
+Also worth carrying forward: the cwd-exact-match finding (`.claude/settings.json` loads
+only when `cwd` is exactly a project's root, no ancestor-walking) is now load-bearing for
+any future orchestrator-owned hook or permission, not just this one — check it before
+assuming a hook "should just work" from a nested directory.
 
 Also outstanding from the garden rulings, and not yet checkboxed anywhere: unmounting the
 `groves/*` submodules from master and retiring the `groves/` hardcode in
