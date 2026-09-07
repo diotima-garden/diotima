@@ -32,7 +32,7 @@ generic deck node, a Spanish grove on the language grove, & so on. That inherita
 live in production now: `groves/spanish` → `parents/language` → `parents/deck`, each its own repo
 under `github.com/diotima-garden`, chained by git submodules and resolved automatically by
 [`plugins/dafne`](../../../../../plugins/dafne/README.md) (`DAFNE.md` is each node's manifest).
-`groves/spanish/context.md` is a worked example if you want to see it end to end.
+`groves/spanish/DAFNE.md` is a worked example if you want to see it end to end.
 
 ## The one goal
 

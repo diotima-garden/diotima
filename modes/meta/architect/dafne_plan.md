@@ -176,9 +176,9 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
       with the bank path resolved from the grove's manifest — with `JOBS_DUMP_PATH`
       and `spawn_worker` monkeypatched so no real job queue or LLM subprocess was
       touched. Standalone `--subscriptions` invocation of both mneme scripts confirmed
-      unchanged. Commits pending across `plugins/dafne`, `plugins/mneme`,
+      unchanged. Committed and pushed across `plugins/dafne`, `plugins/mneme`,
       `groves/spanish`, `groves/social-dynamics`, and `master` (submodule pointer
-      bumps) — not yet pushed.
+      bumps, `da0f805`).
 - [x] **`requires:` refusal:** opening a grove whose effective (unioned) requires
       includes `anki` in a runtime without anki-mcp produces a plain, early message —
       not a deep pipeline failure. A grove requiring nothing is first-class.
@@ -219,23 +219,113 @@ stays this file, not any grove's `DAFNE.md`, until Phase 3 runs.
       `golden/spanish.golden.md` (183-line diff) — confirmed pre-existing (identical
       with this session's changes stashed out), unrelated to `DAFNE.md` edits (manifests
       were never part of the include graph), and not caused by this bullet; the golden
-      snapshot itself is stale against real content drift and needs its own refresh,
-      tracked separately. Commits pending across `plugins/dafne`, the four grove repos,
-      and `master` (submodule pointer bumps, plus `.claude/settings.json` and the two
-      pipeline command files) — not yet pushed.
-- [ ] **Manifest injection at session start:** `plugins/dafne` ships a `SessionStart`
-      hook (`hooks/hooks.json`) that reads `DAFNE.md` from cwd and returns it as
-      `additionalContext` — confirmed viable in Phase 0, no grove-side files needed. The
-      Claude Code hook is the vendor-specific port; opencode gets its own when that
-      migration starts.
+      snapshot itself is stale against real content drift and needs its own refresh —
+      parked by an explicit 2026-08-29 call until the DAFNE migration finishes and
+      integration testing begins; no issue tracks it, this note is the record.
+      Committed and pushed across `plugins/dafne`, the four grove repos, and `master`
+      (submodule pointer bumps, plus `.claude/settings.json` and the two pipeline
+      command files, `39330e6`).
+- [ ] **Manifest injection at session start:** a `SessionStart` hook reads `DAFNE.md`
+      from cwd and returns it as `additionalContext`; no grove-side files. The Claude Code
+      hook is the vendor-specific port; opencode gets its own when that migration starts.
+      → **Spiked 2026-09-07, and the spike overturned this bullet's stated mechanism.**
+      Three results, all empirical (nested `claude -p` sessions, scratch fixtures):
+      (a) `SessionStart` fires — including in print mode — and its `additionalContext`
+      **provably reaches the model**: a codeword injected by the hook came back from a
+      session that had no other source for it. Phase 0 had only confirmed this from docs.
+      (b) `InstructionsLoaded`, which this project already runs with `session_start:`
+      context, does **not** accept `additionalContext` — the same codeword test returned
+      `NONE`. It is not an alternative injection path.
+      (c) **Plugin-root `hooks/hooks.json` does not merge.** A `UserPromptSubmit` hook
+      placed at `plugins/dafne/hooks/hooks.json` did not fire in a session where the
+      project's own `UserPromptSubmit` hook did — same event, same session, no confound.
+      dafne's *skills* are discovered from `plugins/dafne/skills/` (they surface as
+      `dafne:compile`), so skill discovery and hook loading are separate paths, and only
+      the first reaches an auto-discovered `plugins/` entry. A scratch plugin behaved the
+      same way, consistent but not independent (nothing proved it was discovered at all).
+      Untested and deliberately out of scope: whether a plugin installed through a
+      *marketplace* merges its hooks. That is a Phase 4 question.
+      **Consequence for the design:** the hook is declared in master's
+      `.claude/settings.json`, not shipped by the engine. The D0 payoff still holds —
+      groves stay free of vendor-specific files — but its corollary does not: **the
+      injection does not travel with dafne.** A standalone grove clone gets no hook. This
+      converts Phase 4's unowned prerequisite from "how is the runtime reachable" into the
+      sharper "the hook must be installed ambiently, by a mechanism not yet chosen."
+      **Shape:** two branches, no new concepts — cwd has `DAFNE.md` → inject it; else
+      readdir for children carrying `DAFNE.md` → inject a short index. The second branch
+      reuses `manifest.discover_grove_banks`'s existing readdir discipline ("which groves
+      exist is a directory listing, never configuration") and no env var: D0 killed
+      `DIOTIMA_GARDEN` by name. In master, cwd's children carry no manifest and the
+      orchestrator passes `groves/` explicitly (`system/diotima/bank_union.py:30`); in
+      Phase 4's layout cwd *is* the garden and its children *are* the groves, so the same
+      call works unchanged. Executing this bullet edits `.claude/settings.json` and so
+      requires a builder-mode entry.
 - [ ] **Assisted update (D4's second half):** a "tend parents" flow — fetch upstreams of
       everything under `parents/` (recursively), nudge on new commits, show the
       **compiled-output diff**, and on acceptance commit the new pin. Runtime-side, so
       it improves ambiently; no grove is touched by its existence.
 
 **Exit:** `subscriptions.json` contains no path into any grove's interior; a
-missing-anki refusal is demonstrable; a parent update lands via the tend flow end-to-end
-on one real grove.
+missing-anki refusal is demonstrable; opening a grove injects its `DAFNE.md` without any
+grove-side file saying so; a parent update lands via the tend flow end-to-end on one real
+grove.
+
+---
+
+## Phase 3.5 — Manual edit audit (context.md → DAFNE.md sweep)
+
+*Not a scripted execution phase like the others — a checkpoint. Between designing/
+executing Phase 3's bullets, edits (the `context.md` → `DAFNE.md` rename among them)
+were made by hand across master and several submodules, outside any checklist step.
+This quasi-phase closes the loop before Phase 4 starts: confirm the manual work is
+complete and consistent, then commit it everywhere. Added 2026-09-07; dirty state at
+the time this was written:* `.claude/commands/pipe/add-cards-to-grove.md`,
+`.claude/commands/pipe/tackle-feedback-on-grove.md`, `.claude/skills/onboard/SKILL.md`,
+`CLAUDE.md`, `README.md`, `modes/world-adoption/shared/cvut/SP1/project.md`, this plan
+file, and modified content in submodules `groves/english`, `groves/social-dynamics`,
+`groves/spanish`, `plugins/anki-mcp`.
+
+- [x] **Recursive status check:** confirmed the dirty set was exactly as recorded above;
+      `groves/instruments`, `plugins/dafne`, `plugins/mneme`, `.claude/utils` were all
+      clean — nothing missed the top-level `m` marker.
+- [x] **Rename completeness:** repo-wide grep for `context.md` returned only legit
+      survivors — mode-level `context.md` (`modes/meta/builder/context.md`,
+      `architect/context.md`, `world-adoption/context.md`), mem-bank entry-point files
+      (`reading-log/context.md`, `memory/context.md`), a pre-DAFNE debug hook
+      (`.claude/hooks/debug/notify-context-read.py`, predates groves entirely — 2026-04-28),
+      and historical mentions of the deleted `dafne_simulation/context.md`. No missed
+      renames found.
+- [x] **Diff review per dirty repo:** all four submodule diffs were read in full.
+      `groves/spanish` and `groves/social-dynamics`: each grove's old top-level
+      `context.md` body was moved verbatim into `DAFNE.md` (content byte-matched against
+      `git show HEAD:context.md`), then the redundant file deleted — a clean
+      context.md→DAFNE.md *merge*, not just a rename. `plugins/anki-mcp/README.md`: the
+      feedback-pipeline caption was de-named from `context.md` to generic "context
+      file" rather than renamed to `DAFNE.md` — confirmed deliberate and correct, since
+      the screenshot it captions (`assets/feedback-01-invoke.png`) shows a stale
+      pre-Phase-1/2 state (`groves/languages/spanish/context.md`, the old
+      `context-compiler` skill) that predates this migration; naming `DAFNE.md` there
+      would trade one stale claim for another, and the screenshot's own staleness is a
+      separate, out-of-scope issue. `groves/english/english.md`: a real anomaly —
+      content unrelated to the rename (the Input Format code block and the Cloze Logic
+      MULTI-CLOZE bullet) had been deleted by hand, left as a dangling empty heading.
+      Surfaced to the user rather than assumed: confirmed intentional (the rigid
+      `Text | Book Title | Chapter/Location` format was tedious for day-to-day pasting)
+      and kept as-authored, committed separately (`4767dd8`) from the rename work.
+- [x] **Cross-check against this plan's own text:** grepped this file itself — the only
+      `context.md` mentions left are historical (`dafne_simulation/context.md`,
+      pre-deletion) and this phase's own text; nothing stale.
+- [x] **Commit sweep:** four submodules committed and pushed —
+      `groves/english` (`4767dd8`, the Input Format/Cloze Logic edit, unrelated to the
+      rename), `groves/spanish` (`90902d9`), `groves/social-dynamics` (`441b92e`,
+      also fixes a stale `context.md` mention in `improvement-plan.md`), `plugins/anki-mcp`
+      (`d905d87`). Master committed with the resulting pointer bumps plus its own direct
+      edits.
+
+**Exit:** no dirty submodules and no unexplained untracked files remain anywhere in the
+tree; a repo-wide `context.md` grep returns only deliberate non-grove-infra hits; every
+touched repo (master + each submodule) has a commit; master's submodule pointers match
+what was actually pushed. **Phase 3.5 complete (2026-09-07).**
 
 ---
 
@@ -275,7 +365,7 @@ Building any of these before its trigger is designing from zero instances.
 ## Dependency graph
 
 ```
-Phase 0 ──> Phase 1 ──> Phase 2 ──> Phase 3 ──> Phase 4
+Phase 0 ──> Phase 1 ──> Phase 2 ──> Phase 3 ──> Phase 3.5 ──> Phase 4
 ```
 
 Phases 0–2 are complete (2026-08-15). No open spike remains blocking any later phase.
@@ -283,7 +373,21 @@ Phases 0–2 are complete (2026-08-15). No open spike remains blocking any later
 Phases 1–2 were the irreversible core (published-format discipline); 3–4 are
 runtime-side and stay cheap to revise. `grove_inheritance_decisions.md` has been
 renamed from `major_architectural_decision_to_be_made.md` — every question in it is
-now either ruled or executed. Phase 3 (runtime wiring: `subscriptions.json` →
-`DAFNE.md` bank config, `requires:` refusal, `SessionStart` manifest injection,
-assisted-update flow) and Phase 4 (launch UX) remain, deliberately deferred — not
-part of this session's scope.
+now either ruled or executed.
+
+**Open as of 2026-08-29:** Phase 3's first two bullets (bank discovery, `requires:`
+refusal) are executed and pushed. Its last two — `SessionStart` manifest injection and
+the assisted parent-update flow — remain, neither yet designed; the first two each got a
+design doc before execution, and these two sit at that same pre-design stage. All of
+Phase 4 (launch UX) remains. Phase 5 stays trigger-gated by construction. **Phase 3.5
+(manual edit audit) executed and committed 2026-09-07** — the SessionStart bullet's spike
+findings above and one hand-made edit to `groves/english/english.md` (unrelated to the
+rename, kept as-authored) were the only substantive content this closed out; the rest of
+the dirty state was the mechanical rename itself. Phase 4 is next.
+
+Two items are carried in prose above rather than as checkboxes, and neither blocks a
+phase exit: `groves/managed-models.json` still sits in `groves/` instead of moving to the
+anki-mcp side (deferred out of Phase 2), and the `golden/` snapshot is stale against real
+grove content — see the note under Phase 3's `requires:` bullet. The golden refresh is
+deliberately parked until DAFNE migration finishes and integration tests start, since
+that is when the oracle is next load-bearing.

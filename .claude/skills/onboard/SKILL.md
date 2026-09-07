@@ -119,7 +119,7 @@ machinery; they ask, and it acts.
 Then walk them to a first success, shaped by what they said they came to learn:
 
 - Show the decks found in the smoke test (reuse that result — don't re-call).
-- Open `groves/spanish/context.md` together as the worked example of a
+- Open `groves/spanish/DAFNE.md` together as the worked example of a
   *grove* — a per-domain spec the generator obeys, now its own DAFNE node repo
   (`groves/spanish/DAFNE.md`) mounted as a submodule.
 - If their goal is a language: offer to scaffold a grove for it as a sibling repo

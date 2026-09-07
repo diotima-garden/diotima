@@ -13,10 +13,10 @@ The longer-term direction is a generalized **learning conductor** — an interfa
 | Where | What |
 |---|---|
 | `groves/` | Knowledge isles — one subdirectory per area (a *grove*). Each grove holds that area's knowledge specification and, where applicable, maps to an Anki deck. This is where all area-specific knowledge lives. |
-| `groves/spanish/context.md` | Spanish grove — directory overview and file index |
-| `groves/english/english.md` | English grove — card types, domain tags |
-| `groves/instruments/instruments.md` | Instruments grove — visual identification, image handling, IPA |
-| `groves/social-dynamics/context.md` | Social dynamics grove — frame-control drills under social pressure (text-only simulator, no Anki) |
+| `groves/spanish/DAFNE.md` | Spanish grove — directory overview and file index |
+| `groves/english/DAFNE.md` | English grove — card types, domain tags |
+| `groves/instruments/DAFNE.md` | Instruments grove — visual identification, image handling, IPA |
+| `groves/social-dynamics/DAFNE.md` | Social dynamics grove — frame-control drills under social pressure (text-only simulator, no Anki) |
 | `modes/meta/builder/context.md` | Builder mode — read before creating or modifying files outside of user areas |
 | `modes/meta/architect/context.md` | Architect mode — read before any structural or design decisions |
 | `modes/world-adoption/context.md` | World adoption mode — strategy, outreach, and go-to-market thinking |

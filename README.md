@@ -131,7 +131,7 @@ architecture around it:
   first-class, versioned artifacts, so the system's own construction is legible and safe
   to evolve.
 
-Start with `CLAUDE.md` for the full map, or `groves/spanish/context.md` for a
+Start with `CLAUDE.md` for the full map, or `groves/spanish/DAFNE.md` for a
 worked example of a domain.
 
 ---

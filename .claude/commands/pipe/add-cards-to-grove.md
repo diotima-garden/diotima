@@ -13,8 +13,8 @@ Usage: `/pipe:add-cards-to-grove <grove-dir> [input]`
   spawned — rather than dying deep at the first mcp__anki__ call.
   `REQUIRES_UNSATISFIED` → stop and report. `REQUIRES_UNKNOWN` or `REQUIRES_SATISFIED` → proceed.
 
-- read `<grove-dir>/context.md` [mandatory] — identify the deck config file and derive `<backupDir>` = `<grove-dir>/backups`
-  Why: deck config filename may not match the deck directory name; context.md is the authoritative index
+- read `<grove-dir>/DAFNE.md` [mandatory] — identify the deck config file and derive `<backupDir>` = `<grove-dir>/backups`
+  Why: deck config filename may not match the deck directory name; DAFNE.md is the authoritative index
 
 - skill: compile-context `<resolved anki deck config file>` [mandatory] — fire as background fork
   Why: no dependency on sync or deck name resolution
