@@ -38,21 +38,11 @@ swallowed and no context is injected, mirroring invoke-mneme-on-groves.py's
 degrade-gracefully posture for hooks.
 """
 import json
-import os
 import sys
 from pathlib import Path
 
-_CONFIG_PATH = Path(__file__).resolve().parent / "config.json"
-
-
-def default_garden() -> Path:
-    config = json.loads(_CONFIG_PATH.read_text())
-    return Path(config["default_garden"]).expanduser()
-
-
-def resolve_dir() -> Path:
-    raw = os.environ.get("DIOTIMA_GARDEN")
-    return Path(raw).expanduser() if raw else default_garden()
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from garden import resolve_subject  # noqa: E402
 
 
 def emit(text: str) -> None:
@@ -96,7 +86,7 @@ def garden_listing(garden: Path) -> str:
 
 def main() -> int:
     try:
-        emit(context_for(resolve_dir()))
+        emit(context_for(resolve_subject()))
     except Exception:
         pass
     return 0

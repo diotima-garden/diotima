@@ -29,10 +29,12 @@ Building or adopting a grove is how the system grows.
 The part I most want a real implementation to *showcase*: a grove is meant to be **trivially
 shareable**, & a new grove is meant to **inherit an existing one** — a language grove built on a
 generic deck node, a Spanish grove on the language grove, & so on. That inheritance structure is
-live in production now: `groves/spanish` → `parents/language` → `parents/deck`, each its own repo
+live in production now: `spanish` → `parents/language` → `parents/deck`, each its own repo
 under `github.com/diotima-garden`, chained by git submodules and resolved automatically by
 [`plugins/dafne`](../../../../../plugins/dafne/README.md) (`DAFNE.md` is each node's manifest).
-`groves/spanish/DAFNE.md` is a worked example if you want to see it end to end.
+Groves aren't mounted inside the runtime repo — they're cloned into a garden directory the runtime
+points at (`bin/diotima`). [`diotima-garden/spanish`](https://github.com/diotima-garden/spanish)'s
+`DAFNE.md` is a worked example if you want to see it end to end.
 
 ## The one goal
 

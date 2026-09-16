@@ -10,15 +10,3 @@
 [submodule "plugins/dafne"]
 	path = plugins/dafne
 	url = https://github.com/diotima-garden/dafne.git
-[submodule "groves/spanish"]
-	path = groves/spanish
-	url = https://github.com/diotima-garden/spanish.git
-[submodule "groves/english"]
-	path = groves/english
-	url = https://github.com/diotima-garden/english.git
-[submodule "groves/instruments"]
-	path = groves/instruments
-	url = https://github.com/diotima-garden/instruments.git
-[submodule "groves/social-dynamics"]
-	path = groves/social-dynamics
-	url = https://github.com/diotima-garden/social-dynamics.git

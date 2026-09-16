@@ -120,7 +120,7 @@ hecho un limón* on card 4, and the etymology landed in a collapsible
 Basic "LLM makes Anki cards" is a solved, crowded space. What's different here is the
 architecture around it:
 
-- **Context garden** — each domain is a declarative spec (`groves/…`), compiled into the
+- **Context garden** — each domain is a declarative spec (a *grove*), compiled into the
   generation context. Rules live as data, not as prompts you retype.
 - **One conductor across domains** — languages, instruments, and anything you add next
   reuse the same orchestration layer instead of each getting a bespoke script.
@@ -131,8 +131,9 @@ architecture around it:
   first-class, versioned artifacts, so the system's own construction is legible and safe
   to evolve.
 
-Start with `CLAUDE.md` for the full map, or `groves/spanish/DAFNE.md` for a
-worked example of a domain.
+Start with `CLAUDE.md` for the full map, or clone
+[`diotima-garden/spanish`](https://github.com/diotima-garden/spanish) into your garden
+for a worked example of a domain.
 
 ---
 
@@ -160,13 +161,14 @@ learn, in one sentence. The full trajectory — grove format, inheritance and co
 distribution — lives in
 [`modes/meta/architect/product-vision.md`](modes/meta/architect/product-vision.md).
 
-### Currently in progress: monolith groves → DAFNE
+### DAFNE: independent groves, composed by inheritance
 
-Today's `groves/` is a monolith — every domain lives inside this one repo. That's
-changing: groves are becoming independent repositories, composed via explicit
-multi-parent inheritance rather than living in one shared tree. The engine behind this
-is **DAFNE** (*Directory Architecture for Fractal Nested Ecosystems*). The architectural decisions are
-closed; the execution plan is
+Groves are independent repositories — each with its own `DAFNE.md` manifest, composed
+via explicit multi-parent inheritance rather than living in one shared tree — cloned
+into a garden directory (`$DIOTIMA_GARDEN`, `~/Documents/diotima-garden` by default) and
+opened via the `bin/diotima` launcher. The engine behind this is **DAFNE** (*Directory
+Architecture for Fractal Nested Ecosystems*). The architectural decisions are closed;
+the execution plan is
 [`modes/meta/architect/dafne_plan.md`](modes/meta/architect/dafne_plan.md).
 
 ### Licensing: open runtime, sovereign groves

@@ -2,10 +2,19 @@
 Bank union — the one place dafne and mneme's vocabularies meet.
 
 Unions the orchestrator's own banks (system/mem-bank-subscriptions.json —
-for banks with no owning grove, e.g. meta, world-adoption) with every
-mounted grove's declared banks, discovered by walking the tree with dafne.
+for banks with no owning grove, e.g. meta, world-adoption) with the
+session's grove bank(s), discovered by walking the tree with dafne.
 Neither dafne nor mneme learns the other exists; see
 modes/meta/architect/bank_discovery_wiring.md for the full design.
+
+Groves live outside the tree (garden ruling (a), dafne_plan.md Phase 3) —
+grove_banks() resolves the same `$DIOTIMA_GARDEN` "subject" session-start.py
+injects from: a single grove's banks when the session was launched from
+inside one, else every grove's banks under the garden. This mirrors the
+SessionStart hook's own scoping deliberately — session-end capture and
+graduation are about whatever the session's subject was, not "every grove
+that happens to exist," per the 2026-09-07 ruling recorded in
+dafne_plan.md.
 """
 import importlib.util
 import json
@@ -23,11 +32,16 @@ def own_banks(project_dir: Path) -> list[dict]:
 
 
 def grove_banks(project_dir: Path) -> list[dict]:
-    dafne_dir = Path(project_dir) / "plugins" / "dafne"
-    sys.path.insert(0, str(dafne_dir))
-    from manifest import discover_grove_banks
+    sys.path.insert(0, str(Path(project_dir) / "plugins" / "dafne"))
+    from manifest import discover_banks, discover_grove_banks
 
-    return discover_grove_banks(Path(project_dir) / "groves")
+    sys.path.insert(0, str(Path(project_dir) / "system" / "diotima"))
+    from garden import resolve_subject, is_grove
+
+    subject = resolve_subject()
+    if is_grove(subject):
+        return discover_banks(subject)
+    return discover_grove_banks(subject)
 
 
 def unioned_banks(project_dir: Path) -> list[dict]:

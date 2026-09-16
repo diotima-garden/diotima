@@ -3,7 +3,7 @@
     "anki": {
       "type": "stdio",
       "command": "plugins/anki-mcp/.venv/bin/python3",
-      "args": ["plugins/anki-mcp/server.py", "--managed-config", "groves/managed-models.json"]
+      "args": ["plugins/anki-mcp/server.py", "--managed-config", "system/managed-models.json"]
     }
   }
 }

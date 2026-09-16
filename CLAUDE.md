@@ -12,11 +12,7 @@ The longer-term direction is a generalized **learning conductor** — an interfa
 
 | Where | What |
 |---|---|
-| `groves/` | Knowledge isles — one subdirectory per area (a *grove*). Each grove holds that area's knowledge specification and, where applicable, maps to an Anki deck. This is where all area-specific knowledge lives. |
-| `groves/spanish/DAFNE.md` | Spanish grove — directory overview and file index |
-| `groves/english/DAFNE.md` | English grove — card types, domain tags |
-| `groves/instruments/DAFNE.md` | Instruments grove — visual identification, image handling, IPA |
-| `groves/social-dynamics/DAFNE.md` | Social dynamics grove — frame-control drills under social pressure (text-only simulator, no Anki) |
+| ${DIOTIMA_GARDEN}/ | Knowledge isles — one directory per area (a *grove*), each an independent repo with its own `DAFNE.md`. Not mounted in this repo — launch via `bin/diotima` and the `SessionStart` hook lists what's in the garden with full paths, or open a grove directly to get its own manifest. This is where all area-specific knowledge lives. |
 | `modes/meta/builder/context.md` | Builder mode — read before creating or modifying files outside of user areas |
 | `modes/meta/architect/context.md` | Architect mode — read before any structural or design decisions |
 | `modes/world-adoption/context.md` | World adoption mode — strategy, outreach, and go-to-market thinking |

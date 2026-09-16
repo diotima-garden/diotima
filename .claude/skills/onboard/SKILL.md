@@ -119,13 +119,13 @@ machinery; they ask, and it acts.
 Then walk them to a first success, shaped by what they said they came to learn:
 
 - Show the decks found in the smoke test (reuse that result — don't re-call).
-- Open `groves/spanish/DAFNE.md` together as the worked example of a
-  *grove* — a per-domain spec the generator obeys, now its own DAFNE node repo
-  (`groves/spanish/DAFNE.md`) mounted as a submodule.
+- Open the spanish grove's `DAFNE.md` together (clone `diotima-garden/spanish` into
+  `$DIOTIMA_GARDEN` if it's not there yet) as the worked example of a *grove* — a
+  per-domain spec the generator obeys, its own DAFNE node repo.
 - If their goal is a language: offer to scaffold a grove for it as a sibling repo
   with `parents/language` as a submodule, inheriting `language-defaults.md` the way
   Spanish and English do. Otherwise: model the structure on the Spanish grove and
-  `groves/instruments/` (parented on `deck` directly, no language tier).
+  the instruments grove (parented on `deck` directly, no language tier).
 - With a grove in hand (theirs or an existing one), invite their first real input and
   run `/pipe:add-cards-to-grove <grove-dir> <input>` — backup, generation, and the
   approval gate will introduce themselves.
