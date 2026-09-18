@@ -45,6 +45,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from garden import groves_in, resolve_subject  # noqa: E402
+from orient import format_orientation, orientation_for  # noqa: E402
 
 
 def emit(text: str) -> None:
@@ -59,10 +60,18 @@ def emit(text: str) -> None:
 def context_for(dir_path: Path) -> str:
     manifest_path = dir_path / "DAFNE.md"
     if manifest_path.exists():
-        return (
-            f"You are in grove `{dir_path.name}` ({dir_path}). Its manifest (DAFNE.md):\n\n"
-            + manifest_path.read_text()
-        )
+        # Bank/git enrichment is best-effort: a manifest is always
+        # injectable on its own, and a failure gathering the rest (a
+        # malformed bank entry, a git call throwing) must not regress
+        # that -- fall back to manifest-only rather than losing
+        # injection entirely.
+        try:
+            return format_orientation(orientation_for(dir_path), dir_path)
+        except Exception:
+            return (
+                f"You are in grove `{dir_path.name}` ({dir_path}). Its manifest (DAFNE.md):\n\n"
+                + manifest_path.read_text()
+            )
     return garden_listing(dir_path)
 
 

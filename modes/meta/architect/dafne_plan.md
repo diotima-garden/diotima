@@ -182,6 +182,61 @@ in the same order as these bullets.*
       checking it off with the consumer flow would make the plan lie about that.
       **Un-defer trigger:** the first parent you do not own publishing an improvement you
       want.
+- [x] **Session orientation completeness — bank content + grove git state; mid-session
+      grove-switch parity.** Bullet 3's manifest injection stops at the raw `DAFNE.md`
+      text: a grove's own populated mem-bank content and its own repo's git state never
+      reach the session automatically, and opening a grove from a multi-grove/garden
+      session has no equivalent to the single-grove hook path at all — both are
+      prose-navigation gaps, not gaps in what dafne/mneme already resolve. Does not
+      reopen bullet 3, which is checked off and executed exactly as scoped.
+      → Designed in `grove_orientation.md`. Resolves `diotima-garden/diotima#25`
+      (semantic-vs-mechanical small-bank read), which was already filed against this
+      exact question and named the same two blockers this design addresses:
+      `diotima-garden/diotima#24` (per-bank `context.md` is a hand-copied, drifting
+      duplicate — stopgapped here with one added sentence per copy, pending #24's
+      centralization) and `diotima-garden/mneme#8` (the trigger layer is
+      regex-over-raw-text, which is the verified reason both production grove banks
+      have never captured anything — not fixed here, but no longer mistaken for a
+      per-grove pattern-tuning problem).
+      → **Built 2026-09-18** (`orient.py`, wired into `session-start.py`, CLI
+      whitelisted; 6 new tests in `system/diotima/tests/test_orient.py`, all passing
+      alongside the existing 21 — one test loads `session-start.py`'s `context_for()`
+      by file path and asserts it byte-matches `orient.py`'s CLI stdout, so the
+      parity claim is machine-checked, not eyeballed). Also verified by direct
+      invocation against the live social-dynamics grove, and against the CLI run
+      under plain `python3` (the interpreter it's whitelisted under) with a seeded
+      populated bank in a throwaway grove, confirming bank discovery actually works
+      under that interpreter and not just when accidentally run under the dafne venv.
+      **Live-verified 2026-09-18** in two real `bin/diotima`-launched sessions (not
+      this one): a garden-mode session (launched from `~`) ran the `orient.py` CLI
+      against social-dynamics and got manifest + "none captured yet" + this grove's
+      own dirty-tree status; a single-grove session (launched from inside
+      social-dynamics) had that exact block injected by its `SessionStart` hook, and
+      its "let's continue our work" reply talked only about the grove's own state
+      (branch, uncommitted changes, empty bank, dating-frame drill) — the original
+      motivating bug from `grove_orientation.md`'s opening paragraph does not
+      reproduce. Both sessions wrote their findings to `/tmp/diotima-verify-garden.txt`
+      / `/tmp/diotima-verify-grove.txt`; the two sessions' self-reported verdicts were
+      independently confirmed here with a literal `diff` of the two blocks (exit 0,
+      byte-identical), not just eyeballed. Checking this bullet off. One scope note: the
+      `context.md` stopgap sentence reaches 3 of 4 copies (meta, world-adoption,
+      social-dynamics already had it going into this session) — spanish's
+      `reading-log/context.md` is a separate repo not reachable from this session's
+      grove boundary, left as a follow-up.
+      **Portability risk found, not in the original design:** `discover_banks()`
+      needs `plugins/dafne/.venv`'s `pyyaml`, but `session-start.py` (like
+      `grove_sync.py`) must keep running under plain `python3` for fresh-clone
+      compatibility per `python-venvs.md`. `orient.py` degrades to "no banks
+      discovered" (identical to the already-designed empty-bank case) when that
+      import fails, rather than crashing the hook — untested on a machine that
+      actually lacks system `yaml`, since this dev machine happens to have it.
+      **Second finding, raised by the user reviewing this build:** hook-injected
+      bank content leaves no transcript trace the mem-bank capture trigger can match
+      (`crawler.py`'s pattern scan never sees `SessionStart`'s `additionalContext`) —
+      doesn't regress real grove usage (that path was already dead, per the bullet's
+      own `mneme#8` reference above) but does remove the one accidental path an
+      investigative session had. See `grove_orientation.md`'s "consequence found
+      during the build" section and its "Doors held open" table.
 
 **Exit:** `subscriptions.json` contains no path into any grove's interior; a
 missing-anki refusal is demonstrable; a session started in the orchestrator lists the

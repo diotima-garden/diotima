@@ -44,6 +44,7 @@
       "Bash(plugins/dafne/.venv/bin/python3 system/diotima/graduate-banks.py:*)",
       "Bash(plugins/dafne/.venv/bin/python3 system/diotima/check-requires.py:*)",
       "Bash(python3 plugins/mneme/small-job-worker.py*)",
+      "Bash(python3 system/diotima/orient.py:*)",
       "Bash(pwd)",
       "Bash(ls *)",
       "Bash(date *)",
