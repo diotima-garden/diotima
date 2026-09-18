@@ -170,6 +170,18 @@ in the same order as these bullets.*
       everything under `parents/` (recursively), nudge on new commits, show the
       **compiled-output diff**, and on acceptance commit the new pin. Runtime-side, so
       it improves ambiently; no grove is touched by its existence.
+      → Designed in `assisted_parent_update.md`, then **deferred the same day
+      (2026-09-16, user ruling) — do not build.** The design session surfaced that D4
+      was written from the grove *author's* seat and hid a split: the **author** flow
+      (re-pin a parent, compiled diff, commit — this bullet) has **zero** real
+      instances, because no cross-owner parent/child pair exists; re-pinning your own
+      parents is two git commands in a session. The **consumer** flow (a cloned grove
+      fast-forwards to its author's published state) is the one every adopter needs, and
+      it needs none of this bullet's machinery — it moves to Phase 4 as its own item.
+      This bullet stays **open, unchecked**: D4's second half is genuinely not done, and
+      checking it off with the consumer flow would make the plan lie about that.
+      **Un-defer trigger:** the first parent you do not own publishing an improvement you
+      want.
 
 **Exit:** `subscriptions.json` contains no path into any grove's interior; a
 missing-anki refusal is demonstrable; a session started in the orchestrator lists the
@@ -266,10 +278,55 @@ demonstrated end-to-end.
       appended on every grove open). No daemon, no registry, no grove-side
       registration — this keeps the simple-GUI door open.
 - [ ] Grove creation defaults to `$DIOTIMA_GARDEN/<name>` unless a path is given.
+- [x] **Grove sync — the consumer propagation flow (added 2026-09-16, reshaped by user
+      ruling 2026-09-18; executed 2026-09-18).** The flow every adopter needs, and the one Phase 3 bullet 4
+      was mistakenly carrying: a cloned grove fast-forwards to what its author published.
+      *"Most users will only ever need a recursive git pull; they will never change a
+      grove."* **Ruling: pull automatically at launch when the grove is on its default
+      branch with no tracked file edited** — exactly the conditions under which a
+      fast-forward cannot conflict, lose work, or create a merge commit, so there is
+      nothing to ask about. This replaces an earlier report-and-let-the-model-pull
+      sketch, which had a real defect: injected "spanish is 3 commits behind" text reads
+      to an LLM as a task and gets acted on unprompted.
+      → Designed in `grove_sync.md`. The load-bearing decisions: a standalone
+      `system/diotima/grove_sync.py` (orchestrator, not dafne) exposing **three
+      separately callable operations** — `fetch` (network, launcher-only), `status`
+      (local reads, hook-safe), `sync` (mutation) — which is what lets the
+      launcher-vs-hook question be deferred rather than frozen, since it resolves
+      differently per operation; scope comes from `garden.py`'s existing
+      `resolve_subject()`/`is_grove()`, making this its **third** consumer with no env
+      var or config of its own; and `pull --ff-only` + `submodule update --init
+      --recursive` is **one indivisible unit** (pulling alone leaves a bumped parent pin
+      looking like a dirty tree, which trips this flow's own precondition and silently
+      disables it forever).
+
+      **Why this needs no write-permission machinery.** Every generated artifact is
+      already gitignored inside the groves (`*.compiled.md`, `*.preprocessed.md`,
+      `*.md.feedback.jsonl`, `small-bank.md`, `*.apkg` — verified in
+      `diotima-garden/spanish/.gitignore`), so a regular user's session dirties nothing
+      *tracked*. Staleness after a pull is already handled: pull stamps source mtimes to
+      now, and `compiled-is-fresh.py` reports STALE on exactly that. **Git's
+      tracked/untracked line is therefore the consumer/author boundary, drawn for free**
+      — you become an author by making a tracked change, and git tells you by refusing
+      the fast-forward. No `$DIOTIMA_GARDEN` write ban (it would break state-in-grove, a
+      Phase 2 ruling — mem-bank, backups and feedback logs live in the grove by design),
+      and no persona flag to declare up front.
+      → **Executed 2026-09-18.** `system/diotima/grove_sync.py` as designed (three
+      separately-callable operations, scope from `garden.py` alone, `should_sync()` as a
+      git-free predicate), `groves_in()` added to `garden.py` and adopted by
+      `session-start.py`, tunables in `config.json`, one throttled call from
+      `bin/diotima` before `exec claude`, and a new `system/diotima/tests/` — 20 tests
+      including the mandatory submodule-pin regression. Four design corrections were
+      forced during the build (the commands table's `git pull --ff-only` had to become
+      `git merge --ff-only @{u}`; `bin/diotima` never actually exported
+      `DIOTIMA_GARDEN`; fetches had to go concurrent to hold the no-hang criterion;
+      `skip_reason` had to test the branch before the upstream) — each is amended into
+      `grove_sync.md` and narrated in `dafne-plan-details/phase-4.md`.
 
 **Exit:** clone `spanish` to an arbitrary directory → `diotima` → the session plays it;
 it appears in the picker afterward; a fresh install with an empty garden leads with
-"plant your first grove."
+"plant your first grove"; and a clone left untouched while its author publishes catches
+up on the next launch with no prompt, submodules aligned (`grove_sync.md`'s criteria).
 
 ---
 
@@ -322,11 +379,21 @@ mid-execution decision (per-grove vs. whole-garden bank scoping) put to the user
 than assumed, and a later same-day amendment reversing the `managed-models.json`
 placement that session had landed on (it moved again, to `system/managed-models.json` —
 see that file's amendment note for the reasoning). None of this session's `master`-side
-changes are pushed yet. What remains, in build order: the **assisted parent-update flow**
-(Phase 3, bullet 4 — still pre-design, the only remaining Phase 3 bullet with no design
-work done on it), then the rest of Phase 4 (picker, MRU, grove creation — the picker's
-cwd-detection half is already done, see that bullet's note). Phase 5 stays trigger-gated
-by construction.
+changes are pushed yet [pushed as of `9bdd0b4`, 2026-09-16]. What remains, in build
+order: **grove sync** (Phase 4 — the flow every adopter needs, and the cheapest
+remaining item: `system/diotima/grove_sync.py` plus a throttled call to it from
+`bin/diotima`; designed in `grove_sync.md`), then the rest of Phase 4 (picker, MRU, grove creation — the picker's cwd-detection half is already done,
+see that bullet's note). **Phase 3's bullet 4 is designed but deliberately not being
+built** (`assisted_parent_update.md`, deferred 2026-09-16 with a stated un-defer
+trigger) — it is the *author* half of propagation, and it has zero real instances until
+a parent someone else owns publishes something you want. Phase 5 stays trigger-gated by
+construction.
+
+**The 2026-09-16 scope ruling, stated once so it isn't re-litigated:** propagation has
+two flows, not one. D4 designed the author's (re-pin, diff, commit); every actual
+adopter needs the consumer's (fast-forward to what the author published). They share a
+motivation and almost no machinery. Build the consumer's; keep the author's on the
+shelf, fully designed, until it has an instance.
 
 Also worth carrying forward: the cwd-exact-match finding (`.claude/settings.json` loads
 only when `cwd` is exactly a project's root, no ancestor-walking) is now load-bearing for

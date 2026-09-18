@@ -13,12 +13,14 @@ that choice -- it only reads the one directory it's given and reports
 what's there:
   - $DIOTIMA_GARDEN itself carries a DAFNE.md -> inject its manifest text.
   - otherwise -> enumerate it one level deep for DAFNE.md-carrying
-    children. is_a_grove(repo) is DAFNE.md alone -- no `parents/`
-    requirement, since a root grove legitimately has none. Mirrors
-    plugins/dafne/manifest.py's discover_grove_banks readdir-not-
-    configuration discipline (which groves exist is a directory listing,
-    never orchestrator config) without importing the engine: this check
-    is only ever "does this file exist", never manifest content.
+    children. Both branches come from garden.py's groves_in(), the one
+    place that grove-or-garden test lives; being a grove is DAFNE.md
+    alone -- no `parents/` requirement, since a root grove legitimately
+    has none. Mirrors plugins/dafne/manifest.py's discover_grove_banks
+    readdir-not-configuration discipline (which groves exist is a
+    directory listing, never orchestrator config) without importing the
+    engine: this check is only ever "does this file exist", never
+    manifest content.
 
 Orchestrator-owned, not shipped by the dafne engine plugin: grove
 discovery about *this* runtime's garden is this runtime's concern, the
@@ -42,7 +44,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from garden import resolve_subject  # noqa: E402
+from garden import groves_in, resolve_subject  # noqa: E402
 
 
 def emit(text: str) -> None:
@@ -67,10 +69,7 @@ def context_for(dir_path: Path) -> str:
 def garden_listing(garden: Path) -> str:
     garden.mkdir(parents=True, exist_ok=True)
 
-    groves = sorted(
-        child for child in garden.iterdir()
-        if child.is_dir() and (child / "DAFNE.md").exists()
-    )
+    groves = groves_in(garden)
 
     if not groves:
         return (

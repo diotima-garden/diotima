@@ -26,3 +26,21 @@ def resolve_subject() -> Path:
 
 def is_grove(path: Path) -> bool:
     return (path / "DAFNE.md").exists()
+
+
+def groves_in(subject: Path) -> list[Path]:
+    """[subject] when it is itself a grove, else its DAFNE.md-carrying children.
+
+    The grove-or-garden branch, in one place. Every consumer of
+    resolve_subject() needs it; it was open-coded at each call site until
+    grove sync became the third. dafne keeps its own readdir — that one is
+    engine-side and correctly knows nothing about $DIOTIMA_GARDEN.
+    """
+    if is_grove(subject):
+        return [subject]
+    if not subject.is_dir():
+        return []
+    return sorted(
+        child for child in subject.iterdir()
+        if child.is_dir() and is_grove(child)
+    )

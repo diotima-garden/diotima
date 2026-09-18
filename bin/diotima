@@ -38,6 +38,18 @@ if [ -d "$plugins_dir" ]; then
 fi
 args+=("--add-dir" "$dir")
 
+# Grove sync runs here, before exec, and never inside the session: the
+# mutation therefore happens outside any Claude Code session, which is why
+# it needs no allow rule in .claude/settings.json (security.md's ban on
+# whitelisting mutating git commands is about in-session calls, and the
+# moment this CLI is invoked from inside one it stays prompted like any
+# other). DIOTIMA_GARDEN must be prefixed explicitly -- $dir is a plain
+# shell var here, so without it grove_sync resolves scope from the
+# caller's own environment and would sync the whole garden when launched
+# from inside a single grove. `|| true` because of set -euo pipefail: a
+# grove that cannot sync must never fail a launch.
+DIOTIMA_GARDEN="$dir" python3 "$project_root/system/diotima/grove_sync.py" || true
+
 # DIOTIMA_GARDEN reused here as "the one directory this session's
 # SessionStart hook should look at" -- a grove if orig_cwd was one, else
 # the garden. Scoped to the exec'd process only; never touches the
