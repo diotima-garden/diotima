@@ -31,6 +31,29 @@ The setup is documented, honestly, in the README:
 Fair warning, straight from the README: **this is a power-user setup, not a product yet.**
 Expect some turbulence. The whole point of the backlog below is to end that.
 
+### Optional: a VS Code multi-root workspace
+
+The repo (the "engine") and your groves (the "applications") live in separate
+directories on purpose — `bin/diotima` resolves the grove directory at launch time
+(`$DIOTIMA_GARDEN`, falling back to `default_garden` in `system/diotima/config.json`)
+and mounts it into the Claude Code session via `--add-dir`, rather than it being a
+subfolder of this repo. If you want your editor to show that same separation, a
+multi-root `.code-workspace` file pointed at both directories mirrors it:
+
+```jsonc
+// schematic — substitute your own absolute paths, VS Code does not expand
+// ${env:DIOTIMA_GARDEN} inside folders[].path
+{
+  "folders": [
+    { "name": "engine",       "path": "/path/to/diotima" },
+    { "name": "applications", "path": "/path/to/your/garden" }
+  ]
+}
+```
+
+This is purely an editor convenience — it changes nothing about how the runtime
+resolves the garden.
+
 ## Where to start
 
 The highest-value work is the seam between "works for me" and "works for anyone." The
