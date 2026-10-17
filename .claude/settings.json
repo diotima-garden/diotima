@@ -155,7 +155,7 @@
           },
           {
             "type": "command",
-            "command": "plugins/dafne/.venv/bin/python3 \"$CLAUDE_PROJECT_DIR\"/system/diotima/invoke-mneme-on-groves.py"
+            "command": "\"$CLAUDE_PROJECT_DIR\"/plugins/dafne/.venv/bin/python3 \"$CLAUDE_PROJECT_DIR\"/system/diotima/invoke-mneme-on-groves.py"
           }
         ]
       }
