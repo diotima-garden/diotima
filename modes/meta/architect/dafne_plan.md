@@ -238,14 +238,34 @@ in the same order as these bullets.*
       investigative session had. See `grove_orientation.md`'s "consequence found
       during the build" section and its "Doors held open" table.
 
+- [ ] **Orientation scope and node/grove vocabulary (added 2026-10-17).** Bullet 5's
+      package says *where* the session is but never *what its scope is*: a session
+      launched from inside one node, asked what it knows about, enumerated the whole
+      garden instead of answering from its own manifest. Three causes, one fix each —
+      a scope statement emitted by `session-start.py` in both branches (not by
+      `format_orientation()`, whose second caller is the deliberately cross-node
+      `orient.py --grove X` CLI); one definition of grove-vs-node, with `is_grove()`
+      documented as the launchable-subject predicate it actually is and the word in the
+      orientation line chosen from discovered banks; and `CLAUDE.md`'s Navigation row
+      made two-case, since it currently promises a garden listing that the node branch
+      correctly never emits. Does not reopen bullet 5 — every change is additive to its
+      output.
+      → Designed in `orientation_scope.md`. Carries the ruling that the
+      `DIOTIMA_SUBJECT` rename stays **deferred** (the name is a latent hazard that
+      demonstrably did not cause this incident; the reuse is recorded as deliberate in
+      `dafne-plan-details/phase-3.md`), with grove creation defaulting to
+      `$DIOTIMA_GARDEN/<name>` named as its likeliest un-defer trigger.
+
 **Exit:** `subscriptions.json` contains no path into any grove's interior; a
-missing-anki refusal is demonstrable; a session started in the orchestrator lists the
-garden's groves from the manifest hook alone, with the hand-maintained grove table gone
-from `CLAUDE.md`; a parent update lands via the tend flow end-to-end on one real grove.
+missing-anki refusal is demonstrable; a session started in the orchestrator *(garden
+branch — a session started inside a node correctly lists nothing, see bullet 6)* lists
+the garden's groves from the manifest hook alone, with the hand-maintained grove table
+gone from `CLAUDE.md`; a parent update lands via the tend flow end-to-end on one real grove.
 *(The manifest-injection bullet is executed and both its branches demonstrated
 end-to-end via `bin/diotima`, per `dafne-plan-details/phase-3.md`. The phase is still
-not fully exited: only the assisted-update bullet remains — pre-design, the one Phase 3
-bullet with no design work done on it.)*
+not fully exited: the assisted-update bullet remains — pre-design, the one Phase 3
+bullet with no design work done on it — joined 2026-10-17 by the orientation-scope
+bullet, designed but not built.)*
 
 ---
 
@@ -443,6 +463,25 @@ built** (`assisted_parent_update.md`, deferred 2026-09-16 with a stated un-defer
 trigger) — it is the *author* half of propagation, and it has zero real instances until
 a parent someone else owns publishes something you want. Phase 5 stays trigger-gated by
 construction.
+
+**Status as of 2026-10-17 — where execution actually stands.** Everything claimed above
+through 2026-09-18 is executed and committed (`8a12d8c` closed Phase 3 bullet 5, session
+orientation; `72b541f` closed Phase 4's grove sync). What is genuinely left, in build
+order:
+
+| Open | Phase | State |
+|---|---|---|
+| Orientation scope + node/grove vocabulary | 3, bullet 6 | **designed 2026-10-17** (`orientation_scope.md`), not built — cheapest remaining item |
+| Picker (`else → show the picker`) + MRU recents | 4 | not designed; cwd-detection half already done by `bin/diotima` |
+| Grove creation defaults to `$DIOTIMA_GARDEN/<name>` | 4 | not designed |
+| Assisted parent update | 3, bullet 4 | fully designed, **deliberately deferred** — zero real instances; un-defer trigger stated in its bullet |
+| `golden/` snapshot refresh | carried in prose | parked until integration tests start |
+
+Phase 5 remains trigger-gated by construction. Nothing above blocks anything else: the
+orientation bullet and the Phase 4 remainder are independent. One loose end not worth a
+row: spanish's `reading-log/context.md` never received bullet 5's stopgap sentence (3 of
+4 copies reached; that repo was outside the executing session's grove boundary), and it
+is superseded outright if `diotima-garden/diotima#24` centralizes those copies.
 
 **The 2026-09-16 scope ruling, stated once so it isn't re-litigated:** propagation has
 two flows, not one. D4 designed the author's (re-pin, diff, commit); every actual
