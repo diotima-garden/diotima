@@ -12,7 +12,11 @@ bank_union.py's discovery-side reuse of the same two modules.
 The module returns data; it does not print (grove_sync.md's ruling, reused
 verbatim). format_orientation() is the one formatter shared by
 session-start.py's hook injection and this file's own CLI, so the two
-framings cannot drift apart.
+framings cannot drift apart. They differ in exactly one parameter: the
+hook passes a byte `budget` and the CLI does not, because only the hook
+is writing into a context window with a ceiling. Everything about how the
+package reads stays shared; the budget only decides how many bank
+entries survive, and says so in the output when it drops any.
 
 Takes the grove directly -- does not call resolve_subject() itself. A
 caller decides scope exactly once (garden.py's own commitment); the hook
@@ -20,6 +24,7 @@ passes its already-resolved subject, the CLI takes --grove as a required
 argument with no resolve_subject() fallback.
 """
 import argparse
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -30,6 +35,7 @@ sys.path.insert(0, str(_SCRIPT_DIR))
 import grove_sync  # noqa: E402
 
 sys.path.insert(0, str(_PROJECT_ROOT / "plugins" / "mneme"))
+from registry import bank_small_bank_path as _bank_small_bank_path  # noqa: E402
 from registry import populated_banks as _populated_banks  # noqa: E402
 
 # dafne's manifest.py needs pyyaml, which lives in plugins/dafne/.venv --
@@ -102,7 +108,119 @@ def _git_status_text(grove: Path) -> str | None:
     return text
 
 
-def format_orientation(o: GroveOrientation, grove: Path) -> str:
+# Bank entry shape: mneme appends one `## <date> <time> (session <id>)`
+# section per captured session. The canonical pattern is big-bank.py's
+# SESSION_HEADER_RE; it is restated rather than imported because that
+# module's filename is not importable and registry.py -- the submodule's
+# importable surface -- does not re-export it. Lifting it into
+# registry.py is a mneme-side change, deliberately out of scope for an
+# orchestrator-only fix; until then this is the one other copy.
+_BANK_ENTRY_RE = re.compile(
+    r"^## \d{4}-\d{2}-\d{2} \d{2}:\d{2} \(session [a-zA-Z0-9]+\)",
+    re.MULTILINE,
+)
+
+
+def _split_bank_entries(content: str) -> list[str]:
+    starts = [m.start() for m in _BANK_ENTRY_RE.finditer(content)]
+    if not starts:
+        return []
+    bounds = starts + [len(content)]
+    return [content[bounds[i]:bounds[i + 1]].strip() for i in range(len(starts))]
+
+
+def _is_skip_entry(entry: str) -> bool:
+    """A session the bank's own filter excluded. mneme stopped appending
+    these in 45c6615 (2026-08-19), but banks written before that still
+    carry them -- pure framing, no training signal, so they are the first
+    thing to go when the injection has to fit a budget."""
+    return _BANK_ENTRY_RE.sub("", entry, count=1).strip().startswith("SKIP")
+
+
+def _trim_bank(content: str, budget: int) -> tuple[str, tuple[int, int] | None]:
+    """Fits one bank's content into `budget` bytes, preferring recent entries.
+
+    Drops in order of expendability: SKIP placeholders unconditionally,
+    then the oldest substantive entries until the remainder fits. The
+    newest entry is always kept even if it alone busts the budget --
+    "continue with the drills" resumes from the newest thread, so a
+    session holding no recent bank content is worse off than one slightly
+    over budget.
+
+    Returns the text plus (skips, older-entries) counts when anything was
+    dropped, or None when the content passed through whole so the caller
+    can stay silent.
+    """
+    entries = _split_bank_entries(content)
+    if not entries:
+        # Shape we don't recognize -- hand it over untouched rather than
+        # risk emitting a fragment. Over budget beats silently wrong.
+        return content, None
+
+    substantive = [e for e in entries if not _is_skip_entry(e)]
+    skips = len(entries) - len(substantive)
+
+    kept: list[str] = []
+    used = 0
+    for entry in reversed(substantive):
+        cost = len(entry.encode()) + 2        # +2 for the blank-line join
+        if kept and used + cost > budget:
+            break
+        kept.append(entry)
+        used += cost
+    kept.reverse()                            # back to chronological order
+
+    dropped = len(substantive) - len(kept)
+    if not skips and not dropped:
+        return content, None
+    return "\n\n".join(kept), (skips, dropped)
+
+
+def _trim_notice(counts: tuple[int, int], bank_path: Path) -> str:
+    """Says out loud that the injection is partial. The failure this whole
+    mechanism exists to prevent is a *silent* truncation -- a session that
+    believes it holds the full bank when it holds a prefix -- so an
+    announced trim with a path to the rest is the entire point, not a
+    footnote."""
+    skips, dropped = counts
+    parts = []
+    if dropped:
+        parts.append(
+            f"{dropped} older {'entry' if dropped == 1 else 'entries'} withheld "
+            "to stay inside the session-start context budget"
+        )
+    if skips:
+        parts.append(
+            f"{skips} SKIP placeholder{'' if skips == 1 else 's'} dropped "
+            "(excluded sessions, no training signal)"
+        )
+    return (
+        "[bank trimmed: " + "; ".join(parts) + f". Full history: {bank_path} "
+        "-- read it directly if the entries above do not cover the thread you need.]"
+    )
+
+
+def _bank_budget(o: GroveOrientation, grove: Path, budget: int) -> int:
+    """Bytes left per bank once the parts that are never trimmed are paid for.
+
+    The manifest is deliberately not negotiable: it is the grove's routing
+    contract, and a half-delivered table is exactly the defect that
+    prompted this. The overhead allowance is generous on purpose --
+    undershooting costs one bank entry, overshooting costs the whole
+    injection."""
+    overhead = len(o.manifest_text.encode()) + len(str(grove).encode()) + 512
+    if o.git_status:
+        overhead += len(o.git_status.encode())
+    return max((budget - overhead) // len(o.populated_banks), 0)
+
+
+def format_orientation(
+    o: GroveOrientation, grove: Path, budget: int | None = None
+) -> str:
+    """Renders the orientation package. `budget` caps the result at roughly
+    that many bytes by trimming bank content (see _trim_bank); None means
+    no cap, which is what the CLI wants -- a deliberate read at a terminal
+    has no context ceiling to respect. Only the hook passes a budget."""
     lines = [
         f"You are in grove `{grove.name}` ({grove}). Its manifest (DAFNE.md):",
         "",
@@ -111,11 +229,20 @@ def format_orientation(o: GroveOrientation, grove: Path) -> str:
     ]
 
     if o.populated_banks:
+        per_bank = _bank_budget(o, grove, budget) if budget else None
         lines.append("Populated mem-banks:")
         for bank_cfg, content in o.populated_banks:
             label = bank_cfg.get("name", bank_cfg.get("bank"))
             lines.append(f"\n--- {label} ({bank_cfg['bank']}/small-bank.md) ---")
-            lines.append(content.rstrip("\n"))
+            if per_bank is None:
+                lines.append(content.rstrip("\n"))
+                continue
+            trimmed, omitted = _trim_bank(content, per_bank)
+            lines.append(trimmed.rstrip("\n"))
+            if omitted:
+                lines.append(
+                    _trim_notice(omitted, _bank_small_bank_path(bank_cfg, grove))
+                )
     else:
         lines.append(
             "No grove-side memory captured yet in any bank -- normal for a "

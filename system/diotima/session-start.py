@@ -48,6 +48,25 @@ from garden import groves_in, resolve_subject  # noqa: E402
 from orient import format_orientation, orientation_for  # noqa: E402
 
 
+# Ceiling for the injected package. Past the harness's own
+# additionalContext limit the whole payload is written to a file and
+# replaced with a ~2 KB preview -- which cuts mid-document and says
+# nothing about it, so a session can open believing it holds the manifest
+# when it holds a fragment of one (observed 2026-10-18: a 14,028-byte
+# package for social-dynamics was persisted, truncating partway through
+# DAFNE.md's file table). Trimming here is the lesser failure: bounded,
+# announced in the text, and it sheds the most expendable thing -- the
+# oldest bank entries -- instead of an arbitrary byte offset.
+#
+# The harness's exact limit is not documented anywhere we can read; 14,028
+# is the only datapoint, and it failed. This sits a third below it, which
+# for social-dynamics yields a 9.4 KB package holding the manifest whole
+# plus the three most recent bank entries. It is the one knob: if a
+# session ever again reports its orientation was saved to a file instead
+# of injected, lower this rather than trimming DAFNE.md.
+CONTEXT_BUDGET_BYTES = 10000
+
+
 def emit(text: str) -> None:
     print(json.dumps({
         "hookSpecificOutput": {
@@ -66,7 +85,9 @@ def context_for(dir_path: Path) -> str:
         # that -- fall back to manifest-only rather than losing
         # injection entirely.
         try:
-            return format_orientation(orientation_for(dir_path), dir_path)
+            return format_orientation(
+                orientation_for(dir_path), dir_path, budget=CONTEXT_BUDGET_BYTES
+            )
         except Exception:
             return (
                 f"You are in grove `{dir_path.name}` ({dir_path}). Its manifest (DAFNE.md):\n\n"
