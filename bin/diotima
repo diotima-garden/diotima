@@ -8,8 +8,10 @@ project_root="$(cd "$script_dir/.." && pwd)"
 # `diotima` from inside a grove.
 orig_cwd="$(pwd)"
 
+single_grove=0
 if [ -f "$orig_cwd/DAFNE.md" ]; then
     dir="$orig_cwd"
+    single_grove=1
 elif [ -n "${DIOTIMA_GARDEN:-}" ]; then
     dir="$DIOTIMA_GARDEN"
 else
@@ -49,6 +51,24 @@ args+=("--add-dir" "$dir")
 # from inside a single grove. `|| true` because of set -euo pipefail: a
 # grove that cannot sync must never fail a launch.
 DIOTIMA_GARDEN="$dir" python3 "$project_root/system/diotima/grove_sync.py" || true
+
+# Single-grove mode only. A session whose subject is one grove is work
+# *inside* that grove, and some groves are drills -- the input field's
+# Tab-accept ghost text would hand the practitioner a decent answer to the
+# very scenario they are there to answer themselves. Garden-wide sessions
+# are orchestration, not practice, and keep the suggestions. Exported
+# rather than prefixed on the exec line below only because the assignment
+# is conditional -- the script execs immediately after either way, so it
+# reaches the same one process. The env var is read before any settings
+# file, so this wins regardless of user config.
+#
+# Blanket across all groves for now: the grove that actually knows whether
+# it is a drill has no way to say so until the DAFNE.md header can carry
+# it -- diotima-garden/dafne#1. Drop this in favour of the manifest once
+# that lands.
+if [ "$single_grove" -eq 1 ]; then
+    export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false
+fi
 
 # DIOTIMA_GARDEN reused here as "the one directory this session's
 # SessionStart hook should look at" -- a grove if orig_cwd was one, else
