@@ -1,4 +1,6 @@
 {
+  "autoMemoryEnabled": false,
+  "autoDreamEnabled": false,
   "permissions": {
     "allow": [
       "mcp__anki__find_cards",
