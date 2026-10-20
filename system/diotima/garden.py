@@ -19,6 +19,18 @@ def default_garden() -> Path:
     return Path(config["default_garden"]).expanduser()
 
 
+def private_root() -> Path:
+    config = json.loads(_CONFIG_PATH.read_text())
+    return Path(config["private_root"]).expanduser()
+
+
+def private_dir_for(node: Path) -> Path:
+    """Where `node`'s private material lives, keyed by directory name alone --
+    subject nodes only, no parent recursion (modes/meta/architect/private_layer.md).
+    Groves carry no path to this; it is this runtime's lookup, never a manifest field."""
+    return private_root() / node.name
+
+
 def resolve_subject() -> Path:
     raw = os.environ.get("DIOTIMA_GARDEN")
     return Path(raw).expanduser() if raw else default_garden()

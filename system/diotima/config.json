@@ -1,5 +1,6 @@
 {
   "default_garden": "~/Documents/diotima-garden",
+  "private_root": "~/Documents/diotima-private",
   "fetch_max_age_s": 14400,
   "fetch_timeout_s": 5,
   "submodule_timeout_s": 60

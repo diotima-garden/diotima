@@ -256,6 +256,24 @@ in the same order as these bullets.*
       `dafne-plan-details/phase-3.md`), with grove creation defaulting to
       `$DIOTIMA_GARDEN/<name>` named as its likeliest un-defer trigger.
 
+- [x] **Private layer: a central store, outside every repo (added 2026-10-20).**
+      Practising a grove produces practitioner-specific material (cue sets, therapy-
+      adjacent notes) that must never reach a grove's published repo but must stay
+      reliably findable by a session working there. Symlinking `memory/` to relocate it
+      was ruled out (git records the grove's tracked bank-prompt files as deleted under
+      a symlinked parent path), which is what forced the design outside every repo
+      entirely rather than into a second in-grove ignore layer.
+      → Designed and built in `private_layer.md`: a `private_root` key in
+      `system/diotima/config.json` (default `~/Documents/diotima-private`, sibling of
+      the garden), `garden.py:private_dir_for()` keyed by node name with no parent
+      recursion, and one unconditional presence-only line (path + entry count, never
+      content or filenames) in `format_orientation()` — so it reaches both the
+      `SessionStart` hook and `orient.py --grove X` for free. Reverses `private_layer.md`'s
+      own superseded exit criterion 6 ("no new `config.json` key" — written for the
+      in-grove design this file replaced), with the reason recorded in the file:
+      `$DIOTIMA_GARDEN` is overloaded between launch modes, so a dedicated key was the
+      only way to get one fixed path in both.
+
 **Exit:** `subscriptions.json` contains no path into any grove's interior; a
 missing-anki refusal is demonstrable; a session started in the orchestrator *(garden
 branch — a session started inside a node correctly lists nothing, see bullet 6)* lists
@@ -265,7 +283,8 @@ gone from `CLAUDE.md`; a parent update lands via the tend flow end-to-end on one
 end-to-end via `bin/diotima`, per `dafne-plan-details/phase-3.md`. The phase is still
 not fully exited: the assisted-update bullet remains — pre-design, the one Phase 3
 bullet with no design work done on it — joined 2026-10-17 by the orientation-scope
-bullet, designed but not built.)*
+bullet, designed but not built, and joined 2026-10-20 by the private-layer bullet,
+designed and built.)*
 
 ---
 
@@ -472,6 +491,7 @@ order:
 | Open | Phase | State |
 |---|---|---|
 | Orientation scope + node/grove vocabulary | 3, bullet 6 | **designed 2026-10-17** (`orientation_scope.md`), not built — cheapest remaining item |
+| Private layer (central store, outside every repo) | 3 | **designed and built 2026-10-20** (`private_layer.md`) |
 | Picker (`else → show the picker`) + MRU recents | 4 | not designed; cwd-detection half already done by `bin/diotima` |
 | Grove creation defaults to `$DIOTIMA_GARDEN/<name>` | 4 | not designed |
 | Assisted parent update | 3, bullet 4 | fully designed, **deliberately deferred** — zero real instances; un-defer trigger stated in its bullet |

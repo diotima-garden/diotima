@@ -11,6 +11,7 @@ is built to be lossy there by design.
 """
 from pathlib import Path
 
+import garden
 from orient import format_orientation, orientation_for
 
 
@@ -59,6 +60,55 @@ def test_bank_populated(tmp_path):
     assert "Populated mem-banks" in text
     assert "seeded session" in text
     assert "No grove-side memory captured yet" not in text
+
+
+# --- private layer presence ------------------------------------------------
+# Cases per modes/meta/architect/private_layer.md: absent, present-empty,
+# present-populated -- the last asserts a distinctive filename and content
+# never reach formatted output, only the count (presence, never content).
+
+def test_no_private_dir(grove):
+    o = orientation_for(grove)
+    assert o.private.exists is False
+    assert o.private.entry_count == 0
+
+    text = format_orientation(o, grove)
+    assert "Private layer: none yet" in text
+    assert str(garden.private_root() / grove.name) in text
+
+
+def test_private_dir_empty(grove):
+    private_dir = garden.private_dir_for(grove)
+    private_dir.mkdir(parents=True)
+
+    o = orientation_for(grove)
+    assert o.private.exists is True
+    assert o.private.entry_count == 0
+
+    text = format_orientation(o, grove)
+    assert "Private layer:" in text
+    assert "(empty)" in text
+    assert "none yet" not in text
+
+
+def test_private_dir_populated_reports_count_never_content(grove):
+    private_dir = garden.private_dir_for(grove)
+    private_dir.mkdir(parents=True)
+    (private_dir / "therapy-notes-G.md").write_text(
+        "G. Family -- patterns to watch, not cues\n"
+    )
+    (private_dir / "drafts").mkdir()
+    (private_dir / "drafts" / "nested.md").write_text("more private content\n")
+
+    o = orientation_for(grove)
+    assert o.private.entry_count == 2   # counts the subdirectory itself, not its contents
+
+    text = format_orientation(o, grove)
+    assert "(2 entries)" in text
+    assert "therapy-notes-G" not in text
+    assert "patterns to watch" not in text.lower()
+    assert "nested" not in text
+    assert "more private content" not in text
 
 
 # --- git status -----------------------------------------------------------

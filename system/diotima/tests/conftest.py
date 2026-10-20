@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import garden  # noqa: E402
 import grove_sync  # noqa: E402
 
 # Local-path submodules are refused by default since git 2.38 (CVE-2022-39253);
@@ -94,6 +95,16 @@ def allow_file_submodules(monkeypatch):
     monkeypatch.setenv("GIT_CONFIG_COUNT", "1")
     monkeypatch.setenv("GIT_CONFIG_KEY_0", "protocol.file.allow")
     monkeypatch.setenv("GIT_CONFIG_VALUE_0", "always")
+
+
+@pytest.fixture(autouse=True)
+def isolate_private_root(tmp_path, monkeypatch):
+    """garden.private_root() reads config.json's default
+    (~/Documents/diotima-private) unless redirected -- left alone, every
+    test's orientation_for() would stat the real user directory. Same
+    precedent as isolate_log below: rebind to a per-test path that doesn't
+    exist unless a test creates it."""
+    monkeypatch.setattr(garden, "private_root", lambda: tmp_path / "private-root")
 
 
 @pytest.fixture(autouse=True)

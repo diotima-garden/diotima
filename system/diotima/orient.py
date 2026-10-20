@@ -22,6 +22,10 @@ Takes the grove directly -- does not call resolve_subject() itself. A
 caller decides scope exactly once (garden.py's own commitment); the hook
 passes its already-resolved subject, the CLI takes --grove as a required
 argument with no resolve_subject() fallback.
+
+Imports garden.py for one thing only: private_dir_for(grove), a config
+lookup keyed by a name the caller already resolved, not a second scope
+resolution -- see modes/meta/architect/private_layer.md.
 """
 import argparse
 import re
@@ -32,6 +36,7 @@ from pathlib import Path
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _PROJECT_ROOT = _SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(_SCRIPT_DIR))
+import garden  # noqa: E402
 import grove_sync  # noqa: E402
 
 sys.path.insert(0, str(_PROJECT_ROOT / "plugins" / "mneme"))
@@ -51,17 +56,31 @@ except ImportError:
 
 
 @dataclass(frozen=True)
+class PrivatePresence:
+    """Reports presence only -- never content, never filenames (both are
+    disclosure). path is where it does or would live; exists/entry_count let
+    the formatter distinguish 'nothing there yet' from 'N entries, read on
+    demand' without ever enumerating what's inside. Counts every directory
+    entry, not just files -- a subdirectory full of content must not report
+    as empty."""
+    path: Path
+    exists: bool
+    entry_count: int
+
+
+@dataclass(frozen=True)
 class GroveOrientation:
     manifest_text: str
     populated_banks: list[tuple[dict, str]]   # (bank_cfg, small_bank_content)
     git_status: str | None                    # None = clean, nothing to report
+    private: PrivatePresence
 
 
 def orientation_for(grove: Path) -> GroveOrientation:
-    """Gathers manifest + populated-bank content + this grove's own git status.
-    Takes the resolved grove directly -- does not call resolve_subject() itself,
-    so the hook and the mid-session CLI share one function with two different
-    callers deciding scope."""
+    """Gathers manifest + populated-bank content + this grove's own git status
+    + private-layer presence. Takes the resolved grove directly -- does not
+    call resolve_subject() itself, so the hook and the mid-session CLI share
+    one function with two different callers deciding scope."""
     manifest_text = (grove / "DAFNE.md").read_text()
 
     banks = discover_banks(grove) if discover_banks else []
@@ -74,7 +93,15 @@ def orientation_for(grove: Path) -> GroveOrientation:
         manifest_text=manifest_text,
         populated_banks=populated,
         git_status=_git_status_text(grove),
+        private=_private_presence(grove),
     )
+
+
+def _private_presence(grove: Path) -> PrivatePresence:
+    private_dir = garden.private_dir_for(grove)
+    exists = private_dir.is_dir()
+    entry_count = sum(1 for _ in private_dir.iterdir()) if exists else 0
+    return PrivatePresence(path=private_dir, exists=exists, entry_count=entry_count)
 
 
 def _git_status_text(grove: Path) -> str | None:
@@ -200,15 +227,44 @@ def _trim_notice(counts: tuple[int, int], bank_path: Path) -> str:
     )
 
 
-def _bank_budget(o: GroveOrientation, grove: Path, budget: int) -> int:
+def _private_line(private: PrivatePresence) -> str:
+    """Presence, never content, never filenames -- see PrivatePresence. Fires
+    unconditionally, including on absence: silence-on-absence is this
+    project's own named failure mode (CONTEXT_BUDGET_BYTES's own reason for
+    existing), and a session told nothing can't distinguish 'no private
+    layer' from 'the runtime forgot to check.' Each branch is a complete,
+    independently-worded sentence -- not one fragment reused across three
+    grammatical frames, which produced nonsense ("material there would read
+    on demand") in the absence case, the default state for most groves."""
+    if not private.exists:
+        return (
+            f"Private layer: none yet (would live at {private.path}). "
+            "Material placed there informs this grove's work but must "
+            "never be copied into a tracked file."
+        )
+    if private.entry_count == 0:
+        return (
+            f"Private layer: {private.path} (empty). Read on demand; "
+            "never copy its content into a tracked file."
+        )
+    noun = "entry" if private.entry_count == 1 else "entries"
+    return (
+        f"Private layer: {private.path} ({private.entry_count} {noun}). "
+        "Read on demand; never copy its content into a tracked file."
+    )
+
+
+def _bank_budget(o: GroveOrientation, grove: Path, budget: int, extra: int = 0) -> int:
     """Bytes left per bank once the parts that are never trimmed are paid for.
 
     The manifest is deliberately not negotiable: it is the grove's routing
     contract, and a half-delivered table is exactly the defect that
     prompted this. The overhead allowance is generous on purpose --
     undershooting costs one bank entry, overshooting costs the whole
-    injection."""
-    overhead = len(o.manifest_text.encode()) + len(str(grove).encode()) + 512
+    injection. `extra` folds in any other never-trimmed text (currently
+    just the private-layer line) so the accounting stays honest -- this
+    whole module exists because of a truncation incident."""
+    overhead = len(o.manifest_text.encode()) + len(str(grove).encode()) + 512 + extra
     if o.git_status:
         overhead += len(o.git_status.encode())
     return max((budget - overhead) // len(o.populated_banks), 0)
@@ -228,8 +284,13 @@ def format_orientation(
         "",
     ]
 
+    private_line = _private_line(o.private)
+
     if o.populated_banks:
-        per_bank = _bank_budget(o, grove, budget) if budget else None
+        per_bank = (
+            _bank_budget(o, grove, budget, extra=len(private_line.encode()))
+            if budget else None
+        )
         lines.append("Populated mem-banks:")
         for bank_cfg, content in o.populated_banks:
             label = bank_cfg.get("name", bank_cfg.get("bank"))
@@ -248,6 +309,9 @@ def format_orientation(
             "No grove-side memory captured yet in any bank -- normal for a "
             "fresh or rarely-triggered bank, not a problem."
         )
+
+    lines.append("")
+    lines.append(private_line)
 
     lines.append("")
     lines.append(
