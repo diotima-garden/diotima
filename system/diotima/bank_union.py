@@ -40,8 +40,34 @@ def grove_banks(project_dir: Path) -> list[dict]:
 
     subject = resolve_subject()
     if is_grove(subject):
-        return discover_banks(subject)
+        return _mark_in_session_scope(discover_banks(subject), subject)
     return discover_grove_banks(subject)
+
+
+def _mark_in_session_scope(banks: list[dict], subject: Path) -> list[dict]:
+    """Declare, mechanically, that this session's subject owns these banks.
+
+    mneme's match gate is a transcript pattern -- a *proxy* for "this session
+    was about this bank". Injecting the manifest at session start removed the
+    read the proxy keyed on, and the proxy then measured the wrong thing
+    (see modes/meta/architect/bank_discovery_wiring.md, 2026-10-20). The
+    subject is known here with certainty, so it is stated rather than
+    re-derived from text evidence downstream.
+
+    Only banks the subject grove itself declares are tagged -- inherited
+    parent banks stay on pattern matching, since nothing says the session
+    engaged the parent. The garden-wide branch is never tagged: it would put
+    every grove's bank in scope for every session.
+    """
+    subject = subject.resolve()
+    tagged = []
+    for bank in banks:
+        bank = dict(bank)
+        path = bank.get("bank")
+        if path and Path(path).resolve().is_relative_to(subject):
+            bank["in_session_scope"] = True
+        tagged.append(bank)
+    return tagged
 
 
 def unioned_banks(project_dir: Path) -> list[dict]:

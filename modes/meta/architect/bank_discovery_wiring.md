@@ -329,3 +329,80 @@ done. Not worth guarding against.
 - **`dafne_simulation/` still exists on disk** as an untracked, empty husk
   (`dafne_simulation/spanish/`), despite Phase 2's cleanup checkbox. `git ls-files`
   returns nothing for it. Safe to `rm -rf`.
+
+---
+
+## 2026-10-20 — the subject is declared, not inferred from the transcript
+
+**Incident.** A full drills session in the `social-dynamics` grove (launched with
+`bin/diotima` from inside the grove) produced no memory entry. Session end logged
+`no bank matched in transcript — skipping`, even though the grove's bank *was* in
+the discovered list.
+
+**The evidence that settles it.** Two sessions, same day, same grove:
+
+| Session | What it was | Gate | Outcome |
+|---|---|---|---|
+| `63887882` | the drills session — all of the training signal | no match (`memory/context.md`: 0 hits) | **lost** |
+| `956bbebf` | grove maintenance — slimming `drills/context.md`, sensitivity sweep | matched | filter correctly said `SKIP` |
+
+The trigger fired for the session with nothing to capture and stayed silent for the
+one with everything. Not a weakened signal — an **anti-correlated** one.
+
+**Why.** mneme's gate is a transcript pattern (`<bank>/context\.md`): a *proxy* for
+"this session was about this bank", whose evidence was the model navigating to the
+bank's `context.md`. Injecting the manifest and bank at session start removed that
+read. Delivery and trigger had been the same event; injection separated them, and the
+proxy was left measuring navigation that no longer happens.
+
+**Rejected: go back to semantic navigation.** It would restore the trigger by
+making context delivery depend on the model choosing to read a file — exactly the
+prose-rule-that-must-fire-at-a-moment the architect principles say decays, and the
+reason mem-bank exists. Injection is right for delivery. The proxy was never
+measuring the right thing; reverting would hide that, not fix it.
+
+**Rejected: queue the write at session start.** A pending write is state needing
+expiry and reconciliation. What is wanted is a *claim about the subject*, which is
+idempotent and harmless if never consumed.
+
+**Decision.** `bank_union.grove_banks()` already distinguishes the two cases —
+`is_grove(subject)` means the session's subject *is* this grove. It now tags those
+banks `in_session_scope: true`, and `small-bank.py` matches on
+`bank.get("in_session_scope") or transcript.matched_any(patterns)`. No ticket file,
+no `session_id` plumbing, no second stdin read. mneme learns one domain-blind field
+("the host says this bank is in scope") and still knows nothing about dafne.
+
+Scoping, deliberately narrow:
+
+- Only the subject grove's **own** banks are tagged. Inherited parent banks stay on
+  pattern matching — nothing says the session engaged the parent.
+- The garden-wide branch is never tagged: it would put every grove's bank in scope
+  for every session launched anywhere under the garden, and spawn one `claude -p`
+  per grove at every session end. Consistent with the 2026-09-07 scoping ruling.
+- The per-bank LLM filter (`this-bank-prompt.md`) stays the judgment gate. It is
+  what already correctly excluded `956bbebf`. Mechanical trigger → hook; judgment →
+  LLM, unchanged.
+
+**Open, not acted on.** With the subject declared, the `<bank>/context\.md` pattern's
+only remaining job is catching grove engagement from a session whose subject is *not*
+that grove (e.g. opened in master, wandered into the grove's files). For that job the
+path it names is the wrong one — `social-dynamics/(memory|drills)/` would do it
+honestly. Revisit when a second grove bank exists to generalize against.
+
+The lost `63887882` entry was recovered by replaying the session through
+`small-job-worker.py`; that replay path is a manual recovery, not a supported
+interface.
+
+**Two things the replay exposed, noted not fixed.**
+
+- `plugins/mneme/small-jobs.json` is documented as "overwritten each fire" but
+  accumulates (108 entries at the time of writing); the worker re-scans the whole
+  file each run. Harmless today, but it is where a stale unprocessed job could be
+  picked up by an unrelated later run.
+- The in-scope tag makes the recursion guard load-bearing in a way the pattern gate
+  did not. A `claude -p` worker child inherits `$DIOTIMA_GARDEN`, so its own session
+  end is now *automatically* in scope for the grove's bank — only
+  `HOOK_RECURSION_GUARD=1`, set by `spawn_worker()`, stops it summarizing itself into
+  the bank. Observed directly: a manual worker invocation (no guard in the env)
+  appended an entry for the child session. Any future path that spawns a nested
+  `claude` without that env var will self-capture.
