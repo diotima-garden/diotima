@@ -18,6 +18,7 @@ dafne_plan.md.
 """
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -25,10 +26,33 @@ _OWN_SUBSCRIPTIONS = "mem-bank-subscriptions.json"
 
 
 def own_banks(project_dir: Path) -> list[dict]:
+    """The orchestrator's own banks, anchored at the project root.
+
+    The file spells its paths relative to the repo, but mneme resolves a
+    relative bank against the *session's* cwd — so a session launched inside
+    a grove used to write master's meta bank into that grove (and graduation,
+    which passes no cwd at all, aimed wherever the command was run from).
+    These banks belong to this repo and to nowhere else; the one place that
+    knows that is here, so the anchoring happens here.
+    """
     path = Path(project_dir) / "system" / _OWN_SUBSCRIPTIONS
     if not path.exists():
         return []
-    return json.loads(path.read_text()).get("banks", [])
+    project_dir = Path(project_dir).resolve()
+    banks = []
+    for entry in json.loads(path.read_text()).get("banks", []):
+        entry = dict(entry)
+        rel = entry.get("bank")
+        if rel and not Path(rel).is_absolute():
+            # mneme's fallback pattern is derived from `bank` — materialize it
+            # from the relative spelling first. A transcript carries repo-relative
+            # paths (the project's own bash rule mandates them), so an absolute
+            # fallback would match almost nothing.
+            if "pattern" not in entry and "patterns" not in entry:
+                entry["patterns"] = [re.escape(rel) + r"/context\.md"]
+            entry["bank"] = str((project_dir / rel).resolve())
+        banks.append(entry)
+    return banks
 
 
 def grove_banks(project_dir: Path) -> list[dict]:
